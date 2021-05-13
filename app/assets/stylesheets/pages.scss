@@ -1,3 +1,9 @@
 // Place all the styles related to the pages controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: https://sass-lang.com/
+
+html {
+	background: #FFA17F no-repeat center center fixed;  /* fallback for old browsers */
+	background: -webkit-linear-gradient(to right, #00223E, #FFA17F) ;  /* Chrome 10-25, Safari 5.1-6 */
+	background: linear-gradient(to bottom, #00223E 5%, #FFA17F 100%) no-repeat center center fixed; /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
