@@ -1,4 +1,4 @@
-
+<div class="container">
 <form action="#">
     <h1 class="pt-16 text-2xl font-bold antialiased">Create a Listing</h1><br/><br/>
     
@@ -28,6 +28,10 @@
     </select>
     <br/><br/>
 
+    <label for="listing-vintage" class="font-bold">Vintage (Year):</label>
+    <input id="listing-vintage" class="pl-2" type="number" placeholder="Example: 2012 ">
+    <br/><br/>
+
     <label for="listing-price" class="font-bold">Price (AUD $):</label>
     <input id="listing-price" class="pl-2" type="number" placeholder="Example: 50">
     <br/><br/>
@@ -41,6 +45,7 @@
     <label></label>
     <input type="submit">
 </form>
+</div>
 
 <script>
 // document.getElementById("listing-image-preview").addEventListener("change", loadFile);
