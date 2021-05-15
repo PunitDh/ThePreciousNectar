@@ -24,6 +24,23 @@
     <label for="listing-price">Price:</label>
     <input id="listing-price" type="number" placeholder="Example: 50">
     
+    <label for="listing-image">Image:</label>
+    <input id="listing-image" type="file" accept="image/*">
+    
+    <img id="listing-image-preview" src="#">
+
     <label></label>
     <input type="submit">
 </form>
+
+<script>
+document.getElementById("listing-image-preview").addEventListener("change", loadFile);
+
+  var loadFile = function(event) {
+    var output = document.getElementById('listing-image-preview');
+    output.src = URL.createObjectURL(event.target.files[0]);
+    output.onload = function() {
+      URL.revokeObjectURL(output.src) // free memory
+    }
+  };
+</script>
