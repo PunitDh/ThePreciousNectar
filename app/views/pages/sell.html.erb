@@ -1,9 +1,12 @@
-<form action="#" class="container">
-    <label for="listing-title">Title:</label>
-    <input id="listing-title" type="text" placeholder="Example: Penfolds Grange 2012 750mL">
 
-    <label for="listing-category">Category:</label>
-    <select id="listing-category">
+<form action="#" class="container">
+    <h1 class="pt-16 text-2xl font-bold antialiased">Create a Listing</h1>
+    
+    <label for="listing-title" class="font-bold">Title:</label>
+    <input id="listing-title" class="pl-2" type="text" placeholder="Example: Penfolds Grange 2012 750mL">
+
+    <label for="listing-category" class="font-bold">Category:</label>
+    <select id="listing-category" class="pl-2">
         <option value=1>Cabernet Merlot</option>
         <option value=2>Cabernet Sauvignon</option>
         <option value=3>Merlot</option>
@@ -12,8 +15,8 @@
         <option value=6>Tempranillo</option>
     </select>
 
-    <label for="listing-region">Region:</label>
-    <select id="listing-region">
+    <label for="listing-region" class="font-bold">Region:</label>
+    <select id="listing-region" class="pl-2">
         <option value=1>New South Wales</option>
         <option value=2>South Australia</option>
         <option value=3>Tasmania</option>
@@ -21,11 +24,11 @@
         <option value=5>Western Australia</option>
     </select>
 
-    <label for="listing-price">Price:</label>
-    <input id="listing-price" type="number" placeholder="Example: 50">
+    <label for="listing-price" class="font-bold">Price (AUD $):</label>
+    <input id="listing-price" class="pl-2" type="number" placeholder="Example: 50">
     
-    <label for="listing-image">Image:</label>
-    <input id="listing-image" type="file" accept="image/*">
+    <label for="listing-image" class="font-bold">Image:</label>
+    <input id="listing-image" class="pl-2" type="file" accept="image/*">
     
     <img id="listing-image-preview" src="#">
 
@@ -34,13 +37,13 @@
 </form>
 
 <script>
-document.getElementById("listing-image-preview").addEventListener("change", loadFile);
+// document.getElementById("listing-image-preview").addEventListener("change", loadFile);
 
-  var loadFile = function(event) {
-    var output = document.getElementById('listing-image-preview');
-    output.src = URL.createObjectURL(event.target.files[0]);
-    output.onload = function() {
-      URL.revokeObjectURL(output.src) // free memory
-    }
-  };
+//   var loadFile = function(event) {
+//     var output = document.getElementById('listing-image-preview');
+//     output.src = URL.createObjectURL(event.target.files[0]);
+//     output.onload = function() {
+//       URL.revokeObjectURL(output.src) // free memory
+//     }
+//   };
 </script>
