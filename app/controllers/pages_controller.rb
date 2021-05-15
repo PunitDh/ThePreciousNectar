@@ -7,7 +7,4 @@ class PagesController < ApplicationController
 
 	def sell
 	end
-
-	def buy
-	end
 end
