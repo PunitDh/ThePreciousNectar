@@ -50,7 +50,7 @@
 	padding-top: 1rem;
 }
 
-input[type="text"], select, input[type="number"], input[type="email"], input[type="password"] {
+input[type="text"], select, input[type="number"], input[type="email"], input[type="password"], textarea {
 	font-size: 1em;
 	border-radius: 4px;
 	height: 2em;
@@ -59,8 +59,12 @@ input[type="text"], select, input[type="number"], input[type="email"], input[typ
 	color: darkred;
 }
 
-input[type="text"]:hover, select:hover, input[type="number"]:hover, input[type="email"]:hover, input[type="password"]:hover, input[type="text"]:focus, select:focus, input[type="number"]:focus, input[type="email"]:focus, input[type="password"]:focus {
+input[type="text"]:hover, select:hover, input[type="number"]:hover, input[type="email"]:hover, input[type="password"]:hover, input[type="text"]:focus, select:focus, input[type="number"]:focus, input[type="email"]:focus, input[type="password"]:focus, textarea:focus, texarea:hover {
     border: 1px solid red;
+}
+
+textarea {
+	height: 100px;
 }
 
 form label {
@@ -90,7 +94,7 @@ input[type="submit"]:hover, input[type="submit"]:focus {
 	text-align: center;
 	height: 100vh;
 	width: 100%;
-	background-image: url('scott-warman-h4AGlo55tTA-unsplash.png');
+	
 	background-size: cover;
 	margin-top: -10rem;
 }
@@ -100,5 +104,6 @@ input[type="submit"]:hover, input[type="submit"]:focus {
 }
 
 body {
+	
 	overflow-x: hidden;
 }

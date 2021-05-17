@@ -4,5 +4,5 @@ Rails.application.routes.draw do
   root to: "pages#home"
   get "/about", to: "pages#about"
   get "/sell", to: "pages#sell"
-  get "/buy", to: "pages#buy"
+  get "/browse", to: "pages#browse"
 end

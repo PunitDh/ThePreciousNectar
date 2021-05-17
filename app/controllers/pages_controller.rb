@@ -11,6 +11,6 @@ class PagesController < ApplicationController
 	def sell
 	end
 
-	def buy
+	def browse
 	end
 end
