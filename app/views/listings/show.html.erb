@@ -1,0 +1,9 @@
+
+
+<%= @listing.name %>
+
+<%= @listing.description %>
+
+<% if @listing.image.attached? %>
+        <%= image_tag url_for(@listing.image) %>
+<% end %>

@@ -1,9 +1,9 @@
 <div class="container">
-<form action="#">
+<%= form_with(model: @listing, url: listing_create_path) do |form| %>
     <h1 class="pt-16 text-2xl font-bold antialiased">Create a Listing</h1><br/><br/>
     
-    <label for="listing-title" class="font-bold">Title:</label>
-    <input id="listing-title" class="pl-2" type="text" placeholder="Example: Frogmore Creek Iced Riesling 375mL">
+    <%= form.label :name, "Name", class: "font-bold" %>
+    <%= form.text_field :name, class: "pl-2", placeholder: "Example: Frogmore Creek Iced Riesling 375mL" %>
     <br/><br/>
 
 
@@ -40,19 +40,14 @@
     <input id="listing-price" class="pl-2" type="number" placeholder="Example: 50">
     <br/><br/>
     
-    <label for="listing-image" class="font-bold">Image:</label>
-    <input id="listing-image" class="pl-2" type="file" accept="image/*">
+    <%= form.label "Image" %>
+    <%= form.file_field :image %>
     <br/><br/>
-    <%#
-    <% if @listing.image.attached? %>
-    <%#
-        <%= image_tag url_for(@listing.image), class: 'recipe' %>
-        <%#
-    <% end %>
+   
 
     <label></label>
-    <input type="submit">
-</form>
+    <%= form.submit "Create New Listing" %>
+<% end %>
 </div>
 
 <script>
