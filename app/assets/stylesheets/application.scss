@@ -25,9 +25,7 @@
 	overflow-x: hidden;
 }
 
- .flip {
-	transform: scale(-1, 1);
- }
+ 
 
  .navbar {
     text-align: center;
@@ -42,6 +40,7 @@
     left: 0;
     top: 0;
     line-height: 3em;
+	z-index: 10;
  }
 
  .navbar ul, .navbar li {
@@ -96,22 +95,15 @@ body {
 		margin-left: 1em;
 		width: 50%;
 	}
-	.navbar {  width: 100%;  }
-
-	.burger { display: inline; }
-
-	#navbar-toggle-label, .burger {
-		cursor: pointer;
-		display: inline;
-	 }
-
-	// #navbar-toggle-cbox {  display: none;  }
-
+	#navbar-toggle-label, .burger {  display: inline;  }
 	#navbar-toggle-cbox:checked + ul > li {  display: block;  }
-
 	#navbar-toggle-cbox + ul > li {  display: none;  }
-
+	#navbar-toggle-cbox + ul > li:hover,
+	#navbar-toggle-cbox + ul > li:focus  {  background-color: gray;  }
+	.navbar {  width: 100%;  }
+	.burger { display: inline; }
 	.dash {  display: none;  }
+	
 }
 
 
@@ -125,7 +117,9 @@ body {
 	}
 }
 
-
+.flip {
+	transform: scale(-1, 1);
+ }
 
 
 

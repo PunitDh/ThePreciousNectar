@@ -1,7 +1,11 @@
 
 <div class="homepage"><br/><br/><br/><br/><br/>
     <h1 class="text-xl mt-20 sm:mt-4 sm:text-6xl mb-8 font-bold"><i class="fas fa-gavel"></i> The Wine Auctioneer <i class="fas fa-gavel flip"></i></h1>
-    <h3 class="mb-auto pt-10 pb-12 font-bold text-2xl">I want to...</h3>
-    <%= link_to "Buy Wine", listings_index_path, class: "sm:p-5 lg:p-10 bg-red-800 my-auto hover:bg-red-400 rounded-lg shadow-lg max-w-lg text-white transition ease-in duration-300" %>
-    <%= link_to "Sell Wine", listing_new_path, class: "sm:p-5 lg:p-10 bg-red-800 my-auto hover:bg-red-400 hover:duration-100 rounded-lg shadow-lg max-w-lg text-white transition ease-in duration-300" %>
+    <h3 class="mb-auto pt-10 pb-12 font-bold text-2xl z-50">I want to...</h3>
+
+    <div class="my-10">
+        <span class="my-10 block sm:inline"><%= link_to "Buy Wine", listings_index_path, class: "sm:p-5 p-2 lg:p-10 bg-red-800 my-auto hover:bg-red-400 rounded-sm sm:rounded-lg shadow-lg sm:my-10 sm:mx-10 sm:max-w-lg text-white transition ease-in duration-300" %></span>
+        <span class="my-10 block sm:inline">
+        <%= link_to "Sell Wine", listing_new_path, class: "sm:p-5 lg:p-10 bg-red-800 my-auto hover:bg-red-400 hover:duration-100 p-2 rounded-sm sm:rounded-lg shadow-lg sm:mx-10 max-w-lg text-white transition ease-in duration-300" %></span>
+    </div>
 </div>
