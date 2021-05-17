@@ -19,17 +19,16 @@
         <%= form.text_field :name, class: "py-2 px-3 rounded-lg border-2 border-red-200 mt-1 focus:outline-none focus:ring-2 focus:ring-red-800 focus:border-transparent", placeholder: "Example: Frogmore Creek Iced Riesling 375mL" %>
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-8 mt-5 mx-7">
-        <div class="grid grid-cols-1">
+        <div class="grid grid-cols-1 mt-5 mx-7">
             <%= form.label :region_id, "Region:", class: "uppercase md:text-sm text-xs text-black text-light font-semibold" %>
             <%= form.select :region_id, Region.pluck(:name, :id), class: "py-2 px-3 rounded-lg border-2 border-red-200 mt-1 focus:outline-none focus:ring-2 focus:ring-red-800 focus:border-transparent" %>
         </div>
 
-        <div class="grid grid-cols-1">
+        <div class="grid grid-cols-1 mt-5 mx-7">
             <%= form.label :vintage, "Vintage (Year):", class: "uppercase md:text-sm text-xs text-black text-light font-semibold" %>
             <%= form.number_field :vintage, class: "py-2 px-3 rounded-lg border-2 border-red-200 mt-1 focus:outline-none focus:ring-2 focus:ring-red-800 focus:border-transparent", placeholder: "Example: 2012" %>
         </div>
-        </div>
+       
 
         <div class="grid grid-cols-1 mt-5 mx-7">
             <%= form.label :category_id, "Wine Category:", class: "uppercase md:text-sm text-xs text-black text-light font-semibold" %>

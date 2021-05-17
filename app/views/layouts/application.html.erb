@@ -13,18 +13,25 @@
   </head>
 
   <body>
-    <nav class="page-header">
-      🍷 
-      <%= link_to "Home", root_path %> | 
-      <%= link_to "About", about_path %> | 
+    <nav class="navbar md:flex-no-wrap">
+    <label for="navbar-toggle-cbox" id="navbar-toggle-label"><i class="fas fa-bars burger"></i>
+      </label>
+      <input type="checkbox" id="navbar-toggle-cbox">
+    <ul>
+      <span class="dash"> 🍷 </span> 
+      <li><%= link_to "Home", root_path %></li><span class="dash"> | </span> 
+      <li><%= link_to "About", about_path %></li><span class="dash"> | </span> 
 
       <% if user_signed_in? %>
-        <%= link_to "Log Out", destroy_user_session_path, method: "delete" %>
+        <li><%= link_to "Log Out", destroy_user_session_path, method: "delete" %></li>
       <% else %>
-        <%= link_to "Login", new_user_session_path %> | 
-        <%= link_to "New User", new_user_registration_path %> 
+        <li><%= link_to "Login", new_user_session_path %></li><span class="dash"> | </span> 
+        <li><%= link_to "New User", new_user_registration_path %></li> 
       <% end%>
-      🍷
+      <span class="dash"> 🍷 </span> 
+      </ul>
+      
+
     </nav>
 
     <div class="notices container">

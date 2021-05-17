@@ -2,3 +2,16 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: https://sass-lang.com/
 
+.homepage {
+	text-align: center;
+	height: 100vh;
+	width: 100%;
+	background-size: cover;
+	margin-top: -10rem;
+}
+
+@media only screen and (max-width: 300px) {
+	.homepage {
+		display: flexbox;
+	}
+}
