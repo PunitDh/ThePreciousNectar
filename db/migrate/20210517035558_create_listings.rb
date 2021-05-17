@@ -6,9 +6,8 @@ class CreateListings < ActiveRecord::Migration[6.1]
       t.text :description
       t.integer :price
       t.integer :vintage
-      # t.integer :category, null: false, foreign_key: true
-      # t.i :region, null: false, foreign_key: true
-
+      t.references :category, null: false, foreign_key: true
+      t.references :region, null: false, foreign_key: true
       t.timestamps
     end
   end
