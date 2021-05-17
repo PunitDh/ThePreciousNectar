@@ -1,0 +1,20 @@
+<div class="container sm:ml-10">
+    <h1 class="pt-16 text-2xl font-bold antialiased">Browse Catalog</h1>
+</div>
+
+<div class="flex flex-wrap justify-center sm:w-full md:w-full lg:w-4/5 xl:w-4/5">
+    <% @listings.each do |listing| %>
+        <div class="flex flex-col justify-center bg-gray-100 items-center max-w-sm mx-auto my-8 cursor-pointer rounded transform hover:scale-110 duration-300 ease-in-out">
+            <%= link_to image_tag(listing.image, class: "bg-gray-100 h-56 w-full rounded-lg shadow-lg"), listing_show_path(listing.id) %>
+            
+            <div class="w-56 md:w-64 bg-white  shadow-lg rounded-lg overflow-hidden">
+                <div class="py-2 text-center h-16 font-bold uppercase tracking-wide text-gray-800 hover:text-red-800"><%= link_to listing.name, listing_show_path(listing.id) %></div>
+                <div class="flex items-center justify-between py-2 px-3 bg-gray-400">
+                    <h1 class="text-gray-800 font-bold "><%= number_to_currency(listing.price / 100) %></h1>
+                    <button class=" bg-gray-800 text-xs text-white px-2 py-1 font-semibold rounded uppercase hover:bg-gray-700">Add to cart</button>
+                </div>
+            </div>
+        </div>
+    <% end %>
+</div>
+

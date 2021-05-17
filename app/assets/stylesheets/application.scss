@@ -50,47 +50,50 @@
 	padding-top: 1rem;
 }
 
-input[type="text"], select, input[type="number"], input[type="email"], input[type="password"] {
-	font-size: 1em;
-	border-radius: 4px;
-	height: 2em;
-	width: 300px;
-	border: 1px solid white;
-	color: darkred;
-}
+// input[type="text"], select, input[type="number"], input[type="email"], input[type="password"], textarea {
+// 	font-size: 1em;
+// 	border-radius: 4px;
+// 	height: 2em;
+// 	width: 300px;
+// 	border: 1px solid white;
+// 	color: darkred;
+// }
 
-input[type="text"]:hover, select:hover, input[type="number"]:hover, input[type="email"]:hover, input[type="password"]:hover, input[type="text"]:focus, select:focus, input[type="number"]:focus, input[type="email"]:focus, input[type="password"]:focus {
-    border: 1px solid red;
-}
+// input[type="text"]:hover, select:hover, input[type="number"]:hover, input[type="email"]:hover, input[type="password"]:hover, input[type="text"]:focus, select:focus, input[type="number"]:focus, input[type="email"]:focus, input[type="password"]:focus, textarea:focus, texarea:hover {
+//     border: 1px solid red;
+// }
 
-form label {
-	display: block;
-	width: 300px;
-	padding-top: 0.5em;
-	padding-bottom: 0.5em;
-	height:initial;
-}
+// textarea {
+// 	height: 100px;
+// }
 
-input[type="submit"] {
-	color: white;
-	background-color: darkred;
-	border:darkred;
-	padding: 0.75em;
-	padding-left: 2em;
-	padding-right: 2em;
-	border-radius: 6px;
-}
+// form label {
+// 	display: block;
+// 	width: 300px;
+// 	padding-top: 0.5em;
+// 	padding-bottom: 0.5em;
+// 	height:initial;
+// }
 
-input[type="submit"]:hover, input[type="submit"]:focus {
-	background-color:brown;
-	cursor: pointer;
-}
+// input[type="submit"] {
+// 	color: white;
+// 	background-color: darkred;
+// 	border:darkred;
+// 	padding: 0.75em;
+// 	padding-left: 2em;
+// 	padding-right: 2em;
+// 	border-radius: 6px;
+// }
+
+// input[type="submit"]:hover, input[type="submit"]:focus {
+// 	background-color:brown;
+// 	cursor: pointer;
+// }
 
 .homepage {
 	text-align: center;
 	height: 100vh;
 	width: 100%;
-	background-image: url('https://thewineauctioneer.s3.us-east-1.amazonaws.com/scott-warman-h4AGlo55tTA-unsplash.png?response-content-disposition=inline&X-Amz-Security-Token=IQoJb3JpZ2luX2VjEJX%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FwEaDmFwLXNvdXRoZWFzdC0yIkcwRQIgXIeffC5ImmBuWIOskCD2lLw7bNG6ZSN8Dna%2F61v7LWMCIQDGiIx6Z%2BvkxdiP%2BazmyWDTro7xLWluPXqeu8UoHVFXYSr2AgguEAAaDDIyOTA0MDY3Mjc4MSIMBDvKi1xs%2Bwi5RVDhKtMC9OOheemNm%2BfVA6xa9mM1iV9CuANBseV3UwP07M4xk2aRoA%2Ft1ENCbbWGauILrB4qMj5qvpyNtrHZ92f8VUG2EkFUwIZkjn95IOZ3d8PuhWYujZxWfR60t80vKAuFsdbksbo5ctNOmc%2BOYSoc6Shx5OgP%2B7rJ0Tb8x2YP3KxFWKmBMulNJXtW5fryXwF0T%2FXFVX47UHmj4DTPWtNz1rfmXMCQNY%2F4jcA60TxxhRoPaK%2BwfAMhJkBzMfpKJXT3EAOcElM1cNcn0Xi4eddQ1ogCzNxTO22ScmzjplEoLgQRJCzVpjjgvIZv5oYgcuTZ5a0CIvwkWZIqK5b3D383LqO0U4RLLNMvCyNFRAbSXWwwR2apPbf3sK1ciV2%2FuZk0eNRKAega6TTBLJcp8fg63dLMC7zSLsPQIs1N8T8FVu24M2es6IYJdaROmcFKldNya14AHARUMNK3hIUGOrMCNE7CUtjUK8M%2BpCfBjiK%2Fn3l46877CMMV7hBUEeu7L4kkgAzjsfQiRAAe%2FPtSxd4i5TdcCyvLSk4D5XR4YoNbS7L9flpn%2BPJOw%2F0kAd41nsT6tf%2FH04%2BNuK0vDtuYGDRMldjHKFZ5%2Fe%2BN4bBbTtplsM%2BLO%2Fm0Z5%2BakF0593DomRqEtVBjXQwiv2Gwg3RysSCE8ssVVqCH926w0jGlpoyqJIQqD%2B0xHPx9seaL%2Bj99SLySmMifvdvY0A6gurjHxA4RGOkUSOwW0GQskMs5Pw2AUXTVeJO7YoMbHCC70ZmM0mJAB21Aj2OtzuDzg5fOoCVn6X8KfwPwt15nYfRgZHx4bgsgPnakTdYnUl1hrT%2Bd%2BoP0VyG5DWOS%2F5%2BMqMR%2BLUziX9DoKbYBFeWKagcbtr2VmJjNjw%3D%3D&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Date=20210516T134013Z&X-Amz-SignedHeaders=host&X-Amz-Expires=300&X-Amz-Credential=ASIATKU7DKAG57T3QLXE%2F20210516%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Signature=f4940f3ed30ad5ef6a799d9aabd80ae8c234dba20f4326949975ada8eeab671e');
 	background-size: cover;
 	margin-top: -10rem;
 }

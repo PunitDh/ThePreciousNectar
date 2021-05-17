@@ -10,7 +10,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
+<<<<<<< HEAD
 ActiveRecord::Schema.define(version: 2021_05_16_130150) do
+=======
+ActiveRecord::Schema.define(version: 2021_05_17_053531) do
+>>>>>>> master
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -43,6 +47,48 @@ ActiveRecord::Schema.define(version: 2021_05_16_130150) do
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
   end
 
+<<<<<<< HEAD
+=======
+  create_table "categories", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "listings", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.string "name"
+    t.text "description"
+    t.integer "price"
+    t.integer "vintage"
+    t.bigint "region_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "category_id", null: false
+    t.index ["category_id"], name: "index_listings_on_category_id"
+    t.index ["region_id"], name: "index_listings_on_region_id"
+    t.index ["user_id"], name: "index_listings_on_user_id"
+  end
+
+  create_table "regions", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "transactions", force: :cascade do |t|
+    t.bigint "seller_id", null: false
+    t.bigint "buyer_id", null: false
+    t.bigint "listing_id", null: false
+    t.integer "amount", default: 0
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["buyer_id"], name: "index_transactions_on_buyer_id"
+    t.index ["listing_id"], name: "index_transactions_on_listing_id"
+    t.index ["seller_id"], name: "index_transactions_on_seller_id"
+  end
+
+>>>>>>> master
   create_table "users", force: :cascade do |t|
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
@@ -57,4 +103,9 @@ ActiveRecord::Schema.define(version: 2021_05_16_130150) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+<<<<<<< HEAD
+=======
+  add_foreign_key "listings", "categories"
+  add_foreign_key "listings", "users"
+>>>>>>> master
 end

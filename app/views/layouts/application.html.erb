@@ -16,7 +16,14 @@
     <nav class="page-header">
       🍷 
       <%= link_to "Home", root_path %> | 
-      <%= link_to "About", about_path %>
+      <%= link_to "About", about_path %> | 
+
+      <% if user_signed_in? %>
+        <%= link_to "Log Out", destroy_user_session_path, method: "delete" %>
+      <% else %>
+        <%= link_to "Login", new_user_session_path %> | 
+        <%= link_to "New User", new_user_registration_path %> 
+      <% end%>
       🍷
     </nav>
 
@@ -25,5 +32,6 @@
       <p class="alert"><%= alert %></p>
     </div>
     <%= yield %>
+
   </body>
 </html>
