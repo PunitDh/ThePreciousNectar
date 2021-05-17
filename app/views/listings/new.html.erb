@@ -1,49 +1,34 @@
 <div class="container">
-<%= form_with(model: @listing, url: listing_create_path) do |form| %>
+<%= form_with(model: @listing, url: listing_create_path, method: "post") do |form| %>
     <h1 class="pt-16 text-2xl font-bold antialiased">Create a Listing</h1><br/><br/>
     
-    <%= form.label :name, "Name", class: "font-bold" %>
+    <%= form.label :name, "Name:", class: "font-bold" %>
     <%= form.text_field :name, class: "pl-2", placeholder: "Example: Frogmore Creek Iced Riesling 375mL" %>
     <br/><br/>
-
-
-    <label for="listing-category" class="font-bold">Category:</label>
-    <select id="listing-category" class="pl-2">
-        <option value=1>Cabernet Merlot</option>
-        <option value=2>Cabernet Sauvignon</option>
-        <option value=3>Merlot</option>
-        <option value=4>Shiraz</option>
-        <option value=5>Pinot Noir</option>
-        <option value=6>Tempranillo</option>
-    </select>
+    
+    <%= form.label :category_id, "Category:", class: "font-bold" %>
+    <%= form.select :category_id, Category.pluck(:name, :id) %>
     <br/><br/>
 
-    <label for="listing-region" class="font-bold">Region:</label>
-    <select id="listing-region" class="pl-2">
-        <option value=1>New South Wales</option>
-        <option value=2>South Australia</option>
-        <option value=3>Tasmania</option>
-        <option value=4>Victoria</option>
-        <option value=5>Western Australia</option>
-    </select>
+    <%= form.label :region_id, "Region:", class: "font-bold" %>
+    <%= form.select :region_id, Region.pluck(:name, :id) %>
     <br/><br/>
 
-    <label for="listing-vintage" class="font-bold">Vintage (Year):</label>
-    <input id="listing-vintage" class="pl-2" type="number" placeholder="Example: 2012 ">
+    <%= form.label :vintage, "Vintage (Year):" %>
+    <%= form.number_field :vintage, class: "pl-2", placeholder: "Example: 2012" %>
     <br/><br/>
 
-    <label for="listing-description" class="font-bold">Description (Year):</label>
-    <textarea id="listing-description" class="pl-2" placeholder="Example: A savoury ice wine "></textarea>
+    <%= form.label :description, "Description:" %>
+    <%= form.text_area :description, class: "pl-2", placeholder: "Example: A savoury ice wine" %>
     <br/><br/>
 
-    <label for="listing-price" class="font-bold">Price (AUD $):</label>
-    <input id="listing-price" class="pl-2" type="number" placeholder="Example: 50">
+    <%= form.label :price, "Price (AUD $):" %>
+    <%= form.number_field :price, class: "pl-2", placeholder: "Example: 2012" %>
     <br/><br/>
     
     <%= form.label "Image" %>
     <%= form.file_field :image %>
     <br/><br/>
-   
 
     <label></label>
     <%= form.submit "Create New Listing" %>
