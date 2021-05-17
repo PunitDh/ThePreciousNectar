@@ -50,45 +50,45 @@
 	padding-top: 1rem;
 }
 
-input[type="text"], select, input[type="number"], input[type="email"], input[type="password"], textarea {
-	font-size: 1em;
-	border-radius: 4px;
-	height: 2em;
-	width: 300px;
-	border: 1px solid white;
-	color: darkred;
-}
+// input[type="text"], select, input[type="number"], input[type="email"], input[type="password"], textarea {
+// 	font-size: 1em;
+// 	border-radius: 4px;
+// 	height: 2em;
+// 	width: 300px;
+// 	border: 1px solid white;
+// 	color: darkred;
+// }
 
-input[type="text"]:hover, select:hover, input[type="number"]:hover, input[type="email"]:hover, input[type="password"]:hover, input[type="text"]:focus, select:focus, input[type="number"]:focus, input[type="email"]:focus, input[type="password"]:focus, textarea:focus, texarea:hover {
-    border: 1px solid red;
-}
+// input[type="text"]:hover, select:hover, input[type="number"]:hover, input[type="email"]:hover, input[type="password"]:hover, input[type="text"]:focus, select:focus, input[type="number"]:focus, input[type="email"]:focus, input[type="password"]:focus, textarea:focus, texarea:hover {
+//     border: 1px solid red;
+// }
 
-textarea {
-	height: 100px;
-}
+// textarea {
+// 	height: 100px;
+// }
 
-form label {
-	display: block;
-	width: 300px;
-	padding-top: 0.5em;
-	padding-bottom: 0.5em;
-	height:initial;
-}
+// form label {
+// 	display: block;
+// 	width: 300px;
+// 	padding-top: 0.5em;
+// 	padding-bottom: 0.5em;
+// 	height:initial;
+// }
 
-input[type="submit"] {
-	color: white;
-	background-color: darkred;
-	border:darkred;
-	padding: 0.75em;
-	padding-left: 2em;
-	padding-right: 2em;
-	border-radius: 6px;
-}
+// input[type="submit"] {
+// 	color: white;
+// 	background-color: darkred;
+// 	border:darkred;
+// 	padding: 0.75em;
+// 	padding-left: 2em;
+// 	padding-right: 2em;
+// 	border-radius: 6px;
+// }
 
-input[type="submit"]:hover, input[type="submit"]:focus {
-	background-color:brown;
-	cursor: pointer;
-}
+// input[type="submit"]:hover, input[type="submit"]:focus {
+// 	background-color:brown;
+// 	cursor: pointer;
+// }
 
 .homepage {
 	text-align: center;

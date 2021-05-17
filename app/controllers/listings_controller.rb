@@ -17,18 +17,18 @@ class ListingsController < ApplicationController
     def create
         @listing = Listing.new(listing_params)
         @listing.user_id = current_user.id
-        @listing.category_id = params[:listing][:category_id].to_i
+        @listing.category_id = Category.find_by(name: params[:listing][:category_id]).id
         @listing.region_id = params[:listing][:region_id].to_i
         @listing.vintage = params[:listing][:vintage]
         @listing.price = params[:listing][:price].to_i * 100
         p @listing
-        # puts @listing.user_id, @listing.name, @listing.vintage, @listing.price, @listing.category_id, @listing.region_id, @listing.description
+        
         @listing.save
         redirect_to listing_show_path(@listing.id)
     end
 
     private
         def listing_params
-            params.require(:listing).permit(:name, :vintage, :variety_id, :region_id, :description, :price, :image)
+            params.require(:listing).permit(:name, :vintage, :category_id, :region_id, :description, :price, :image)
         end
 end
