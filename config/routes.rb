@@ -13,11 +13,16 @@ Rails.application.routes.draw do
   post "/listings/new", to: "listings#create", as: "listing_create"
   get "/listings/:id", to: "listings#show", as: "listing_show"
 
+  # Cart
+  get "/cart", to: "carts#show"
+  put "/cart", to: "carts#add_listing", as: "cart_add"
+
   # Transactions
-  # resources :transactions, only: [:create]
-  post '/checkout', to: 'transactions#create', as: "checkout"
-  get '/checkout/success', to: 'transactions#success'
-  get '/checkout/cancel', to: "transactions#cancel"
+  post "/checkout", to: "transactions#create", as: "checkout"
+  get "/checkout/success", to: "transactions#success"
+  get "/checkout/cancel", to: "transactions#cancel"
+
   # Search functionality
   get '/search' => 'pages#search', :as => 'search_page'
+  
 end

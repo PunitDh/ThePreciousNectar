@@ -47,6 +47,7 @@
 
           <div class="block sm:flex">
             <% if user_signed_in? %>
+              <%= link_to "View Cart <i class='fas fa-shopping-cart'></i>".html_safe, cart_path, method: "get", class: "block text-md px-4 py-2 rounded text-gray-700 ml-2 font-bold hover:text-white hover:bg-gray-500" %>
               <%= link_to "Log Out", destroy_user_session_path, method: "delete", class: "block text-md px-4 py-2 rounded text-gray-700 ml-2 font-bold hover:text-white hover:bg-gray-500" %>
             <% else %>
               <%= link_to "Log In", new_user_session_path, class: "block text-md px-4 py-2 rounded text-gray-700 sm:ml-2 ml-0 font-bold hover:text-white hover:bg-gray-500" %>
