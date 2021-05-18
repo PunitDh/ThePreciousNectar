@@ -11,8 +11,13 @@
     </div>
 </section>
 
-<h3>Search Result</h3>  
-
-    <% @results.each do |result| %>  
-        <%= result.name %><br>  
+<div class="container">
+    <h3>Search Result</h3>
+    <% if @results.nil? %>
+        No results
+    <% else %>
+        <% @results.each do |result| %>  
+            <%= result.name %><br>  
+        <% end %>
     <% end %>
+</div>

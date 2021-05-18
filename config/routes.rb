@@ -1,14 +1,23 @@
 Rails.application.routes.draw do
+
+  # Authentication Controller
   devise_for :users
-  # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
+
+  # Pages Controller
   root to: "pages#home"
   get "/about", to: "pages#about"
-  # get "/listing", to: "pages#sell"
+  
+  # Listings Controller
   get "/listings/index", to: "listings#index"
   get "/listings/new", to: "listings#new", as: "listing_new"
   post "/listings/new", to: "listings#create", as: "listing_create"
   get "/listings/:id", to: "listings#show", as: "listing_show"
-  resources :transactions, only: [:create]
+
+  # Transactions
+  # resources :transactions, only: [:create]
+  post '/checkout', to: 'transactions#create', as: "checkout"
+  get '/checkout/success', to: 'transactions#success'
+  get '/checkout/cancel', to: "transactions#cancel"
+  # Search functionality
   get '/search' => 'pages#search', :as => 'search_page'
-  # get "/listings/"
 end

@@ -9,30 +9,51 @@
     <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
     <%= stylesheet_pack_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
-    <%= favicon_link_tag asset_path('favicon.png') %>
+    <%= favicon_link_tag 'favicon.png' %>
     <script src="https://js.stripe.com/v3/"></script>
   </head>
 
   <body>
-    <nav class="navbar md:flex-no-wrap">
-    <label for="navbar-toggle-cbox" id="navbar-toggle-label"><i class="fas fa-bars burger"></i>
+    <nav class="navbar flex fixed items-center justify-between flex-wrap lg:px-12 shadow border-gray-700">
+      <div class="flex justify-between lg:w-auto w-full lg:border-b-0 pl-6 pr-2 lg:pb-0">
+          <div class="flex items-center flex-shrink-0 text-gray-800 mr-16">
+              <span class="font-semibold text-xl text-white tracking-tight">The Wine Auctioneer</span>
+          </div>
+          <label for="navbar-toggle-cbox" id="navbar-toggle-label"><i class="fas fa-bars burger"></i>
       </label>
+      </div>
       <input type="checkbox" id="navbar-toggle-cbox">
-    <ul>
-      <span class="dash"> 🍷 </span> 
-      <li><%= link_to "Home", root_path %></li><span class="dash"> | </span> 
-      <li><%= link_to "About", about_path %></li><span class="dash"> | </span> 
-
-      <% if user_signed_in? %>
-        <li><%= link_to "Log Out", destroy_user_session_path, method: "delete" %></li>
-      <% else %>
-        <li><%= link_to "Login", new_user_session_path %></li><span class="dash"> | </span> 
-        <li><%= link_to "New User", new_user_registration_path %></li> 
-      <% end%>
-      <span class="dash"> 🍷 </span> 
-      </ul>
+      <div class="menu w-full lg:block flex-grow lg:flex lg:items-center lg:w-auto lg:px-3 px-8">
       
+          <div class="text-md font-bold text-gray-700 lg:flex-grow">
+            <span class="dash"> 🍷 </span> 
+              <%= link_to "Home", root_path, class: "block lg:inline-block hover:text-white px-4 rounded hover:bg-gray-500" %> <span class="dash text-white"> | </span>
+              <span class="lg:hidden block">
+                <%= link_to "Search", search_page_path, class: "block lg:inline-block hover:text-white px-4 rounded hover:bg-gray-500" %>
+              </span>
+              <%= link_to "About", about_path, class: "block lg:inline-block hover:text-white px-4 rounded hover:bg-gray-500" %>
+            <span class="dash"> 🍷 </span> 
+          </div>
+          <span class="relative mx-auto text-gray-600 lg:block hidden">
+            <%= form_tag(search_page_path, :method => "get") do %>
+              <%= search_field_tag :search, params[:search], placeholder: "Search", class: "border-2 border-gray-300 bg-white h-10 pl-2 pr-8 rounded-lg text-sm focus:outline-none" %>
+              <button type="submit" class="absolute right-0 top-0 mr-2">
+                  <div class="text-gray-600 h-4 w-4 fill-current">
+                    <i class="fas fa-search"></i>
+                  </div>
+              </button>
+            <% end %>
+          </span>
 
+          <div class="block sm:flex">
+            <% if user_signed_in? %>
+              <%= link_to "Log Out", destroy_user_session_path, method: "delete", class: "block text-md px-4 py-2 rounded text-gray-700 ml-2 font-bold hover:text-white hover:bg-gray-500" %>
+            <% else %>
+              <%= link_to "Log In", new_user_session_path, class: "block text-md px-4 py-2 rounded text-gray-700 sm:ml-2 ml-0 font-bold hover:text-white hover:bg-gray-500" %>
+              <%= link_to "Sign Up", new_user_registration_path, class: "block text-md px-4 py-2 rounded text-gray-700 sm:ml-2 ml-0 font-bold hover:text-white hover:bg-gray-500" %> 
+            <% end%>
+          </div>
+        </div>
     </nav>
 
     <div class="notices container">
