@@ -9,5 +9,6 @@ Rails.application.routes.draw do
   post "/listings/new", to: "listings#create", as: "listing_create"
   get "/listings/:id", to: "listings#show", as: "listing_show"
   resources :transactions, only: [:create]
+  get '/search' => 'pages#search', :as => 'search_page'
   # get "/listings/"
 end
