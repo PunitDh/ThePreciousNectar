@@ -15,7 +15,7 @@ Rails.application.routes.draw do
 
   # Cart
   get "/cart", to: "carts#show"
-  put "/cart", to: "carts#add_listing", as: "cart_add"
+  put "/cart", to: "carts#add_to_cart", as: "cart_add"
 
   # Transactions
   post "/checkout", to: "transactions#create", as: "checkout"

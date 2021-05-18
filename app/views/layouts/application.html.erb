@@ -35,7 +35,7 @@
             <span class="dash"> 🍷 </span> 
           </div>
           <span class="relative mx-auto text-gray-600 lg:block hidden">
-            <%= form_tag(search_page_path, :method => "get") do %>
+            <%= form_tag(search_page_path, :method => "put") do %>
               <%= search_field_tag :search, params[:search], placeholder: "Search", class: "border-2 border-gray-300 bg-white h-10 pl-2 pr-8 rounded-lg text-sm focus:outline-none" %>
               <button type="submit" class="absolute right-0 top-0 mr-2">
                   <div class="text-gray-600 h-4 w-4 fill-current">
