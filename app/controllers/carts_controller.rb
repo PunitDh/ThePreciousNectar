@@ -13,11 +13,18 @@ class CartsController < ApplicationController
 
             cartlisting.listing_id = params[:listing_id].to_i # if (Listing.find_by(id: params[:listing_id].to_i))
 
-            if cartlisting.save
-                p "Item Added to cart"
-                flash[:success] = "Item added to Cart!"
+            existing = CartListing.where(cart_id: current_user.cart.id, listing_id: cartlisting.listing_id)
+            if existing.length > 0
+                existing.first.quantity += 1
+                existing.first.save
             else
-                flash[:danger] = "Failed to add to Cart!"
+                cartlisting.quantity = 1
+                if cartlisting.save
+                    p "Item Added to cart"
+                    flash[:success] = "Item added to Cart!"
+                else
+                    flash[:danger] = "Failed to add to Cart!"
+                end
             end
         end
     end
