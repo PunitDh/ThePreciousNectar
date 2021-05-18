@@ -13,8 +13,8 @@
     <script src="https://js.stripe.com/v3/"></script>
   </head>
 
-  <body>
-    <nav class="navbar flex fixed items-center justify-between flex-wrap lg:px-12 shadow border-gray-700">
+  <body class="<%= params[:action] %>">
+    <nav class="navbar flex fixed items-center justify-between flex-wrap lg:px-12 shadow">
       <div class="flex justify-between lg:w-auto w-full lg:border-b-0 pl-6 pr-2 lg:pb-0">
           <div class="flex items-center flex-shrink-0 text-gray-800 mr-16">
               <span class="font-semibold text-xl text-white tracking-tight">The Wine Auctioneer</span>
@@ -35,7 +35,7 @@
             <span class="dash"> 🍷 </span> 
           </div>
           <span class="relative mx-auto text-gray-600 lg:block hidden">
-            <%= form_tag(search_page_path, :method => "put") do %>
+            <%= form_tag(search_page_path, :method => "get") do %>
               <%= search_field_tag :search, params[:search], placeholder: "Search", class: "border-2 border-gray-300 bg-white h-10 pl-2 pr-8 rounded-lg text-sm focus:outline-none" %>
               <button type="submit" class="absolute right-0 top-0 mr-2">
                   <div class="text-gray-600 h-4 w-4 fill-current">

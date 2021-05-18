@@ -11,11 +11,8 @@ class CartsController < ApplicationController
         if (current_user.cart.id == params[:cart_id].to_i)
             cartlisting.cart_id = params[:cart_id].to_i
 
-            # Validate whether the item actually exists in the database
             cartlisting.listing_id = params[:listing_id].to_i # if (Listing.find_by(id: params[:listing_id].to_i))
-            # raise cartlisting
-            # p cartlisting
-            # Attempt to save the item to the cart
+
             if cartlisting.save
                 p "Item Added to cart"
                 flash[:success] = "Item added to Cart!"
