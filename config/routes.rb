@@ -8,5 +8,6 @@ Rails.application.routes.draw do
   get "/listings/new", to: "listings#new", as: "listing_new"
   post "/listings/new", to: "listings#create", as: "listing_create"
   get "/listings/:id", to: "listings#show", as: "listing_show"
+  resources :transactions, only: [:create]
   # get "/listings/"
 end

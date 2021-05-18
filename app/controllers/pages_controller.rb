@@ -5,6 +5,8 @@ class PagesController < ApplicationController
 	def about
 	end
 
-	def browse
+	def search
 	end
+
+
 end
