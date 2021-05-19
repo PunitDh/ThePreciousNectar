@@ -10,8 +10,11 @@ Rails.application.routes.draw do
   # Listings Controller
   get "/listings/index", to: "listings#index"
   get "/listings/new", to: "listings#new", as: "listing_new"
-  post "/listings/new", to: "listings#create", as: "listing_create"
   get "/listings/:id", to: "listings#show", as: "listing_show"
+  get "/listings/:id/edit", to: "listings#edit", as: "listing_edit"  
+  post "/listings/new", to: "listings#create", as: "listing_create"
+  put "/listings/:id/edit", to: "listings#update", as: "listing_update"
+  delete "/listings/:id", to: "listings#delete", as: "listing_delete"
 
   # Cart
   get "/cart", to: "carts#index"

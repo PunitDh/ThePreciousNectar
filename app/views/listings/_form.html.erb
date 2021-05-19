@@ -1,4 +1,6 @@
-<div class="grid bg-black bg-opacity-40 rounded-lg shadow-xl w-11/12 md:w-9/12 lg:w-1/2">
+<div class="flex justify-center my-6">
+    <div class="flex flex-col w-full p-8 rounded-lg text-gray-800 bg-white bg-opacity-20 shadow-lg pin-r pin-y md:w-4/5 lg:w-4/5">
+
     <%= form_with(model: @listing, url: listing_create_path, method: "post") do |form| %>
         <div class="flex">
             <div class="grid w-11/12 md:w-9/12 lg:w-1/2">
@@ -9,26 +11,26 @@
                 </div>
 
                 <div class="flex justify-center">
-                    <h1 class="text-white font-bold md:text-2xl text-xl">Create New Listing</h1>
+                    <h1 class="text-red-900 font-bold md:text-2xl text-xl"><%= local_assigns[:heading] %></h1>
                 </div>
 
                 <div class="grid grid-cols-1 mt-5 mx-7">
-                    <%= form.label :name, "Name:", class: "uppercase md:text-sm text-xs text-white text-light font-semibold" %>
+                    <%= form.label :name, "Name:", class: "uppercase md:text-sm text-xs text-light font-semibold" %>
                     <%= form.text_field :name, class: "py-2 px-3 rounded-lg border-2 border-red-200 mt-1 focus:outline-none focus:ring-2 focus:ring-red-800 focus:border-transparent", placeholder: "Example: Frogmore Creek Iced Riesling 375mL" %>
                 </div>
 
                 <div class="grid grid-cols-1 mt-5 mx-7">
-                    <%= form.label :region_id, "Region:", class: "uppercase md:text-sm text-xs text-white text-light font-semibold" %>
+                    <%= form.label :region_id, "Region:", class: "uppercase md:text-sm text-xs text-light font-semibold" %>
                     <%= form.select :region_id, Region.pluck(:name, :id), class: "py-2 px-3 rounded-lg border-2 border-red-200 mt-1 focus:outline-none focus:ring-2 focus:ring-red-800 focus:border-transparent" %>
                 </div>
 
                 <div class="grid grid-cols-1 mt-5 mx-7">
-                    <%= form.label :vintage, "Vintage (Year):", class: "uppercase md:text-sm text-xs text-white text-light font-semibold" %>
+                    <%= form.label :vintage, "Vintage (Year):", class: "uppercase md:text-sm text-xs text-light font-semibold" %>
                     <%= form.number_field :vintage, class: "py-2 px-3 rounded-lg border-2 border-red-200 mt-1 focus:outline-none focus:ring-2 focus:ring-red-800 focus:border-transparent", placeholder: "Example: 2012" %>
                 </div>
 
                 <div class="grid grid-cols-1 mt-5 mx-7">
-                    <%= form.label :category_id, "Wine Category:", class: "uppercase md:text-sm text-xs text-white text-light font-semibold" %>
+                    <%= form.label :category_id, "Wine Category:", class: "uppercase md:text-sm text-xs text-light font-semibold" %>
                     <%= form.text_field :category_id, class: "py-2 px-3 rounded-lg border-2 border-red-200 mt-1 focus:outline-none focus:ring-2 focus:ring-red-800 focus:border-transparent", list: 'categories', placeholder: "Example: Chardonnay" %>
                     <datalist id="categories">
                         <% Category.all.each do |category| %>
@@ -38,34 +40,39 @@
                 </div>
 
                 <div class="grid grid-cols-1 mt-5 mx-7">
-                    <%= form.label :description, "Description:", class: "uppercase md:text-sm text-xs text-white text-light font-semibold" %>
+                    <%= form.label :description, "Description:", class: "uppercase md:text-sm text-xs text-light font-semibold" %>
                     <%= form.text_area :description, class: "py-2 px-3 rounded-lg border-2 border-red-200 mt-1 focus:outline-none focus:ring-2 focus:ring-pink-800 focus:border-transparent", placeholder: "Example: A savoury ice wine" %>
                 </div>
 
                 <div class="grid grid-cols-1 mt-5 mx-7">
-                    <%= form.label :price, "Price (AUD $):", class: "uppercase md:text-sm text-xs text-white text-light font-semibold" %>
-                    <%= form.number_field :price, class: "py-2 px-3 rounded-lg border-2 border-red-200 mt-1 focus:outline-none focus:ring-2 focus:ring-pink-800 focus:border-transparent", placeholder: "Example: 2012" %>
+                    <%= form.label :price, "Price (AUD $):", class: "uppercase md:text-sm text-xs text-light font-semibold" %>
+                    <%= form.number_field :price, class: "py-2 px-3 rounded-lg border-2 border-red-200 mt-1 focus:outline-none focus:ring-2 focus:ring-pink-800 focus:border-transparent", step: 0.01, placeholder: "Example: 2012" %>
                 </div>
 
 
                 <div class="grid grid-cols-1 mt-5 mx-7">
-                    <%= form.label "Upload Photo", class: "uppercase md:text-sm text-xs text-white text-light font-semibold mb-1" %>
+                    <%= form.label "Upload Photo", class: "uppercase md:text-sm text-xs text-light font-semibold mb-1" %>
                     <div class='flex items-center justify-center w-full'>
                         <label class='flex flex-col border-4 border-dashed w-full h-32 hover:bg-pink-100 hover:border-red-900 group'>
                             <div class='flex flex-col cursor-pointer items-center justify-center pt-7'>
-                                <i class="fas fa-images text-4xl text-red-900 group-hover:text-red-800"></i>
-                                <p class='lowercase text-sm text-white group-hover:text-gray-800 pt-1 tracking-wider'>Select a photo</p>
+                                <% if @listing.image.attached? %>
+                                    <%= image_tag url_for(@listing.image), class: "w-32 -mt-14" %>
+                                <% else %>
+                                    <i class="fas fa-images text-4xl text-red-900 group-hover:text-red-800"></i>
+                                    <p class='lowercase text-sm group-hover:text-gray-800 pt-1 tracking-wider'>Select a photo</p>
+                                <% end %>
                             </div>
-                            <%= form.file_field :image, class: "hidden" %>
+                          <%= form.file_field :image, class: "hidden" %>
                         </label>
                     </div>
                 </div>
 
                 <div class='flex items-center justify-center  md:gap-8 gap-4 pt-5 pb-5'>
                     <button class='w-auto bg-gray-500 hover:bg-gray-700 rounded-lg shadow-xl font-medium text-white px-4 py-2'>Cancel</button>
-                    <%= form.submit "Create", class: "w-auto cursor-pointer bg-red-600 hover:bg-red-900 rounded-lg shadow-xl font-medium text-white px-4 py-2" %>
+                    <%= form.submit %>
                 </div>
             </div>
         </div>
     <% end %>
+  </div>
 </div>

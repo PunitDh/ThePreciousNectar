@@ -5,7 +5,9 @@
 <div class="z-50 flex flex-wrap justify-center sm:w-full md:w-full lg:w-4/5 xl:w-4/5">
     <% @listings.each do |listing| %>
         <div class="flex flex-col justify-center bg-gray-100 items-center max-w-sm mx-auto my-8 cursor-pointer rounded transform hover:scale-110 duration-300 ease-in-out">
+          <% if listing.image.attached? %>
             <%= link_to image_tag(listing.image, class: "bg-gray-100 h-56 w-56 rounded-lg shadow-lg"), listing_show_path(listing.id) %>
+          <% end %>
             
             <div class="w-56 md:w-64 bg-white  shadow-lg rounded-lg overflow-hidden">
                 <div class="py-2 text-center h-16 font-bold uppercase tracking-wide text-gray-800 hover:text-red-800"><%= link_to listing.name, listing_show_path(listing.id) %></div>
