@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
 
   # Authentication
-  devise_for :users
+  devise_for :users, controllers: { omniauth_callbacks: 'omniauth' }
 
   # Pages Controller
   root to: "pages#home"
