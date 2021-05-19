@@ -70,3 +70,5 @@ gem 'figaro'
 gem "aws-sdk-s3", "~> 1.94"
 
 gem 'stripe'
+
+gem 'pundit'

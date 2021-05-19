@@ -1,5 +1,12 @@
 class CartsController < ApplicationController
     before_action :authenticate_user!
+    rescue_from RuntimeError, with: :unauthorised
+    rescue_from Pundit::NotAuthorizedError, with: :unauthorised
+
+    def unauthorised
+        flash[:alert] = "You're not allowed! Go away!"
+        redirect_to root_path
+    end
 
     def show
     end
@@ -20,26 +27,23 @@ class CartsController < ApplicationController
             else
                 cartlisting.quantity = 1
                 if cartlisting.save
-                    p "Item Added to cart"
-                    flash[:success] = "Item added to Cart!"
+                    # p "Item Added to cart"
+                    flash[:notice] = "Item added to Cart!"
                 else
-                    flash[:danger] = "Failed to add to Cart!"
+                    flash[:notice] = "Failed to add to Cart!"
                 end
             end
         end
+        # redirect_to listings_index_path
+        
     end
 
     def show
-        p current_user.cart.id
         @cartlisting = CartListing.where(cart_id: current_user.cart.id)
-        p @cartlisting
-        # @items = Listing.all.each { |listing|  }
     end
 
     private
-
         def cartparams
             params.permit(:cart_id, :listing_id)
         end
-
 end

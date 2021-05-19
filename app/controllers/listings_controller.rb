@@ -29,6 +29,14 @@ class ListingsController < ApplicationController
     end
 
     def update
+        # Authorisation from Pundit
+        @listing = Listing.find(params[:id])
+        authorize @listing
+        if @listing.update(post_params)
+            redirect_to @listing
+          else
+            render :edit
+        end
     end
 
     private

@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
 
-  # Authentication Controller
+  # Authentication
   devise_for :users
 
   # Pages Controller
