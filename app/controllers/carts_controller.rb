@@ -9,10 +9,8 @@ class CartsController < ApplicationController
     #     redirect_to root_path
     # end
 
-    def show
-    end
-
-    def edit
+    def index
+        @cartlisting = CartListing.where(cart_id: current_user.cart.id)
     end
 
     def update
@@ -53,10 +51,6 @@ class CartsController < ApplicationController
             flash[:alert] = "Failed to delete cart item"
         end
         redirect_to request.referrer
-    end
-
-    def show
-        @cartlisting = CartListing.where(cart_id: current_user.cart.id)
     end
 
     private

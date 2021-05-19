@@ -17,53 +17,54 @@
                         <th class="text-right">Total price</th>
                     </tr>
                 </thead>
+
+
                 <tbody>
 
-                    <% sumarr=[] %>
+                    <% sum_arr = [] %>
+                    <% if @cartlisting.length == 0 %>
+                        <tr><td></td><td class="hidden pb-4 md:table-cell">You have no items in your cart.</td></tr>
+                    <% else %>
+                        
+                        <% item_names = [] %>
+                        <% item_quantities = [] %>
+                        <% item_prices = [] %>
                         <% @cartlisting.each do |cartlisting| %>
-                            <% listing=Listing.find_by(id: cartlisting.listing_id) %>
-
-                                <tr>
-                                    <td class="hidden pb-4 md:table-cell">
-                                        <%= link_to(image_tag(url_for(listing.image), class: "w-20 rounded" , alt:
-                                            listing.name), listing_show_path(listing.id), target: :_blank) %>
-                                    </td>
-                                    <td>
-                                        <a href="#">
-                                            <p class="mb-2 md:ml-4">
-                                                <%= link_to listing.name, listing_show_path(listing.id), target: :_blank %>
-                                            </p></a>
-                                            
-                                            <%= link_to(button_tag("<small><i class='fas fa-trash-alt w-4 text-red-600  hover:text-red-800'></i> Remove item</small>".html_safe, class:'text-gray-700 md:ml-4'), cart_delete_path(cartlisting), method: "delete", data: { confirm: 'Are you sure you want to remove this item?' }) %>
-                                                    
-                                    </td>
-                                    <td class="justify-center md:justify-end md:flex mt-6">
-                                        <div class="w-20 h-10">
-                                            <div class="relative flex flex-row w-full h-8">
-                                                <%= form_tag("/cart/#{cartlisting.id}", method: "put", class: "contents") do |form| %>
-                                                <%= number_field_tag 'quantity', cartlisting.quantity,
-                                                    class:"font-semibold text-center text-gray-700 bg-white outline-none focus:outline-none hover:text-black focus:text-black", min: 1, style:"width:80px;" %>
-                                                    <%= button_tag "<i class='fas fa-pen-alt'></i>".html_safe, type: "submit", class: "pl-2 text-blue" %>
-                                                <% end %>
-                                            </div>
+                            <% listing = Listing.find_by(id: cartlisting.listing_id) %>
+                            <tr>
+                                <td class="hidden pb-4 md:table-cell"> <%= link_to(image_tag(url_for(listing.image), class: "w-20 rounded" , alt:
+                                        listing.name), listing_show_path(listing.id), target: :_blank) %> </td>
+                                <td>
+                                    <p class="mb-2 md:ml-4"><%= link_to listing.name, listing_show_path(listing.id), target: :_blank %></p>
+                                    <% item_names << listing.name %>
+                                        <%= link_to(button_tag("<small><i class='fas fa-trash-alt w-4 text-red-600  hover:text-red-800'></i> Remove item</small>".html_safe, class:'text-gray-700 md:ml-4'), cart_delete_path(cartlisting), method: "delete", data: { confirm: 'Are you sure you want to remove this item?' }) %>
+                                </td>
+                                <td class="justify-center md:justify-end md:flex mt-6">
+                                    <div class="w-20 h-10">
+                                        <div class="relative flex flex-row w-full h-8">
+                                            <%= form_tag("/cart/#{cartlisting.id}", method: "put", class: "contents") do |form| %>
+                                            <%= number_field_tag 'quantity', cartlisting.quantity,
+                                                class:"font-semibold text-center text-gray-700 bg-white outline-none focus:outline-none hover:text-black focus:text-black", min: 1, style:"width:80px;" %>
+                                                <%= button_tag "<i class='fas fa-pen-alt'></i>".html_safe, type: "submit", class: "pl-2 text-blue" %>
+                                            <% end %>
+                                            <% item_quantities << cartlisting.quantity %>
                                         </div>
-                                    </td>
-                                    <td class="hidden text-right md:table-cell">
-                                        <% price=listing.price %>
-                                            <span class="text-sm lg:text-base font-medium">
-                                                <%= number_to_currency(price/100) %>
-                                            </span>
-                                    </td>
-                                    <td class="text-right">
-                                        <span class="text-sm lg:text-base font-medium">
-                                            <% subtotal=price/100 * cartlisting.quantity %>
-                                                <% sumarr << subtotal %>
-                                                    <%= number_to_currency(subtotal) %>
-                                        </span>
-                                    </td>
-                                </tr>
-
-                                <% end %>
+                                    </div>
+                                </td>
+                                <td class="hidden text-right md:table-cell">
+                                    <% price = listing.price %>
+                                        <span class="text-sm lg:text-base font-medium"><%= number_to_currency(price/100) %></span>
+                                    <% item_prices << price %>
+                                </td>
+                                <td class="text-right">
+                                    <span class="text-sm lg:text-base font-medium">
+                                        <% subtotal=price/100 * cartlisting.quantity %>
+                                            <% sum_arr << subtotal %><%= number_to_currency(subtotal) %>
+                                    </span>
+                                </td>
+                            </tr>
+                        <% end %>
+                    <% end %>
                 </tbody>
             </table>
             <hr class="pb-6 mt-6 border-black">
@@ -91,7 +92,7 @@
                             <div class="lg:px-4 lg:py-2 m-2 text-lg lg:text-xl font-bold text-center text-gray-800">
                                 Subtotal </div>
                             <div class="lg:px-4 lg:py-2 m-2 lg:text-lg font-bold text-center text-gray-900">
-                                <% totalprice=sumarr.sum %>
+                                <% totalprice = sum_arr.sum %>
                                     <%= number_to_currency(totalprice*0.90) %>
                             </div>
                         </div>
@@ -112,7 +113,17 @@
                                 <%= number_to_currency(totalprice) %>
                             </div>
                         </div>
-                            <button
+                        
+
+                        <% checkout_info = {
+                            totalprice: totalprice,
+                            names: item_names,
+                            quantities: item_quantities,
+                            prices: item_prices
+                         } %>
+                         
+
+                            <button id="checkout-button"
                                 class="flex justify-center w-full px-10 py-3 mt-6 font-medium text-white uppercase bg-gray-800 rounded-full shadow item-center hover:bg-gray-700 focus:shadow-outline focus:outline-none">
                                 <i class="far fa-credit-card w-8"></i> <span class="ml-2 mt-5px">Procceed to checkout</span>
                             </button>
@@ -127,11 +138,13 @@
     // Create an instance of the Stripe object with your publishable API key
     var stripe = Stripe("<%= Rails.application.credentials.dig(:stripe, :public_key) %>");
     var checkoutButton = document.getElementById("checkout-button");
-    checkoutButton.addEventListener("click", () => {
+
+    checkoutButton.addEventListener("click", function () {
+        checkoutButton.disabled = true;
         fetch("/checkout", {
             method: "POST",
             headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-            body: "id=666"
+           
         })
             .then(function (response) {
                 return response.json();

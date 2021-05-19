@@ -14,7 +14,7 @@ Rails.application.routes.draw do
   get "/listings/:id", to: "listings#show", as: "listing_show"
 
   # Cart
-  get "/cart", to: "carts#show"
+  get "/cart", to: "carts#index"
   put "/cart/:cart_id/:listing_id", to: "carts#add_to_cart", as: "cart_add"
   put "/cart/:cartlisting_id", to: "carts#update", as: "cart_update"
   delete "/cart/:cartlisting_id", to: "carts#delete", as: "cart_delete"
