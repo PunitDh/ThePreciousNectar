@@ -68,8 +68,8 @@
                 </div>
 
                 <div class='flex items-center justify-center  md:gap-8 gap-4 pt-5 pb-5'>
-                    <button class='w-auto bg-gray-500 hover:bg-gray-700 rounded-lg shadow-xl font-medium text-white px-4 py-2'>Cancel</button>
-                    <%= form.submit %>
+                    <%= link_to(button_tag("Cancel", class: "w-auto bg-gray-500 hover:bg-gray-700 rounded-lg shadow-xl font-medium text-white px-4 py-2"), :back)  %>
+                    <%= form.submit(class: "w-auto bg-red-900 hover:bg-red-800 rounded-lg shadow-xl font-medium text-white px-4 py-2" ) %>
                 </div>
             </div>
         </div>

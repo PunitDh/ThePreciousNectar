@@ -1,3 +1,31 @@
+<section class="min-h-screen flex items-stretch text-white z-2">
+    <%= render "devise/shared/banner" %>
+    <div class="lg:w-1/2 w-full flex items-center justify-center text-center md:px-16 px-0 z-0" style="background-color: #161616;">
+        <div class="w-full py-6 z-20">
+          <h1 class="text-3xl pb-8 text-white font-bold text-center tracking-wide">Resend unlock instructions</h1>
+
+            <%= form_for(resource, as: resource_name, url: unlock_path(resource_name), html: { method: :post }) do |f| %>
+                <%= render "devise/shared/error_messages", resource: resource %>
+                <div class="pb-2 pt-4">
+                    <%= f.email_field :email, autofocus: true, placeholder: "E-mail", autocomplete: "email", class: "block w-full p-4 text-lg rounded-lg bg-black" %>
+                </div>
+
+                <div class="px-4 pb-2 pt-4">
+                    <%= f.submit "Resend unlock instructions", class: "uppercase block w-full p-4 text-lg rounded-full bg-red-700 hover:bg-red-900 focus:outline-none" %>
+                </div>
+
+                <div class="text-center text-gray-400">
+                    <%= render "devise/shared/links" %>
+                </div>
+            <% end %>
+        </div>
+    </div>
+</section>
+
+
+
+
+
 <div class="container">
 <h2 class="pt-16 text-2xl font-bold antialiased">Resend unlock instructions</h2>
 
