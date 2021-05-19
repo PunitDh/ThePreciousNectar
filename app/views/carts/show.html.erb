@@ -10,7 +10,7 @@
                         <th class="hidden md:table-cell"></th>
                         <th class="text-left">Product</th>
                         <th class="lg:text-right text-left pl-5 lg:pl-0">
-                            <span class="lg:hidden" title="Quantity">Qtd</span>
+                            <span class="lg:hidden" title="Quantity">Qty</span>
                             <span class="hidden lg:inline">Quantity</span>
                         </th>
                         <th class="hidden text-right md:table-cell">Unit price</th>
@@ -26,29 +26,25 @@
                                 <tr>
                                     <td class="hidden pb-4 md:table-cell">
                                         <%= link_to(image_tag(url_for(listing.image), class: "w-20 rounded" , alt:
-                                            listing.name), listing_show_path(listing.id)) %>
+                                            listing.name), listing_show_path(listing.id), target: :_blank) %>
                                     </td>
                                     <td>
                                         <a href="#">
                                             <p class="mb-2 md:ml-4">
-                                                <%= listing.name %>
-                                            </p>
-                                            <form action="" method="POST">
-                                                <button type="submit" class="text-gray-700 md:ml-4">
-                                                    <small><i
-                                                            class="fas fa-trash-alt w-4 text-red-600 hover:text-red-800"></i>
-                                                        Remove item</small>
-                                                </button>
-                                            </form>
-                                        </a>
+                                                <%= link_to listing.name, listing_show_path(listing.id), target: :_blank %>
+                                            </p></a>
+                                            
+                                            <%= link_to(button_tag("<small><i class='fas fa-trash-alt w-4 text-red-600  hover:text-red-800'></i> Remove item</small>".html_safe, class:'text-gray-700 md:ml-4'), cart_delete_path(cartlisting), method: "delete", data: { confirm: 'Are you sure you want to remove this item?' }) %>
+                                                    
                                     </td>
                                     <td class="justify-center md:justify-end md:flex mt-6">
                                         <div class="w-20 h-10">
                                             <div class="relative flex flex-row w-full h-8">
-
-                                                <input type="number" value="<%= cartlisting.quantity %>"
-                                                    class="font-semibold text-center text-gray-700 bg-white outline-none focus:outline-none hover:text-black focus:text-black"
-                                                    style="width:100px;" />
+                                                <%= form_tag("/cart/#{cartlisting.id}", method: "put", class: "contents") do |form| %>
+                                                <%= number_field_tag 'quantity', cartlisting.quantity,
+                                                    class:"font-semibold text-center text-gray-700 bg-white outline-none focus:outline-none hover:text-black focus:text-black", min: 1, style:"width:80px;" %>
+                                                    <%= button_tag "<i class='fas fa-pen-alt'></i>".html_safe, type: "submit", class: "pl-2 text-blue" %>
+                                                <% end %>
                                             </div>
                                         </div>
                                     </td>
@@ -116,12 +112,10 @@
                                 <%= number_to_currency(totalprice) %>
                             </div>
                         </div>
-                        <a href="#">
                             <button
                                 class="flex justify-center w-full px-10 py-3 mt-6 font-medium text-white uppercase bg-gray-800 rounded-full shadow item-center hover:bg-gray-700 focus:shadow-outline focus:outline-none">
-                                <i class="far fa-credit-card w-8"></i> <span class="ml-2 mt-5px">Procceed to
-                                    checkout</span> </button>
-                        </a>
+                                <i class="far fa-credit-card w-8"></i> <span class="ml-2 mt-5px">Procceed to checkout</span>
+                            </button>
                     </div>
                 </div>
             </div>

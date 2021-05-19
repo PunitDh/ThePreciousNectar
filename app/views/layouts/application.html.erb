@@ -56,25 +56,27 @@
         </div>
     </nav>
 
-    <div class="notices container">
+    
+    <div class="notices">
 
-
-    <% if flash[:notice] or flash[:alert] %>
+      <% if flash[:notice] %>
+      <input type="checkbox" id="hide-flash" class="hidden">
         <div class="space-x-2 bg-green-50 p-4 rounded flex items-center text-green-600 my-4 shadow-lg mx-auto max-w-2xl w-full">
-        <div><i class="fas fa-check-circle"></i></div>
-        <h3 class="text-green-800 tracking-wider flex-1">
-            <%= flash[:notice] %>
-        </h3>
-        <label for="hide-flash" class="inline-flex items-center hover:bg-green-100 border border-green-50 hover:border-green-300 hover:text-green-900 focus:outline-none rounded-full p-2 hover:cursor-pointer">
-            <input type="checkbox" id="hide-flash" class="hidden"><i class="fas fa-times-circle"></i>
-        </label>
-    </div>
-    <% end %>
+          <div><i class="fas fa-check-circle"></i></div>
+          <h3 class="text-green-800 tracking-wider flex-1"> <%= flash[:notice] %> </h3>
+          <label for="hide-flash" class="inline-flex cursor-pointer items-center hover:bg-green-100 border border-green-50 hover:border-green-300 hover:text-green-900 focus:outline-none rounded-full p-2 hover:cursor-pointer">
+              <input type="checkbox" id="hide-flash" class="hidden"><i class="fas fa-times-circle"></i>
+          </label>
+        </div>
+      <% elsif flash[:alert] %>
+      <input type="checkbox" id="hide-flash" class="hidden">
+        <div class="space-x-2 bg-red-50 p-4 rounded flex items-center text-red-600 my-4 shadow-lg mx-auto max-w-2xl w-full">
+          <div><i class="fas fa-times"></i></div>
+          <h3 class="text-red-800 tracking-wider flex-1"> <%= flash[:alert] %> </h3>
+          <label for="hide-flash" class="inline-flex cursor-pointer items-center hover:bg-red-100 border border-red-50 hover:border-red-300 hover:text-red-900 focus:outline-none rounded-full p-2 hover:cursor-pointer"> <i class="fas fa-times-circle"></i></label>
+        </div>
+      <% end %>
 
-
-
-      <p class="notice"><%= flash[:notice] %></p>
-      <p class="alert"><%= flash[:alert] %></p>
     </div>
     <%= yield %>
 
