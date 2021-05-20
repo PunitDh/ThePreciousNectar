@@ -126,7 +126,7 @@
         
             // Create an instance of the Stripe object with your publishable API key
             document.querySelector('[data-stripe="payment"]').addEventListener("click", () => {
-                const stripe = Stripe("<%= Rails.application.credentials.dig(:stripe, :public_key) %>");
+                const stripe = Stripe("<%= ENV['STRIPE_PUBLIC_KEY'] %>");
                 stripe.redirectToCheckout({
                     sessionId: "<%= @session_id %>"
                 });
