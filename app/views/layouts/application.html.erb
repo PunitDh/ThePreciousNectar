@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>WineSales</title>
+    <title> <%= ApplicationHelper::app_name %> </title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
@@ -16,7 +16,7 @@
     <nav class="navbar flex fixed items-center justify-between flex-wrap lg:px-12 shadow">
       <div class="justify-center w-full pr-2 sm:flex sm:justify-between lg:w-auto sm:w-full lg:border-b-0 sm:pl-6 sm:pr-2 lg:pb-0">
           <div class="flex items-center flex-shrink-0 text-gray-800 mr-16">
-              <span class="font-semibold hidden sm:block sm:text-xl text-white tracking-tight">The Wine Auctioneer</span>
+              <span class="font-semibold hidden sm:block sm:text-xl text-white tracking-tight"><%= ApplicationHelper::app_name %></span>
           </div>
           <label for="navbar-toggle-cbox" id="navbar-toggle-label"><i class="fas fa-bars burger"></i></label>
       </div>
