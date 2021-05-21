@@ -4,52 +4,9 @@ class TransactionsController < ApplicationController
     before_action :all_cartlistings, only: [:index, :success]
     protect_from_forgery except: :webhook
 
-    def index
-        # @cartlistings
-    end
-
-    def create
-        @cartlistings = current_user.cart.cart_listings
-
-        # Check if there is anything in the cart
-        if @cartlistings.length > 0
-            
-            # Create a blank array to store all items in cart
-            listing_items = []
-            
-            # Pass all line items to Stripe to modify the checkout page
-            @cartlistings.each do |cartlisting|
-                listing = Listing.find(cartlisting.listing_id)
-                listing_items << {
-                    name: listing.name,
-                    amount: listing.price,
-                    currency: "aud",
-                    quantity: cartlisting.quantity
-                }
-            end
-
-            # Create Stripe session ready to go when checkout button is clicked
-            @session = Stripe::Checkout::Session.create({
-                payment_method_types: ['card'],
-                line_items: listing_items,
-                payment_intent_data: {
-                    metadata: {
-                        # event_id: @event.id,
-                        user_id: current_user.id
-                    }
-                },
-                mode: 'payment',
-                success_url: checkout_success_url + "?session_id={CHECKOUT_SESSION_ID}",
-                cancel_url: checkout_cancel_url
-            })
-            
-            @session_id = @session.id
-            # respond_to { |format| format.js }
-        end
-    end
-
     def webhook
         payload = request.body.read
+        sig_header = request.env['HTTP_STRIPE_SIGNATURE']
         event = nil
         
         begin
@@ -60,7 +17,6 @@ class TransactionsController < ApplicationController
             # Invalid payload
             status 400
             return
-
         rescue Stripe::SignatureVerificationError => e
             # Invalid signature
             puts "Signature error"
@@ -70,9 +26,8 @@ class TransactionsController < ApplicationController
         
         # Handle the event
         case event.type
-        when 'payment_intent.succeeded'
-            payment_intent = event.data.object # contains a Stripe::PaymentIntent
-            
+        when 'charge.succeeded'
+
             @cartlistings.each do |cartlisting|
                 # Create a new transaction based on whatever is in the cart
                 transaction = Transaction.new
@@ -87,69 +42,75 @@ class TransactionsController < ApplicationController
                 transaction.message = params[:message]
 
                 if transaction.save
-                    # Flash a message to show the user the transaction was successful
-                    flash[:success] = "Your order was successfully placed!"
-
                     # Clear the cart when the transaction has been completed
                     CartListing.where(cart_id: current_user.cart.id).destroy_all
-                    redirect_to :success
-                else
-                    # Display an error message if transaction was unsuccessful
-                    flash[:alert] = "There was an error in placing your order."
-                    redirect_to :cancel
                 end
             end
             
-        when 'payment_method.attached'
-            payment_method = event.data.object # contains a Stripe::PaymentMethod
-            # Then define and call a method to handle the successful attachment of a PaymentMethod.
-            # handle_payment_method_attached(payment_method)
-        # ... handle other event types
+        when 'checkout.session.completed'
+            payment_intent = event.data.object # contains a Stripe::PaymentIntent
+            # Flash a message to show the user the transaction was successful
+            flash[:success] = "Your order was successfully placed!"
         else
+            # Display an error message if transaction was unsuccessful
+            flash[:alert] = "There was an error in placing your order."
             puts "Unhandled event type: #{event.type}"
         end
         
-        status 200
+        render json: {message: 'success'}
+        # status 200
     end
 
-    
-
-
-        # payment_id = params[:data][:object][:payment_intent]
-        # payment = Stripe::PaymentIntent.retrieve(payment_id)
-        # user_id = payment.metadata.user_id
-        # p "User id " + user_id
+    # def webhook
+    #     # pp params
+    #     # payment_id = params[:data][:object][:payment_intent]
+    #     # payment = Stripe::PaymentIntent.retrieve(payment_id)
+    #     # p payment.metadata.user_id
+    #     # p "WEBHOOK HAS BEEN RECEIVED"
         
-        # # Once the payment has gone through, the user gets redirected to the success page. This is where the transaction takes place
-        # @cartlistings = current_user.cart.cart_listings
-        # @cartlistings.each do |cartlisting|
-        #     # Create a new transaction based on whatever is in the cart
-        #     transaction = Transaction.new
-        #     listing = Listing.find(cartlisting.listing_id)
 
-        #     # Set transaction parameters based on the user's current cart
-        #     seller = listing.user
-        #     transaction.listing_id = listing.id
-        #     transaction.buyer_id = current_user.id
-        #     transaction.seller_id = seller.id
-        #     transaction.quantity = cartlisting.quantity
-        #     transaction.message = params[:message]
+    #     # begin
+            
+    #     # rescue ActiveRecord::RecordNotFound => e
+    #     # end
 
-        #     if transaction.save
-        #         # Flash a message to show the user the transaction was successful
-        #         flash[:success] = "Your order was successfully placed!"
-        #         # Clear the cart when the transaction has been completed
-        #         # CartListing.where(cart_id: current_user.cart.id).destroy_all
-        #         # redirect_to :success
-        #     else
-        #         # Display an error message if transaction was unsuccessful
-        #         flash[:alert] = "There was an error in placing your order."
-        #         # redirect_to :cancel
-        #     end
-        # end
-      
+    #     # raise params[:data][:object][:metadata]
+    #     print "USER: "
+    #     user = params[:data][:object][:metadata][:user_id]
+    #     @cartlistings = User.find(user).cart.cart_listings
 
-    
+    #     # # Once the payment has gone through, the transaction takes place
+    #     # @cartlistings.each do |cartlisting|
+    #     #     # Create a new transaction based on whatever is in the cart
+    #     #     transaction = Transaction.new
+    #     #     listing = Listing.find(cartlisting.listing_id)
+
+    #     #     # Set transaction parameters based on the user's current cart
+    #     #     seller = listing.user
+    #     #     transaction.listing_id = listing.id
+    #     #     transaction.buyer_id = current_user.id
+    #     #     transaction.seller_id = seller.id
+    #     #     transaction.quantity = cartlisting.quantity
+    #     #     transaction.message = params[:message]
+
+    #     #     if transaction.save
+    #     #         # Flash a message to show the user the transaction was successful
+    #     #         flash[:success] = "Your order was successfully placed!"
+    #     #         # Clear the cart when the transaction has been completed
+    #     #         CartListing.where(cart_id: current_user.cart.id).destroy_all
+    #     #         redirect_to :success
+    #     #     else
+    #     #         # Display an error message if transaction was unsuccessful
+    #     #         flash[:alert] = "There was an error in placing your order."
+    #     #         redirect_to :cancel
+    #     #     end
+    #     # end
+    #     redirect_to :process_transaction
+    # end
+
+    # def process_transaction
+
+    # end
 
     def sales
         @transactions = Transaction.all.where(seller: current_user).order("created_at DESC")
@@ -160,30 +121,13 @@ class TransactionsController < ApplicationController
     end
 
     def success
-        # Pass the cart one last time to the views page so that an Order Summary can be displayed
-        @cartlistings
-        @session_with_expand = Stripe::Checkout::Session.retrieve({
-            id: params[:session_id],
-            expand: ["payment_intent", "line_items"]
-        })
-
-        @session_with_expand.line_items.data.each do |line_item|
-            # listing = Listing.find_by(stripe_price_id: line_item.price.id)
-            
-        end
     end
 
     def cancel
-        flash[:alert] = "There was an error in placing your order."
     end
 
     private
         def all_cartlistings
             @cartlistings = current_user.cart.cart_listings
-        end
-
-        def clear_cart
-            # Clear the cart of all items
-            CartListing.where(cart_id: current_user.cart.id).destroy_all
         end
 end

@@ -11,6 +11,40 @@ class CartsController < ApplicationController
 
     def index
         @cartlistings = current_user.cart.cart_listings
+
+        # raise params.inspect
+        # Check if there is anything in the cart
+        if @cartlistings.length > 0
+            
+            # Create a blank array to store all items in cart
+            line_items = []
+            
+            # Pass all line items to Stripe to modify the checkout page
+            @cartlistings.each do |cartlisting|
+                listing = Listing.find(cartlisting.listing_id)
+                line_items << {
+                    name: listing.name,
+                    amount: listing.price,
+                    currency: "aud",
+                    quantity: cartlisting.quantity
+                }
+            end
+
+            # Create Stripe session ready to go when checkout button is clicked
+            @session = Stripe::Checkout::Session.create({
+                payment_method_types: ['card'],
+                line_items: line_items,
+                payment_intent_data: {
+                    metadata: {
+                        user_id: current_user.id
+                    }
+                },
+                mode: 'payment',
+                success_url: checkout_success_url + "?session_id={CHECKOUT_SESSION_ID}",
+                cancel_url: checkout_cancel_url
+            })
+            @session_id = @session.id
+        end
     end
 
     def update

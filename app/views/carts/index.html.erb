@@ -109,7 +109,7 @@
                                 <%= number_to_currency(totalprice) %>
                             </div>
                         </div>
-                        <%= link_to "<i class='far fa-credit-card w-8'></i> <span class='ml-2 mt-5px'>Proceed to checkout (#{number_to_currency(totalprice)})</span>".html_safe, checkout_path, method: "post", class: "flex justify-center w-full px-10 py-3 mt-6 font-medium text-white uppercase bg-gray-800 disabled:bg-gray-200 rounded-full shadow item-center hover:bg-gray-700 focus:shadow-outline focus:outline-none", id: "checkout-button" %>
+                        <%= button_tag "<i class='far fa-credit-card w-8'></i> <span class='ml-2 mt-5px'>Proceed to checkout (#{number_to_currency(totalprice)})</span>".html_safe, class: "flex justify-center w-full px-10 py-3 mt-6 font-medium text-white uppercase bg-gray-800 disabled:bg-gray-200 rounded-full shadow item-center hover:bg-gray-700 focus:shadow-outline focus:outline-none", id: "checkout-button" %>
                     </div>
                 </div>
             </div>
@@ -120,16 +120,14 @@
 <script src="https://js.stripe.com/v3/"></script>
 <% if @cartlistings.length > 0 %>
     <script type="text/javascript">
-        
-        const checkout_button = document.querySelector('[data-stripe="payment"]');
+        const checkout_button = document.getElementById('checkout-button');
         // Create an instance of the Stripe object with your publishable API key
         checkout_button.addEventListener("click", () => {
-
             const stripe = Stripe("<%= ENV['STRIPE_PUBLIC_KEY'] %>");
-        // Create an instance of the Stripe object with your publishable API key
+            // Initiate Stripe on button click
             stripe.redirectToCheckout({
                 sessionId: "<%= @session_id %>"
-            }).then(function (result) {});
+            });
         });
     </script>
 <% end %>

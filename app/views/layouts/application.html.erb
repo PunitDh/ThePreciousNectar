@@ -31,6 +31,10 @@
               </span>
               <%= link_to "About", about_path, class: "block lg:inline-block hover:text-white px-4 rounded hover:bg-gray-500" %>
             <span class="dash"> 🍷 </span> 
+            
+            <% if user_signed_in? %>
+              <span class="dash text-white"> <%= current_user.email %> | <%= current_user.stripe_customer_id %> </span>
+            <% end %>
           </div>
           <span class="relative mx-auto text-gray-600 lg:block hidden">
             <%= form_tag(search_page_path, :method => "get") do %>

@@ -14,6 +14,12 @@ class User < ApplicationRecord
     end
   end
 
+  # Associate customer with Stripe customer ID
+  after_create do
+    customer = Stripe::Customer.create(email: email)
+    update(stripe_customer_id: customer.id)
+  end
+
   def self.from_omniauth(access_token)
     data = access_token.info
     user = User.where(email: data['email']).first
