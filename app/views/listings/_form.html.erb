@@ -34,7 +34,7 @@
                     <%= form.text_field :category_id, class: "py-2 px-3 rounded-lg border-2 border-red-200 mt-1 focus:outline-none focus:ring-2 focus:ring-red-800 focus:border-transparent", list: 'categories', placeholder: "Example: Chardonnay" %>
                     <datalist id="categories">
                         <% Category.all.each do |category| %>
-                            <option value="<%= category.name %>"></option>
+                            <option value="<%= category %>"></option>
                         <% end %>
                     </datalist>
                 </div>

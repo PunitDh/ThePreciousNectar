@@ -1,5 +1,35 @@
 
 <h1 class="ml-10 sm:ml-40 pt-16 text-2xl font-bold antialiased">Order Summary</h1>
-<section>
-    <%= @cartlistings %>
+<section class="ml-10 sm:ml-40">
+    <% @cartlistings.each do |cartlisting| %>
+        <%= cartlisting.listing %><br />
+    <% end %>
 </section>
+
+<hr class="border-black">
+
+<% if params[:session_id].present? %>
+
+    <% @session = Stripe::Checkout::Session.retrieve(params[:session_id]) %>
+    <%= @session.payment_intent %>
+    <%= Stripe::PaymentIntent.retrieve(@session.payment_intent) %>
+
+    <hr class="border-black">
+
+    <%# ?session_id=cs_test_b1jkl8GOogcTSLGFaqAv1OJxcffICK9okt60MLARiRq1BwvQURiQjsX1mh %>
+
+    <%= @session_with_expand = Stripe::Checkout::Session.retrieve(
+        {
+            id: params[:session_id],
+            expand: ["payment_intent", "line_items"]
+        }
+    ) %>
+
+    <hr class="border-black">
+
+    <% @session_with_expand.line_items.data.each do |line_item| %>
+        <%= line_item.price.id %><br />
+        <%= line_item.price %><br />
+    <% end %>
+
+<% end %>

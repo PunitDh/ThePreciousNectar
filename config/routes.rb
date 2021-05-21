@@ -24,6 +24,7 @@ Rails.application.routes.draw do
 
   # Transactions
   get "/checkout/success", to: "transactions#success"
+  post "/checkout", to: "transactions#create"
   get "/checkout/cancel", to: "transactions#cancel"
   post "/payments/webhook", to: "transactions#webhook"
 

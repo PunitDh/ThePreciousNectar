@@ -16,8 +16,8 @@
       <% end %>
     </div>
     <div class="text-red-800">
-      <small class="uppercase"><%= Category.find(@listing.category_id).name %></small>
-      <h3 class="uppercase text-black text-2xl font-medium"><%= @listing.name %></h3>
+      <small class="uppercase"><%= Category.find(@listing.category_id) %></small>
+      <h3 class="uppercase text-black text-2xl font-medium"><%= @listing %></h3>
       <h3 class="text-2xl font-semibold mb-7"><%= number_to_currency(@listing.price/100) %></h3>
       <small class="text-black"><%= @listing.description %></small>
       <div class="flex gap-0.5 mt-4">

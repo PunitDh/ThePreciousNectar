@@ -4,6 +4,50 @@ class TransactionsController < ApplicationController
     before_action :all_cartlistings, only: [:index, :success]
     protect_from_forgery except: :webhook
 
+    def index
+        # @cartlistings
+    end
+
+    def create
+        @cartlistings = current_user.cart.cart_listings
+
+        # Check if there is anything in the cart
+        if @cartlistings.length > 0
+            
+            # Create a blank array to store all items in cart
+            listing_items = []
+            
+            # Pass all line items to Stripe to modify the checkout page
+            @cartlistings.each do |cartlisting|
+                listing = Listing.find(cartlisting.listing_id)
+                listing_items << {
+                    name: listing.name,
+                    amount: listing.price,
+                    currency: "aud",
+                    quantity: cartlisting.quantity
+                }
+            end
+
+            # Create Stripe session ready to go when checkout button is clicked
+            @session = Stripe::Checkout::Session.create({
+                payment_method_types: ['card'],
+                line_items: listing_items,
+                payment_intent_data: {
+                    metadata: {
+                        # event_id: @event.id,
+                        user_id: current_user.id
+                    }
+                },
+                mode: 'payment',
+                success_url: checkout_success_url + "?session_id={CHECKOUT_SESSION_ID}",
+                cancel_url: checkout_cancel_url
+            })
+            
+            @session_id = @session.id
+            # respond_to { |format| format.js }
+        end
+    end
+
     def webhook
         payload = request.body.read
         event = nil
@@ -16,7 +60,6 @@ class TransactionsController < ApplicationController
             # Invalid payload
             status 400
             return
-        end
 
         rescue Stripe::SignatureVerificationError => e
             # Invalid signature
@@ -67,7 +110,9 @@ class TransactionsController < ApplicationController
         end
         
         status 200
+    end
 
+    
 
 
         # payment_id = params[:data][:object][:payment_intent]
@@ -102,11 +147,9 @@ class TransactionsController < ApplicationController
         #         # redirect_to :cancel
         #     end
         # end
-    end    
+      
 
-    def index
-        # @cartlistings
-    end
+    
 
     def sales
         @transactions = Transaction.all.where(seller: current_user).order("created_at DESC")
@@ -119,6 +162,15 @@ class TransactionsController < ApplicationController
     def success
         # Pass the cart one last time to the views page so that an Order Summary can be displayed
         @cartlistings
+        @session_with_expand = Stripe::Checkout::Session.retrieve({
+            id: params[:session_id],
+            expand: ["payment_intent", "line_items"]
+        })
+
+        @session_with_expand.line_items.data.each do |line_item|
+            # listing = Listing.find_by(stripe_price_id: line_item.price.id)
+            
+        end
     end
 
     def cancel

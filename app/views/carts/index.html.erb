@@ -29,9 +29,9 @@
                             <% listing = Listing.find_by(id: cartlisting.listing_id) %>
                             <tr>
                                 <td class="hidden pb-4 md:table-cell"> <%= link_to(image_tag(url_for(listing.image), class: "w-20 rounded" , alt:
-                                        listing.name), listing_show_path(listing.id), target: :_blank) %> </td>
+                                        listing), listing_show_path(listing.id), target: :_blank) %> </td>
                                 <td>
-                                    <p class="mb-2 md:ml-4"><%= link_to listing.name, listing_show_path(listing.id), target: :_blank, class: "hover:text-red-800" %></p>
+                                    <p class="mb-2 md:ml-4"><%= link_to listing, listing_show_path(listing.id), target: :_blank, class: "hover:text-red-800" %></p>
                                     
                                         <%= link_to(button_tag("<small><i class='fas fa-trash-alt w-4 text-red-600  hover:text-red-800'></i> Remove item</small>".html_safe, class:'text-gray-700 md:ml-4 hover:text-red-800'), cart_delete_path(cartlisting), method: "delete", data: { confirm: 'Are you sure you want to remove this item?' }) %>
                                 </td>
@@ -109,10 +109,7 @@
                                 <%= number_to_currency(totalprice) %>
                             </div>
                         </div>
-                        <button id="checkout-button" data-stripe="payment"
-                            class="flex justify-center w-full px-10 py-3 mt-6 font-medium text-white uppercase bg-gray-800 disabled:bg-gray-200 rounded-full shadow item-center hover:bg-gray-700 focus:shadow-outline focus:outline-none">
-                            <i class="far fa-credit-card w-8"></i> <span class="ml-2 mt-5px">Proceed to checkout (<%= number_to_currency(totalprice) %>)</span>
-                        </button>
+                        <%= link_to "<i class='far fa-credit-card w-8'></i> <span class='ml-2 mt-5px'>Proceed to checkout (#{number_to_currency(totalprice)})</span>".html_safe, checkout_path, method: "post", class: "flex justify-center w-full px-10 py-3 mt-6 font-medium text-white uppercase bg-gray-800 disabled:bg-gray-200 rounded-full shadow item-center hover:bg-gray-700 focus:shadow-outline focus:outline-none", id: "checkout-button" %>
                     </div>
                 </div>
             </div>
@@ -123,14 +120,16 @@
 <script src="https://js.stripe.com/v3/"></script>
 <% if @cartlistings.length > 0 %>
     <script type="text/javascript">
+        
         const checkout_button = document.querySelector('[data-stripe="payment"]');
         // Create an instance of the Stripe object with your publishable API key
         checkout_button.addEventListener("click", () => {
-            checkout_button.disabled = true;
+
             const stripe = Stripe("<%= ENV['STRIPE_PUBLIC_KEY'] %>");
+        // Create an instance of the Stripe object with your publishable API key
             stripe.redirectToCheckout({
                 sessionId: "<%= @session_id %>"
-            });
+            }).then(function (result) {});
         });
     </script>
 <% end %>

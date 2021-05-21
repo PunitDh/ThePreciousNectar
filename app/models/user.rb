@@ -27,6 +27,10 @@ class User < ApplicationRecord
     user
   end
 
+  # def to_s  # Just so that listing.name does not have to be typed in every time
+  #   self.profile.name
+  # end
+
   has_one :cart, dependent: :destroy
   has_many :listings, dependent: :destroy
   
