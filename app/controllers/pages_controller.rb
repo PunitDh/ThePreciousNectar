@@ -6,11 +6,11 @@ class PagesController < ApplicationController
 	end
 
 	def search
-		if params[:search].blank?
-			@results = nil
+		if params[:query].blank?
+			@listings = nil
 		else  
-			@parameter = params[:search].downcase
-			@results = Listing.all.where("lower(name) LIKE :search", search: "%#{@parameter}%")
+			@parameter = params[:query].downcase
+			@listings = Listing.all.where("lower(name) LIKE :search", search: "%#{@parameter}%")
 		end
 	end
 end

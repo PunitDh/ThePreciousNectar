@@ -1,23 +1,9 @@
-<section class="bg-indigo-dark h-50 p-8">
-    <div class="container mx-auto py-8">
-        <%= form_tag(search_page_path, :method => "get", class: 'navbar-form navbar-left') do %>  
-            <div class="input-group">  
-                <%= search_field_tag :search, params[:search], placeholder: "Search", class: "form-control w-full h-16 px-3 rounded mb-8 focus:outline-none focus:shadow-outline text-xl px-8 shadow-lg" %>  
-                <div class="input-group-btn">  
-                    <%= button_tag "", :class => 'btn btn-info glyphicon glyphicon-search',:name => nil%>  
-                </div>  
-            </div>  
-        <% end %>
-    </div>
-</section>
+<h1 class="ml-10 sm:ml-40 pt-16 text-2xl font-bold antialiased">Search Results</h1>
 
-<div class="container">
-    <h3>Search Result</h3>
-    <% if @results.nil? %>
-        No results
-    <% else %>
-        <% @results.each do |result| %>  
-            <%= result.name %><br>  
-        <% end %>
-    <% end %>
-</div>
+<%= render "shared/searchbar" %>
+
+<% if @listings.length == 0 %>
+    <div class="ml-10 sm:ml-40">Your search returned no results.</div>
+<% else %>
+    <%= render "shared/searchresults" %>
+<% end %>

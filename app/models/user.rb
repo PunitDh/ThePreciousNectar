@@ -27,9 +27,9 @@ class User < ApplicationRecord
     user
   end
 
-  has_many :listings
+  has_many :listings, dependent: :destroy
 
-  has_one :cart
+  has_one :cart, dependent: :destroy
   
   has_many :sales, class_name: "Transaction", foreign_key: :seller_id
   has_many :sold_wines, through: :sales, source: :listing
