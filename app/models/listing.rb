@@ -5,7 +5,12 @@ class Listing < ApplicationRecord
   belongs_to :category
   belongs_to :region
   has_one_attached :image
-  has_and_belongs_to_many :carts
+
+  has_many :cart_listings, dependent: :destroy
+  has_many :carts, through: :cart_listings
+  # has_many :carts, through: :cart_listings, dependent: :destroy
+  # has_and_belongs_to_many :cart_listings, dependent: :destroy
+  # has_and_belongs_to_many :transactions # If issues persist, delete this line
 
   after_create do
     product = Stripe::Product.create(name: name)
