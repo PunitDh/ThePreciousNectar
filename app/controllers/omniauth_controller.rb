@@ -38,5 +38,9 @@ class OmniauthController < ApplicationController
         redirect_to new_user_registration_url
     end
 
+    private
+        def oauth(provider)
+            
+        end
 
 end

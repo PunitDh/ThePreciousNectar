@@ -28,6 +28,7 @@ class CartsController < ApplicationController
                 line_items: listing_items,
                 payment_intent_data: {
                     metadata: {
+                        # event_id: @event.id,
                         user_id: current_user.id
                     }
                 },
@@ -36,39 +37,6 @@ class CartsController < ApplicationController
             })
             @session_id = session.id
         end
-
-
-        # @cartlisting = CartListing.where(cart_id: current_user.cart.id)
-        # if @cartlisting.length > 0
-        #     listing_items = []
-        #     listing_ids = []
-        #     @cartlisting.each do |cartlisting|
-        #         listing = Listing.find(cartlisting.listing_id)
-        #         listing_items << {
-        #             name: listing.name,
-        #             amount: listing.price,
-        #             currency: "aud",
-        #             quantity: cartlisting.quantity
-        #         }
-        #         listing_ids << {id: listing.id, quantity: cartlisting.quantity }
-        #     end
-        #     session = Stripe::Checkout::Session.create({
-        #         payment_method_types: ['card'],
-        #         line_items: listing_items,
-        #         payment_intent_data: {
-        #             metadata: {
-        #                 user_id: current_user.id
-        #             }
-        #         },
-        #         success_url: checkout_success_url(listing_ids),
-        #         cancel_url: checkout_cancel_url,
-        #     })
-        #     @session_id = session.id
-        # end
-
-
-
-
     end
 
     def update
@@ -82,7 +50,6 @@ class CartsController < ApplicationController
     end
 
     def add
-        # cart = Cart.find params[:cart_id]
         cartlisting = CartListing.new
         
         # Verify whether the cart actually belongs to the user
