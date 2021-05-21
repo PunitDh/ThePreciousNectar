@@ -4,4 +4,5 @@ class Listing < ApplicationRecord
   belongs_to :region
   has_one_attached :image
   has_and_belongs_to_many :carts
+  has_and_belongs_to_many :orders
 end

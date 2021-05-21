@@ -7,14 +7,13 @@ class ListingsController < ApplicationController
     end
 
     def show
-        # render 'listings/show'
     end
 
     def new
         @listing = Listing.new
     end
 
-    def create
+    def create      # Create a new listing
         @listing = Listing.new(listing_params)
         @listing.user_id = current_user.id
         @listing.category_id = Category.find_by(name: params[:listing][:category_id]).id
@@ -47,7 +46,7 @@ class ListingsController < ApplicationController
         end
     end
 
-    def delete
+    def delete      # Delete listing
         if Listing.destroy(@listing.id)
             flash[:notice] = "Listing was successfully deleted"
             redirect_to listings_index_path
@@ -58,7 +57,6 @@ class ListingsController < ApplicationController
     end
 
     def userlistings
-
     end
 
     private

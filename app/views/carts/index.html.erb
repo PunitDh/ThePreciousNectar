@@ -22,10 +22,10 @@
                 <tbody>
 
                     <% sum_arr = [] %>
-                    <% if @cartlisting.length == 0 %>
+                    <% if @cartlistings.length == 0 %>
                         <tr><td></td><td class="hidden pb-4 md:table-cell">You have no items in your cart.</td></tr>
                     <% else %>
-                        <% @cartlisting.each do |cartlisting| %>
+                        <% @cartlistings.each do |cartlisting| %>
                             <% listing = Listing.find_by(id: cartlisting.listing_id) %>
                             <tr>
                                 <td class="hidden pb-4 md:table-cell"> <%= link_to(image_tag(url_for(listing.image), class: "w-20 rounded" , alt:
@@ -121,16 +121,14 @@
 </div>
 
 <script src="https://js.stripe.com/v3/"></script>
-<% if @cartlisting.length > 0 %>
+<% if @cartlistings.length > 0 %>
     <script type="text/javascript">
-        
-            // Create an instance of the Stripe object with your publishable API key
-            document.querySelector('[data-stripe="payment"]').addEventListener("click", () => {
-                const stripe = Stripe("<%= ENV['STRIPE_PUBLIC_KEY'] %>");
-                stripe.redirectToCheckout({
-                    sessionId: "<%= @session_id %>"
-                });
+        // Create an instance of the Stripe object with your publishable API key
+        document.querySelector('[data-stripe="payment"]').addEventListener("click", () => {
+            const stripe = Stripe("<%= ENV['STRIPE_PUBLIC_KEY'] %>");
+            stripe.redirectToCheckout({
+                sessionId: "<%= @session_id %>"
             });
-        
+        });
     </script>
 <% end %>
