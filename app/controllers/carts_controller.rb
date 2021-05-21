@@ -32,6 +32,7 @@ class CartsController < ApplicationController
 
             # Create Stripe session ready to go when checkout button is clicked
             @session = Stripe::Checkout::Session.create({
+                customer: current_user.stripe_customer_id,
                 payment_method_types: ['card'],
                 line_items: line_items,
                 payment_intent_data: {
