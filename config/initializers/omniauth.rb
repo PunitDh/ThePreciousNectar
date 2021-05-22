@@ -7,6 +7,6 @@ Rails.application.config.middleware.use OmniAuth::Builder do
 end
 OmniAuth.config.allowed_request_methods = %i[get]
 
-Rails.application.config.middleware.use OmniAuth::Builder do
-  provider :facebook, ENV['FACEBOOK_CLIENT_ID'], ENV['FACEBOOK_CLIENT_SECRET']
-end
+# Rails.application.config.middleware.use OmniAuth::Builder do
+#   provider :facebook, ENV['FACEBOOK_CLIENT_ID'], ENV['FACEBOOK_CLIENT_SECRET']
+# end
