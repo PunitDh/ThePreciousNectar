@@ -109,7 +109,7 @@
                                 <%= number_to_currency(totalprice) %>
                             </div>
                         </div>
-                        <%= button_tag "<i class='far fa-credit-card w-8'></i> <span class='ml-2 mt-5px'>Proceed to checkout (#{number_to_currency(totalprice)})</span>".html_safe, class: "flex justify-center w-full px-10 py-3 mt-6 font-medium text-white uppercase bg-gray-800 disabled:bg-gray-200 rounded-full shadow item-center hover:bg-gray-700 focus:shadow-outline focus:outline-none", id: "checkout-button" %>
+                        <%= button_tag "<i class='far fa-credit-card w-8'></i> <span class='ml-2 mt-5px'>Proceed to checkout (#{number_to_currency(totalprice)})</span>".html_safe, class: "flex justify-center w-full px-10 py-3 mt-6 font-medium text-white uppercase bg-gray-800 disabled:bg-gray-200 rounded-full shadow item-center hover:bg-gray-700 disabled:bg-gray-200 focus:shadow-outline focus:outline-none", id: "checkout-button" %>
                     </div>
                 </div>
             </div>
@@ -121,8 +121,11 @@
 <% if @cartlistings.length > 0 %>
     <script type="text/javascript">
         const checkout_button = document.getElementById('checkout-button');
+        
         // Create an instance of the Stripe object with your publishable API key
         checkout_button.addEventListener("click", () => {
+            checkout_button.innerHTML = "<i class='fas fa-sync fa-spin'></i> <span class='ml-2 mt-5px'>Processing ... </span>";
+            checkout_button.disabled = true;
             const stripe = Stripe("<%= ENV['STRIPE_PUBLIC_KEY'] %>");
             // Initiate Stripe on button click
             stripe.redirectToCheckout({
