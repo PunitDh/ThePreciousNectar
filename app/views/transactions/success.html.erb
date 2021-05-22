@@ -1,7 +1,8 @@
 
 <h1 class="ml-10 sm:ml-40 pt-16 text-2xl font-bold antialiased">Order Summary</h1>
 <section class="ml-10 sm:ml-40">
-    <% @cartlistings.each do |cartlisting| %>
-        <%= cartlisting.listing %><br />
-    <% end %>
+Checkout status: 
+<%= @session_with_expand.payment_status %><br />
+Amount status: 
+<%= number_to_currency(@session_with_expand.amount_total/100) %> <%= @session_with_expand.currency.upcase %>
 </section>

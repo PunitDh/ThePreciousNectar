@@ -126,6 +126,7 @@
         checkout_button.addEventListener("click", () => {
             checkout_button.innerHTML = "<i class='fas fa-sync fa-spin'></i> <span class='ml-2 mt-5px'>Processing ... </span>";
             checkout_button.disabled = true;
+            checkout_button.backgroundColor = "#";
             const stripe = Stripe("<%= ENV['STRIPE_PUBLIC_KEY'] %>");
             // Initiate Stripe on button click
             stripe.redirectToCheckout({
