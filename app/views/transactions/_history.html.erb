@@ -1,4 +1,4 @@
-<h1 class="ml-10 sm:ml-40 pt-16 text-2xl font-bold antialiased">Your <%= params[:action].capitalize %> History</h1>
+<h1 class="ml-10 sm:ml-40 pt-16 text-2xl font-bold antialiased">Your <%= params[:action].capitalize %></h1>
 
 <div class="overflow-x-auto">
         <div class="min-w-screen min-h-screen flex justify-center font-sans overflow-hidden">
@@ -28,7 +28,7 @@
                                         <div class="mr-2">
                                             
                                         </div>
-                                        <span class="font-medium"><%= image_tag transaction.listing.image, class: "w-24 h-24" %></span>
+                                        <span class="font-medium"><%= image_tag transaction.listing.image, class: "w-24 h-24", style: "object-fit: contain; max-width: 5rem; max-height: 5rem;" %></span>
                                     </div>
                                 </td>
 

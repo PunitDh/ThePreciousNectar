@@ -26,31 +26,64 @@ class TransactionsController < ApplicationController
         
         # Handle the event
         case event.type
-        when 'charge.succeeded'
+        # when 'charge.succeeded'
+        
+        when 'checkout.session.completed'
+            session = event.data.object # contains a Stripe::PaymentIntent
+            customer_stripe_id = event.data.object.customer
+            customer = User.find_by(stripe_customer_id: customer_stripe_id)
+            customer_id = customer.id
+            
+            print "CUSTOMER STRIPE ID: "
+            print customer_stripe_id
+            puts ""
+            print "CUSTOMER: "
+            print customer
+            puts ""
+            print "CUSTOMER ID: "
+            print customer_id
 
-            @cartlistings.each do |cartlisting|
-                # Create a new transaction based on whatever is in the cart
-                transaction = Transaction.new
-                listing = Listing.find(cartlisting.listing_id)
-
-                # Set transaction parameters based on the user's current cart
+            session_with_expand = Stripe::Checkout::Session.retrieve({id: session.id, expand: ["line_items"]})
+            session_with_expand.line_items.data.each do |line_item|
+                listing = Listing.find_by(stripe_product_id: line_item.price.product)
+                
+                puts listing.id
+                puts line_item.quantity
                 seller = listing.user
+                transaction = Transaction.new
                 transaction.listing_id = listing.id
-                transaction.buyer_id = current_user.id
+                transaction.buyer_id = customer_id
                 transaction.seller_id = seller.id
-                transaction.quantity = cartlisting.quantity
-                transaction.message = params[:message]
+                transaction.quantity = line_item.quantity
+                # transaction.message = params[:message] # Needs
 
                 if transaction.save
-                    # Clear the cart when the transaction has been completed
-                    CartListing.where(cart_id: current_user.cart.id).destroy_all
+                    flash[:notice] = "Your order was successfully placed."
                 end
             end
-            
-        when 'checkout.session.completed'
-            payment_intent = event.data.object # contains a Stripe::PaymentIntent
+
             # Flash a message to show the user the transaction was successful
-            flash[:success] = "Your order was successfully placed!"
+            # @cartlistings.each do |cartlisting|
+            #     # Create a new transaction based on whatever is in the cart
+            #     transaction = Transaction.new
+            #     listing = Listing.find(cartlisting.listing_id)
+
+            #     # Set transaction parameters based on the user's current cart
+            #     seller = listing.user
+            #     transaction.listing_id = listing.id
+            #     transaction.buyer_id = current_user.id
+            #     transaction.seller_id = seller.id
+            #     transaction.quantity = cartlisting.quantity
+            #     transaction.message = params[:message]
+
+            #     if transaction.save
+            #         # Clear the cart when the transaction has been completed
+            #         CartListing.where(cart_id: current_user.cart.id).destroy_all
+            #     end
+            # end
+            CartListing.where(cart_id: customer.cart.id).destroy_all
+
+            
         else
             # Display an error message if transaction was unsuccessful
             flash[:alert] = "There was an error in placing your order."

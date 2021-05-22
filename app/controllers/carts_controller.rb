@@ -23,12 +23,12 @@ class CartsController < ApplicationController
             @cartlistings.each do |cartlisting|
                 listing = Listing.find(cartlisting.listing_id)
                 line_items << {
-                    # price: listing.stripe_price_id,
+                    price: listing.stripe_price_id,
 
                     # These are no longer required as stripe_price_id takes care of everything
-                    name: listing.name,
-                    amount: listing.price,
-                    currency: "aud",
+                    # name: listing.name,
+                    # amount: listing.price,
+                    # currency: "aud",
                     
                     quantity: cartlisting.quantity
                 }
@@ -41,7 +41,7 @@ class CartsController < ApplicationController
                 line_items: line_items,
                 payment_intent_data: {
                     metadata: {
-                        user_id: current_user.id
+                        user_id: current_user.stripe_customer_id
                     }
                 },
                 mode: 'payment',

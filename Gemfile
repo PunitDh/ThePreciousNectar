@@ -80,3 +80,5 @@ gem 'stripe'
 gem 'pundit'
 
 gem 'ultrahook'
+
+gem 'sinatra'
