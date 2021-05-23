@@ -2,7 +2,7 @@
 
 <%= render "shared/searchbar" %>
 
-<% if @listings.length == 0 %>
+<% if @listings.nil? and !params[:query].nil? %>
     <div class="ml-10 sm:ml-40">Your search returned no results.</div>
 <% else %>
     <%= render "shared/searchresults" %>
