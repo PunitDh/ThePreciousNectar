@@ -11,7 +11,7 @@ class PagesController < ApplicationController
 		else
 			# Do a search based on "LIKE" parameters
 			@parameter = params[:query].downcase
-			@listings = Listing.all.where("lower(name) LIKE :search", search: "%#{@parameter}%")
+			@listings = Listing.all.where("lower(name) LIKE :search OR lower(description) like :search", search: "%#{@parameter}%")
 		end
 	end
 end
