@@ -1,6 +1,7 @@
 class ListingsController < ApplicationController
     before_action :authenticate_user!, except: [:index, :show]
     before_action :listing_find, only: [:show, :edit, :update, :delete]
+    # before_action :category_find, only: [:create, :edit]
 
     def index
         @listings = Listing.all
@@ -19,22 +20,16 @@ class ListingsController < ApplicationController
     end
 
     def create      # Create a new listing
-        # raise params.inspect
         @listing = Listing.new(listing_params)
-        pp @listing
-        # raise params.inspect
-        # @listing.user_id = current_user.id
-        # @listing.category_id = Category.find_by(name: params[:listing][:category_id]).id
-        # @listing.region_id = params[:listing][:region_id].to_i
-        # @listing.vintage = params[:listing][:vintage]
         @listing.price = params[:listing][:price].to_i * 100
+        @listing.category_id = category_find(params[:listing][:category_id])
+        @listing.user_id = current_user.id
         respond_to do |format|
             if @listing.save
-                flash[:notice] = "Successfully created listing"
-                redirect_to listing_path(@listing.id)
+                format.html { redirect_to @listing, notice: "Successfully created listing." }
+                format.json { render :show, status: :created, location: @listing }   
             else
                 flash[:alert] = "Unable to create listing at this time"
-                # redirect_to request.referrer
                 format.html { render :new, status: :unprocessable_entity }
                 format.json { render json: @listing.errors, status: :unprocessable_entity }
             end
@@ -42,20 +37,32 @@ class ListingsController < ApplicationController
     end
 
     def edit
-        @listing.category_id = Category.find(@listing.category_id).name
         @listing.price /= 100
     end
 
     def update
         # Authorisation from Pundit
         authorize @listing
-        if @listing.update(listing_params)
-            flash[:notice] = "Successfully updated listing"
-            redirect_to @listing
-          else
-            flash[:alert] = "Failed to update listing"
-            render :edit
+        @listing.category_id = category_find(params[:listing][:category_id])
+        respond_to do |format|
+            if @listing.update(permitted_params)    
+                format.html { redirect_to @listing, notice: "listing was successfully updated." }
+                format.json { render :show, status: :ok, location: @listing }
+            else
+              flash[:alert] = "There was an error in updating your listing."
+              format.html { render :show, status: :unprocessable_entity }
+              format.json { render json: @listing.errors, status: :unprocessable_entity }
+            end
         end
+
+
+        # if @listing.update(listing_params)
+        #     flash[:notice] = "Successfully updated listing"
+        #     redirect_to @listing
+        #   else
+        #     flash[:alert] = "Failed to update listing"
+        #     render :edit
+        # end
     end
 
     def destroy      # Delete listing
@@ -79,5 +86,9 @@ class ListingsController < ApplicationController
 
         def listing_find
             @listing = Listing.find(params[:id])
+        end
+
+        def category_find(category_name)
+            Category.find_by(name: category_name).id
         end
 end

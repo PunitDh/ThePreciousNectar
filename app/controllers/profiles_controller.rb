@@ -16,8 +16,10 @@ class ProfilesController < ApplicationController
 
         respond_to do |format|
             if @profile.save
-                flash[:notice] = "Successfully created profile."
-                redirect_to user_profile_show_path(@listing.id)
+                format.html { redirect_to @profile, notice: "Successfully created profile." }
+                format.json { render :show, status: :created, location: @profile }                
+                # flash[:notice] = "Successfully created profile."
+                # redirect_to user_profile_show_path(@profile.id)
             else
               flash[:alert] = "There was an error in creating your profile."
               format.html { render :new, status: :unprocessable_entity }
@@ -45,9 +47,9 @@ class ProfilesController < ApplicationController
         @profile = get_profile
 
         respond_to do |format|
-            if @profile.update(permitted_params)
-                flash[:notice] = "Successfully updated profile."
-                redirect_to user_profile_show_path(@profile.id)
+            if @profile.update(permitted_params)    
+                format.html { redirect_to user_profile_show_path, notice: "Profile was successfully updated." }
+                format.json { render :show, status: :ok, location: @profile }
             else
               flash[:alert] = "There was an error in updating your profile."
               format.html { render :show, status: :unprocessable_entity }
