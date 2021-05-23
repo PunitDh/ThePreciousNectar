@@ -24,16 +24,22 @@
       <div class="menu w-full lg:block flex-grow lg:flex lg:items-center lg:w-auto lg:px-3 px-8">
       
           <div class="text-md font-bold text-gray-700 lg:flex-grow">
-            <span class="dash"> 🍷 </span> 
+              <span class="dash"> 🍷 </span> 
+
               <%= link_to "Home", root_path, class: "block lg:inline-block hover:text-white px-4 rounded hover:bg-gray-500" %> <span class="dash text-white"> | </span>
-              <%= link_to "Catalog", listings_path, class: "block lg:inline-block hover:text-white px-4 rounded hover:bg-gray-500" %>
-              <span class="dash text-white"> | </span>
+
+              <%= link_to "Catalog", listings_path, class: "block lg:inline-block hover:text-white px-4 rounded hover:bg-gray-500" %><span class="dash text-white"> | </span>
+
               <span class="lg:hidden block">
                 <%= link_to "Search", search_page_path, class: "block lg:inline-block hover:text-white px-4 rounded hover:bg-gray-500" %>
               </span>
-            <% if user_signed_in? %>
-              <%= link_to "My Account", user_profile_show_path, class: "block lg:inline-block hover:text-white px-4 rounded hover:bg-gray-500" %><span class="dash text-white"> | <%= current_user.email %> </span>
-            <% end %>
+
+              <% if user_signed_in? %>
+                <%= link_to "My Account", user_profile_show_path, class: "block lg:inline-block hover:text-white px-4 rounded hover:bg-gray-500" %><span class="dash text-white"> | <%= current_user.email %> | </span>
+              <% end %>
+            <%= link_to "About", about_path, class: "block lg:inline-block hover:text-white px-4 rounded hover:bg-gray-500" %>
+
+
             <span class="dash"> 🍷 </span>
           </div>
           <span class="relative mx-auto text-gray-600 lg:block hidden">
@@ -84,6 +90,6 @@
 
 
 
-<%= link_to "About Us", about_path, class: "text-grey hover:text-grey-dark hover:underline" %>
+
   </body>
 </html>

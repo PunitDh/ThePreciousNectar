@@ -1,7 +1,12 @@
 <h1 class="ml-0 md:ml-40 sm:ml-10 text-center text-red-900 sm:text-left pt-16 text-2xl font-bold antialiased">Your Listings</h1>
+<div class="ml-0 md:ml-40 sm:ml-10 text-center sm:text-left pt-16 antialiased">
+<%= link_to 'Create New Listing', new_listing_path, class: "w-auto bg-red-900 hover:bg-red-800 rounded-lg shadow-xl font-medium text-white px-4 py-2" %>
+</div>
 <div class="flex justify-center my-6">
+
     <div class="flex flex-col w-full p-8 rounded-lg text-gray-800 bg-white bg-opacity-20 shadow-lg pin-r pin-y md:w-4/5 lg:w-4/5">
         <div class="flex-1">
+        
             <table class="w-full text-sm lg:text-base" cellspacing="0">
                 <thead>
                     <tr class="h-12 uppercase">
@@ -11,15 +16,12 @@
                             <span class="lg:hidden" title="Quantity">Ctgy</span>
                             <span class="hidden lg:inline">Category</span>
                         </th>
-                        <th class="hidden text-right md:table-cell">Unit price</th>
-                        <th class="text-right">Total price</th>
+                        <th class="hidden text-right md:table-cell">Price</th>
+                        <th class="text-right">Listed At</th>
                     </tr>
                 </thead>
 
-
                 <tbody>
-
-                    <% sum_arr = [] %>
                     <% if @listings.length == 0 %>
                         <tr><td></td><td class="hidden pb-4 md:table-cell">You have no listings at the moment. You can <%= link_to "create a listing", new_listing_path, class: "text-red-800 hover:underline" %> here.</td></tr>
                     <% else %>
@@ -36,14 +38,15 @@
                                     <div class="w-20 h-10">
                                         <div class="relative flex flex-row w-full h-8">
                                             <%= Category.find(listing.category.id) %>
-                                            
                                         </div>
                                     </div>
                                 </td>
                                 <td class="hidden text-right md:table-cell">
-                                    <% price = listing.price %>
-                                        <span class="text-sm lg:text-base font-medium"><%= number_to_currency(price/100) %></span>
-                                    
+                                    <span class="text-sm lg:text-base font-medium"><%= number_to_currency(listing.price/100) %></span>
+                                </td>
+
+                                <td class="hidden text-right md:table-cell">
+                                    <span class="text-sm lg:text-base"><%= listing.created_at.strftime("%d-%b-%Y %l:%M %p") %></span>
                                 </td>
                             </tr>
                         <% end %>

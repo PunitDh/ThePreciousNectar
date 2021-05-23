@@ -1,9 +1,17 @@
 <div class="container w-9/12">
  
+  <%= form_with(model: profile, url: url, method: method) do |form| %>
+    
+    <!-- Error Handling -->
+    <% if profile.errors.any? %>
+        <%= render "shared/error_handling", model: profile %>
+    <% end %>
+
   <div class="border-b-2 block md:flex">
 
+    
     <div class="w-full md:w-2/5 p-4 sm:p-6 lg:p-8 bg-white shadow-md">
-    <%= form_with(model: profile, url: url, method: method) do |form| %>
+    
       <div class="flex justify-between">
         <span class="text-xl font-semibold block">Your Profile</span>
       </div>

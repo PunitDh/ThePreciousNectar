@@ -19,18 +19,28 @@ class ListingsController < ApplicationController
     end
 
     def create      # Create a new listing
+        # raise params.inspect
         @listing = Listing.new(listing_params)
-        @listing.user_id = current_user.id
-        @listing.category_id = Category.find_by(name: params[:listing][:category_id]).id
-        @listing.region_id = params[:listing][:region_id].to_i
-        @listing.vintage = params[:listing][:vintage]
+        pp @listing
+        # raise params.inspect
+        # @listing.user_id = current_user.id
+        # @listing.category_id = Category.find_by(name: params[:listing][:category_id]).id
+        # @listing.region_id = params[:listing][:region_id].to_i
+        # @listing.vintage = params[:listing][:vintage]
         @listing.price = params[:listing][:price].to_i * 100
-        if @listing.save
-            flash[:notice] = "Successfully created listing"
-            redirect_to listing_path(@listing.id)
-        else
-            flash[:notice] = "Unable to create listing at this time"
-            redirect_to request.referrer
+        respond_to do |format|
+            if @listing.save
+                flash[:notice] = "Successfully created listing"
+                # render :show
+                format.html { redirect_to @recipe, notice: "Recipe was successfully created." }
+                format.json { render :show, status: :created, location: @recipe }
+                # redirect_to listing_path(@listing.id)
+            else
+                flash[:alert] = "Unable to create listing at this time"
+                # redirect_to request.referrer
+                format.html { render :new, status: :unprocessable_entity }
+                format.json { render json: @listing.errors, status: :unprocessable_entity }
+            end
         end
     end
 

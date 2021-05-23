@@ -13,12 +13,23 @@ class ProfilesController < ApplicationController
     def create
         @profile = Profile.new(permitted_params)
         @profile.user_id = current_user.id
-        if @profile.save
-            flash[:notice] = "Your profile was successfully created."
-        else
-            flash[:alert] = "There was an error in creating your profile."
+
+        respond_to do |format|
+            if @profile.save
+              format.html { redirect_to @profile, notice: "Your profile was successfully created." }
+              format.json { render :show, status: :created, location: @profile }
+            else
+              flash[:alert] = "There was an error in creating your profile."
+              format.html { render :new, status: :unprocessable_entity }
+              format.json { render json: @profile.errors, status: :unprocessable_entity }
+            end
         end
-        redirect_to request.referrer
+
+        # if @profile.save
+        #     flash[:notice] = "Your profile was successfully created."
+        # else
+        #     flash[:alert] = "There was an error in creating your profile."
+        # end
     end
 
     def show
@@ -32,12 +43,23 @@ class ProfilesController < ApplicationController
 
     def update
         @profile = get_profile
-        if @profile.update(permitted_params)
-            flash[:notice] = "Your profile was successfully updated."
-        else
-            flash[:alert] = "There was an error in updating your profile."
+
+        respond_to do |format|
+            if @profile.update(permitted_params)
+              format.html { redirect_to @profile, notice: "Your profile was successfully updated." }
+              format.json { render :show, status: :ok, location: @profile }
+            else
+              flash[:alert] = "There was an error in updating your profile."
+              format.html { render :show, status: :unprocessable_entity }
+              format.json { render json: @profile.errors, status: :unprocessable_entity }
+            end
         end
-        redirect_to user_profile_show_path
+        # if @profile.update(permitted_params)
+        #     flash[:notice] = "Your profile was successfully updated."
+        # else
+        #     flash[:alert] = "There was an error in updating your profile."
+        # end
+        # redirect_to user_profile_show_path
     end
 
     private
@@ -46,6 +68,6 @@ class ProfilesController < ApplicationController
         end
 
         def permitted_params
-            params.require(:profile).permit(:firstname, :lastname, :bsb, :account)
+            params.require(:profile).permit(:firstname, :lastname, :bsb, :account, :image)
         end
 end

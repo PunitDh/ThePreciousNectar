@@ -1,6 +1,12 @@
 class Listing < ApplicationRecord
-  # validates :name, :price, presence: true
-  
+  validates :name, length: { minimum: 2 }
+  validates :description, length: { maximum: 500 }
+  validates :price, numericality: true
+  validates :vintage, numericality: true
+  validates :category_id, presence: true
+  validates :region_id, presence: true
+  validates :image, presence: true
+
   belongs_to :user
   belongs_to :category
   belongs_to :region
