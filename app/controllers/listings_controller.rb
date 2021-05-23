@@ -31,10 +31,7 @@ class ListingsController < ApplicationController
         respond_to do |format|
             if @listing.save
                 flash[:notice] = "Successfully created listing"
-                # render :show
-                format.html { redirect_to @recipe, notice: "Recipe was successfully created." }
-                format.json { render :show, status: :created, location: @recipe }
-                # redirect_to listing_path(@listing.id)
+                redirect_to listing_path(@listing.id)
             else
                 flash[:alert] = "Unable to create listing at this time"
                 # redirect_to request.referrer
