@@ -8,13 +8,22 @@ Rails.application.routes.draw do
   get "/about", to: "pages#about"
   
   # Listings Controller
-  get "/listings/index", to: "listings#index"
-  get "/listings/new", to: "listings#new", as: "listing_new"
-  get "/listings/:id", to: "listings#show", as: "listing_show"
-  get "/listings/:id/edit", to: "listings#edit", as: "listing_edit"  
-  post "/listings/new", to: "listings#create", as: "listing_create"
-  put "/listings/:id/edit", to: "listings#update", as: "listing_update"
-  delete "/listings/:id", to: "listings#delete", as: "listing_delete"
+  resources :listings
+  get "/user/listings", to: "listings#all"
+  # get "/listings/index", to: "listings#index"
+  # get "/listings/new", to: "listings#new", as: "listing_new"
+  # get "/listings/:id", to: "listings#show", as: "listing_show"
+  # get "/listings/:id/edit", to: "listings#edit", as: "listing_edit"  
+  # post "/listings/new", to: "listings#create", as: "listing_create"
+  # put "/listings/:id/edit", to: "listings#update", as: "listing_update"
+  # get "/user/listings", to: "listings#userlistings", as: "listings_userlistings"
+  # delete "/listings/:id", to: "listings#delete", as: "listing_delete"
+
+  # Profiles
+  get "user/profile/new", to: "profiles#new"
+  post "user/profile/new", to: "profiles#create"
+  get "user/profile/show", to: "profiles#show"
+  put "user/profile/show", to: "profiles#update"
 
   # Cart
   get "/cart", to: "carts#index"
@@ -33,6 +42,6 @@ Rails.application.routes.draw do
   get "/purchases", to: "transactions#purchases"
 
   # Search functionality
-  get '/search' => 'pages#search', :as => 'search_page'
+  get '/search' => 'pages#search', as: 'search_page'
   
 end

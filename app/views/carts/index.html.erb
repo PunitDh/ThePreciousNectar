@@ -29,9 +29,9 @@
                             <% listing = Listing.find_by(id: cartlisting.listing_id) %>
                             <tr>
                                 <td class="hidden pb-4 md:table-cell"> <%= link_to(image_tag(url_for(listing.image), class: "w-20 h-20 rounded ", style: "object-fit: contain; max-width: 5rem; max-height: 5rem;" , alt:
-                                        listing), listing_show_path(listing.id), target: :_blank) %> </td>
+                                        listing), listing_path(listing.id), target: :_blank) %> </td>
                                 <td>
-                                    <p class="mb-2 md:ml-4"><%= link_to listing, listing_show_path(listing.id), target: :_blank, class: "hover:text-red-800" %></p>
+                                    <p class="mb-2 md:ml-4"><%= link_to listing, listing_path(listing.id), target: :_blank, class: "hover:text-red-800" %></p>
                                     
                                         <%= link_to(button_tag("<small><i class='fas fa-trash-alt w-4 text-red-600  hover:text-red-800'></i> Remove item</small>".html_safe, class:'text-gray-700 md:ml-4 hover:text-red-800'), cart_delete_path(cartlisting), method: "delete", data: { confirm: 'Are you sure you want to remove this item?' }) %>
                                 </td>

@@ -41,16 +41,16 @@ class User < ApplicationRecord
   has_many :listings, dependent: :destroy
   
   has_many :sales, class_name: "Transaction", foreign_key: :seller_id
-  has_many :sold_wines, through: :sales, source: :listing
+  has_many :sold_wines, through: :sales, source: :listing, dependent: :destroy
 
   has_many :purchases, class_name: "Transaction", foreign_key: :buyer_id
-  has_many :purchased_wines, through: :purchases, source: :listing
+  has_many :purchased_wines, through: :purchases, source: :listing, dependent: :destroy
 
   # To see all buyers or see all sellers
   scope :sellers, -> { joins(:sales) }
   scope :buyers, -> { joins(:purchases) }
 
-  # before_create :create_cart 
+  has_one :profile, dependent: :destroy
 
   private
     def create_cart

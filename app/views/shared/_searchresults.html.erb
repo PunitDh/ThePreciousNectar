@@ -3,11 +3,11 @@
     <% @listings.each do |listing| %>
         <div class="flex flex-col justify-center bg-gray-100 items-center max-w-sm mx-auto my-8 cursor-pointer rounded transform hover:scale-110 duration-300 ease-in-out">
           <% if listing.image.attached? %>
-            <%= link_to image_tag(listing.image, class: "bg-gray-100 rounded-lg shadow-lg", style: "object-fit: contain; max-width: 14rem; max-height: 14rem;"), listing_show_path(listing.id) %>
+            <%= link_to image_tag(listing.image, class: "bg-gray-100 rounded-lg shadow-lg", style: "object-fit: contain; max-width: 14rem; max-height: 14rem;"), listing_path(listing.id) %>
           <% end %>
             
             <div class="w-56 md:w-64 bg-white  shadow-lg rounded-lg overflow-hidden">
-                <div class="py-2 text-center h-16 font-bold uppercase tracking-wide text-gray-800 hover:text-red-800"><%= link_to listing.to_s, listing_show_path(listing.id) %></div>
+                <div class="py-2 text-center h-16 font-bold uppercase tracking-wide text-gray-800 hover:text-red-800"><%= link_to listing.to_s, listing_path(listing.id) %></div>
                 <div class="flex items-center justify-between py-2 px-3 bg-gray-400">
                     <h1 class="text-gray-800 font-bold "><%= number_to_currency(listing.price / 100) %></h1>
                     <% if (listing.user != current_user and user_signed_in?) %>
@@ -15,7 +15,7 @@
                         <%= button_tag "Add to cart", type: "submit", class: "bg-red-900 text-xs text-white px-2 py-1 font-semibold rounded uppercase disabled:bg-gray-200 hover:bg-red-800" %>
                       <% end %>
                     <% else %>
-                      <%= link_to "View Listing", listing_show_path(listing.id), class: "bg-gray-900 text-xs text-white px-2 py-1 font-semibold rounded uppercase hover:bg-gray-800" %>
+                      <%= link_to "View Listing", listing_path(listing.id), class: "bg-gray-900 text-xs text-white px-2 py-1 font-semibold rounded uppercase hover:bg-gray-800" %>
                     <% end %>
                 </div>
             </div>

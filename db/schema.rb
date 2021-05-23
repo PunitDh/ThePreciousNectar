@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_05_21_142430) do
+ActiveRecord::Schema.define(version: 2021_05_23_122325) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -88,6 +88,17 @@ ActiveRecord::Schema.define(version: 2021_05_21_142430) do
     t.index ["user_id"], name: "index_listings_on_user_id"
   end
 
+  create_table "profiles", force: :cascade do |t|
+    t.string "firstname"
+    t.string "lastname"
+    t.bigint "user_id", null: false
+    t.integer "bsb"
+    t.integer "account"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["user_id"], name: "index_profiles_on_user_id"
+  end
+
   create_table "regions", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", precision: 6, null: false
@@ -139,4 +150,5 @@ ActiveRecord::Schema.define(version: 2021_05_21_142430) do
   add_foreign_key "listings", "categories"
   add_foreign_key "listings", "regions"
   add_foreign_key "listings", "users"
+  add_foreign_key "profiles", "users"
 end

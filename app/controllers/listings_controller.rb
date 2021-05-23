@@ -10,7 +10,12 @@ class ListingsController < ApplicationController
     end
 
     def new
-        @listing = Listing.new
+        unless current_user.profile.present?
+            flash[:alert] = "You must create a seller profile before you can list items for sale."
+            redirect_to user_profile_new_path
+        else
+            @listing = Listing.new
+        end
     end
 
     def create      # Create a new listing
@@ -22,7 +27,7 @@ class ListingsController < ApplicationController
         @listing.price = params[:listing][:price].to_i * 100
         if @listing.save
             flash[:notice] = "Successfully created listing"
-            redirect_to listing_show_path(@listing.id)
+            redirect_to listing_path(@listing.id)
         else
             flash[:notice] = "Unable to create listing at this time"
             redirect_to request.referrer
@@ -46,17 +51,18 @@ class ListingsController < ApplicationController
         end
     end
 
-    def delete      # Delete listing
+    def destroy      # Delete listing
         if Listing.destroy(@listing.id)
             flash[:notice] = "Listing was successfully deleted"
-            redirect_to listings_index_path
+            redirect_to listings_path
         else
             flash[:alert] = "Failed to delete listing"
             redirect_to request.referrer
         end
     end
 
-    def userlistings
+    def all
+        @listings = Listing.all.where(user_id: current_user.id)
     end
 
     private

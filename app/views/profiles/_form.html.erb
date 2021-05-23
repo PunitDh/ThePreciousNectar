@@ -1,0 +1,84 @@
+<div class="container w-9/12">
+ 
+  <div class="border-b-2 block md:flex">
+
+    <div class="w-full md:w-2/5 p-4 sm:p-6 lg:p-8 bg-white shadow-md">
+    <%= form_with(model: profile, url: url, method: method) do |form| %>
+      <div class="flex justify-between">
+        <span class="text-xl font-semibold block">Your Profile</span>
+      </div>
+    
+      <div class="w-full p-8 mx-2 flex justify-center">
+        <label class='flex flex-col border-4 border-dashed w-full h-32 hover:bg-pink-100 hover:border-red-900 group'>
+                <div class='flex flex-col cursor-pointer items-center justify-center pt-7'>
+                    <% if profile.image.attached? %>
+                        <%= image_tag url_for(profile.image), class: "w-32 -mt-14" %>
+                    <% else %>
+                        <i class="fas fa-images text-4xl text-red-900 group-hover:text-red-800"></i>
+                        <p class='lowercase text-sm group-hover:text-gray-800 pt-1 tracking-wider'>Select a photo</p>
+                    <% end %>
+                </div>
+            <%= form.file_field :image, class: "hidden" %>
+            </label>                         
+        </div>
+
+        <% if (profile.user == current_user) %>
+            <div class="flex justify-center pt-12">
+                <div class="flex flex-wrap md:flex-nowrap gap-1">
+                    <%= link_to "Manage Listings", user_listings_path, class: "grid place-items-center rounded-lg border px-3 py-2 hover:bg-red-800 hover:text-white transition" %>      
+                    <%= link_to "View All Sales", sales_path, class: "grid place-items-center rounded-lg border px-3 py-2 hover:bg-red-800 hover:text-white transition" %>
+                    <%= link_to "View All Purchases", purchases_path, class: "grid place-items-center rounded-lg border px-3 py-2 hover:bg-red-800 hover:text-white transition" %>
+                </div>
+            </div>
+        <% end %>
+    </div>
+ 
+    <div class="w-full md:w-3/5 p-8 bg-white lg:ml-4 shadow-md">
+      <div class="rounded  shadow p-6">
+        
+        <div class="pb-6">
+          <%= form.label :firstname, "First Name:", class: "font-semibold text-gray-700 block pb-1" %>
+          <div class="flex">
+            <%= form.text_field :firstname, class: "border-1 rounded-r px-4 py-2 w-full" %>
+          </div>
+        </div>
+
+        <div class="pb-6">
+          <%= form.label :lastname, "Last Name:", class: "font-semibold text-gray-700 block pb-1" %>
+          <div class="flex">
+            <%= form.text_field :lastname, class: "border-1 rounded-r px-4 py-2 w-full" %>
+          </div>
+        </div>
+
+        <div class="pb-6">
+          <%= form.label :bsb, "BSB:", class: "font-semibold text-gray-700 block pb-1" %>
+          <div class="flex">
+            <%= form.text_field :bsb, class: "border-1 rounded-r px-4 py-2 w-full", maxlength: 6, autocomplete: 'off' %>
+          </div>
+        </div>
+
+        <div class="pb-6">
+          <%= form.label :account, "Account:", class: "font-semibold text-gray-700 block pb-1" %>
+          <div class="flex">
+            <%= form.text_field :account, class: "border-1 rounded-r px-4 py-2 w-full", autocomplete: 'off' %>
+          </div>
+        </div> 
+
+        <div class="pb-4">
+        
+          <label for="about" class="font-semibold text-gray-700 block pb-1">Email: </label>
+          <input disabled id="email" class="border-1  rounded-r px-4 py-2 w-full" type="email" value="<%= current_user.email %>" />
+          <span class="text-gray-600 pt-4 block opacity-70">To change your e-mail, <%= link_to "go here", edit_user_registration_path, class: "text-red-800 hover:underline" %>. If you would like to change your password, <%= link_to "click here", edit_user_password_path, class: "text-red-800 hover:underline" %> </span>
+        </div>
+
+        <div class="pb-6">
+          <%= form.submit ((params[:action]=="show") ? "Update Profile" : "Create Profile"), class: "w-auto bg-red-900 hover:bg-red-800 rounded-lg shadow-xl font-medium text-white px-4 py-2" %>
+        </div>
+        
+      </div>
+    <% end %>
+    </div>
+
+  </div>
+ 
+</div>
