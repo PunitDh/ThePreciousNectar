@@ -1,10 +1,11 @@
 <main class="grid place-items-center h-screen">
+<%= link_to "Back", :back %>
   <section class="flex flex-col md:flex-row gap-11 py-10 px-5 bg-white rounded-md shadow-lg w-3/4 md:max-w-2xl">
     <div class="text-red-800 flex flex-col justify-between">
       <% if @listing.image.attached? %>
         <%= image_tag url_for(@listing.image) %>
       <% end %>
-      <% if @listing.user == current_user %>
+      <% if (@listing.user != current_user and user_signed_in?) %>
         <div class="flex justify-center pt-12">
           <div class="flex flex-wrap md:flex-nowrap gap-1">
             <%= link_to "Edit Listing", listing_edit_path(@listing.id), method: "get", class: "grid place-items-center rounded-lg border px-3 py-2 hover:bg-red-800 hover:text-white transition" %>      
@@ -19,7 +20,7 @@
       <h3 class="text-2xl font-semibold mb-7"><%= number_to_currency(@listing.price/100) %></h3>
       <small class="text-black"><%= @listing.description %></small>
       <div class="flex gap-0.5 mt-4">
-      <% unless @listing.user == current_user %>
+      <%  if (@listing.user != current_user and user_signed_in?) %>
         <%= link_to(button_tag("add to cart", id: "addToCartButton", class: "bg-red-700 hover:bg-red-900 focus:outline-none transition text-white rounded-lg uppercase px-8 py-3"), cart_add_path(current_user.cart.id, @listing.id), method: "put") %>
       <% end %>
       </div>

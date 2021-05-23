@@ -9,7 +9,7 @@
                 <div class="py-2 text-center h-16 font-bold uppercase tracking-wide text-gray-800 hover:text-red-800"><%= link_to listing.to_s, listing_show_path(listing.id) %></div>
                 <div class="flex items-center justify-between py-2 px-3 bg-gray-400">
                     <h1 class="text-gray-800 font-bold "><%= number_to_currency(listing.price / 100) %></h1>
-                    <% unless listing.user == current_user %>
+                    <% if (listing.user != current_user and user_signed_in?) %>
                       <%= form_tag(cart_add_path(current_user.cart.id, listing.id), :method => "put") do |form| %>
                         <%= button_tag "Add to cart", type: "submit", class: "bg-red-900 text-xs text-white px-2 py-1 font-semibold rounded uppercase disabled:bg-gray-200 hover:bg-red-800" %>
                       <% end %>
