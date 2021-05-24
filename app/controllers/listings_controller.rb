@@ -21,7 +21,6 @@ class ListingsController < ApplicationController
     def create      # Create a new listing
         @listing = Listing.new(listing_params)
         @listing.price = params[:listing][:price].to_i * 100
-        @listing.category_id = category_find(params[:listing][:category_id])
         @listing.user_id = current_user.id
         respond_to do |format|
             if @listing.save
@@ -42,9 +41,10 @@ class ListingsController < ApplicationController
     def update
         # Authorisation from Pundit
         authorize @listing
-        @listing.category_id = category_find(params[:listing][:category_id])
+        @listing.assign_attributes(listing_params)
+        @listing.price = params[:listing][:price].to_i * 100
         respond_to do |format|
-            if @listing.update(listing_params)
+            if @listing.save
               format.html { redirect_to listing_path(@listing.id), notice: "Successfully updated listing." }
               format.json { render :show, status: :ok }
             else
@@ -76,9 +76,5 @@ class ListingsController < ApplicationController
 
         def listing_find
             @listing = Listing.find(params[:id])
-        end
-
-        def category_find(category_name)
-            Category.find_by(name: category_name).id
         end
 end

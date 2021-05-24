@@ -19,11 +19,15 @@
       <h3 class="uppercase text-black text-2xl font-medium"><%= @listing %></h3>
       <h3 class="text-2xl font-semibold mb-7"><%= number_to_currency(@listing.price/100) %></h3>
       <small class="text-black"><%= @listing.description %></small>
+      <p class="pt-4">Vintage: <%= @listing.vintage %></p>
+      <small>(Actual vintages may vary)</small>
       <div class="flex gap-0.5 mt-4">
-      <%  if (@listing.user != current_user and user_signed_in?) %>
-        <%= link_to(button_tag("add to cart", id: "addToCartButton", class: "bg-red-900 hover:bg-red-700 focus:outline-none transition text-white rounded-lg uppercase px-8 py-3"), cart_add_path(current_user.cart.id, @listing.id), method: "put") %>
-      <% end %>
+        <%  if (@listing.user != current_user and user_signed_in?) %>
+          <%= link_to(button_tag("add to cart", id: "addToCartButton", class: "bg-red-900 hover:bg-red-700 focus:outline-none transition text-white rounded-lg uppercase px-8 py-3"), cart_add_path(current_user.cart.id, @listing.id), method: "put") %>
+        <% end %>
       </div>
     </div>
+
+    
   </section>
 </main>
