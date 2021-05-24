@@ -1,7 +1,6 @@
 class ListingsController < ApplicationController
     before_action :authenticate_user!, except: [:index, :show]
     before_action :listing_find, only: [:show, :edit, :update, :delete]
-    # before_action :category_find, only: [:create, :edit]
 
     def index
         @listings = Listing.all
@@ -29,7 +28,7 @@ class ListingsController < ApplicationController
                 format.html { redirect_to listing_path(@listing.id), notice: "Successfully created listing." }
                 format.json { render :show, status: :created }
             else
-                flash[:alert] = "Unable to create listing at this time"
+                flash[:alert] = "Unable to create listing at this time."
                 format.html { render :new, status: :unprocessable_entity }
                 format.json { render json: @listing.errors, status: :unprocessable_entity }
             end
@@ -45,24 +44,15 @@ class ListingsController < ApplicationController
         authorize @listing
         @listing.category_id = category_find(params[:listing][:category_id])
         respond_to do |format|
-            if @listing.update(permitted_params)    
-                format.html { redirect_to @listing, notice: "listing was successfully updated." }
-                format.json { render :show, status: :ok, location: @listing }
+            if @listing.update(listing_params)
+              format.html { redirect_to listing_path(@listing.id), notice: "Successfully updated listing." }
+              format.json { render :show, status: :ok }
             else
               flash[:alert] = "There was an error in updating your listing."
               format.html { render :show, status: :unprocessable_entity }
               format.json { render json: @listing.errors, status: :unprocessable_entity }
             end
         end
-
-
-        # if @listing.update(listing_params)
-        #     flash[:notice] = "Successfully updated listing"
-        #     redirect_to @listing
-        #   else
-        #     flash[:alert] = "Failed to update listing"
-        #     render :edit
-        # end
     end
 
     def destroy      # Delete listing

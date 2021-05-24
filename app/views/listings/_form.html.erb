@@ -39,12 +39,7 @@
 
                 <div class="grid grid-cols-1 mt-5 mx-7">
                     <%= form.label :category_id, "Wine Category:", class: "uppercase md:text-sm text-xs text-light font-semibold" %>
-                    <%= form.text_field :category_id, class: "py-2 px-3 rounded-lg border-2 border-red-200 mt-1 focus:outline-none focus:ring-2 focus:ring-red-800 focus:border-transparent", list: 'categories', placeholder: "Example: Chardonnay" %>
-                    <datalist id="categories">
-                        <% Category.all.each do |category| %>
-                            <option value="<%= category %>"></option>
-                        <% end %>
-                    </datalist>
+                    <%= form.select :category_id, Category.pluck(:name, :id), class: "py-2 px-3 rounded-lg border-2 border-red-200 mt-1 focus:outline-none focus:ring-2 focus:ring-red-800 focus:border-transparent" %>
                 </div>
 
                 <div class="grid grid-cols-1 mt-5 mx-7">
@@ -64,7 +59,7 @@
                         <label class='flex flex-col border-4 border-dashed w-full h-32 hover:bg-pink-100 hover:border-red-900 group'>
                             <div class='flex flex-col cursor-pointer items-center justify-center pt-7'>
                                 <% if @listing.image.attached? %>
-                                    <%= image_tag url_for(@listing.image), class: "w-32 -mt-14" %>
+                                    <%= image_tag url_for(@listing.image), class: "-mt-14", style: "object-fit: contain; max-width: 8rem; max-height: 8rem;" %>
                                 <% else %>
                                     <i class="fas fa-images text-4xl text-red-900 group-hover:text-red-800"></i>
                                     <p class='lowercase text-sm group-hover:text-gray-800 pt-1 tracking-wider'>Select a photo</p>
