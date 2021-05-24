@@ -15,12 +15,12 @@ class TransactionsController < ApplicationController
             )
         rescue JSON::ParserError => e
             # Invalid payload
-            status 400
+            # status 400
+            head :bad_request
             return
         rescue Stripe::SignatureVerificationError => e
             # Invalid signature
-            puts "Signature error"
-            p e
+            head :unauthorised
             return
         end
         
@@ -48,17 +48,21 @@ class TransactionsController < ApplicationController
                     flash[:notice] = "Your order was successfully placed."
                 end
             end
-
-        CartListing.where(cart_id: customer.cart.id).destroy_all
-            
+            # raise CartListing.where(cart_id: customer.cart.id).inspect
+            CartListing.where(cart_id: customer.cart.id).destroy_all
+            head :success   
+             
+        
         else
             # Display an error message if transaction was unsuccessful
             flash[:alert] = "There was an error in placing your order."
             puts "Unhandled event type: #{event.type}"
+            head :unprocessable_entity
         end
         
-        render json: {message: 'success'}
-        # status 200
+        # render json: {notice: 'success'}
+        
+        
     end
 
     def sales

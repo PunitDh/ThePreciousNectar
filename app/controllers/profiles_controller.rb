@@ -16,13 +16,13 @@ class ProfilesController < ApplicationController
 
         respond_to do |format|
             if @profile.save
-                format.html { redirect_to @profile, notice: "Successfully created profile." }
-                format.json { render :show, status: :created, location: @profile }                
+                format.html { redirect_to user_profile_show_path, notice: "Successfully created profile." }
+                format.json { render :show, status: :created }                
                 # flash[:notice] = "Successfully created profile."
                 # redirect_to user_profile_show_path(@profile.id)
             else
               flash[:alert] = "There was an error in creating your profile."
-              format.html { render :new, status: :unprocessable_entity }
+              format.html { render user_profile_new_path, status: :unprocessable_entity }
               format.json { render json: @profile.errors, status: :unprocessable_entity }
             end
         end
@@ -49,7 +49,7 @@ class ProfilesController < ApplicationController
         respond_to do |format|
             if @profile.update(permitted_params)    
                 format.html { redirect_to user_profile_show_path, notice: "Profile was successfully updated." }
-                format.json { render :show, status: :ok, location: @profile }
+                format.json { render :show, status: :ok }
             else
               flash[:alert] = "There was an error in updating your profile."
               format.html { render :show, status: :unprocessable_entity }

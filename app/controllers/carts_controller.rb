@@ -24,12 +24,6 @@ class CartsController < ApplicationController
                 listing = Listing.find(cartlisting.listing_id)
                 line_items << {
                     price: listing.stripe_price_id,
-
-                    # These are no longer required as stripe_price_id takes care of everything
-                    # name: listing.name,
-                    # amount: listing.price,
-                    # currency: "aud",
-                    
                     quantity: cartlisting.quantity
                 }
             end

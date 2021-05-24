@@ -26,8 +26,8 @@ class ListingsController < ApplicationController
         @listing.user_id = current_user.id
         respond_to do |format|
             if @listing.save
-                format.html { redirect_to @listing, notice: "Successfully created listing." }
-                format.json { render :show, status: :created, location: @listing }   
+                format.html { redirect_to listing_path(@listing.id), notice: "Successfully created listing." }
+                format.json { render :show, status: :created }
             else
                 flash[:alert] = "Unable to create listing at this time"
                 format.html { render :new, status: :unprocessable_entity }

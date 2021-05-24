@@ -27,36 +27,33 @@
 
 
                 <tbody>
-                    <% if @cartlistings.length == 0 %>
-                    <% else %>
-                        <% @cartlistings.each do |cartlisting| %>
-                            <% listing = Listing.find_by(id: cartlisting.listing_id) %>
-                            <tr>
-                                <td class="hidden pb-4 md:table-cell"> <%= link_to(image_tag(url_for(listing.image), class: "w-20 h-20 rounded ", style: "object-fit: contain; max-width: 5rem; max-height: 5rem;" , alt:
-                                        listing), listing_path(listing.id), target: :_blank) %> </td>
-                                <td>
-                                    <p class="mb-2 md:ml-4"><%= link_to listing, listing_path(listing.id), target: :_blank, class: "hover:text-red-800" %></p>
-                                </td>
-                                <td class="justify-center md:justify-end md:flex mt-6">
-                                    <div class="w-20 h-10">
-                                        <div class="relative flex flex-row w-full h-8">
-                                            <%= cartlisting.quantity %>
-                                        </div>
+                    <% @session_with_expand.line_items.data.each do |cartlisting| %>
+                        <% listing = Listing.find_by(stripe_price_id: cartlisting.price.id) %>
+                        <tr>
+                            <td class="hidden pb-4 md:table-cell"> <%= link_to(image_tag(url_for(listing.image), class: "w-20 h-20 rounded ", style: "object-fit: contain; max-width: 5rem; max-height: 5rem;" , alt:
+                                    listing), listing_path(listing.id), target: :_blank) %> </td>
+                            <td>
+                                <p class="mb-2 md:ml-4"><%= link_to listing, listing_path(listing.id), target: :_blank, class: "hover:text-red-800" %></p>
+                            </td>
+                            <td class="justify-center md:justify-end md:flex mt-6">
+                                <div class="w-20 h-10">
+                                    <div class="relative flex flex-row w-full h-8">
+                                        <%= cartlisting.quantity %>
                                     </div>
-                                </td>
-                                <td class="hidden text-right md:table-cell">
-                                    <% price = listing.price %>
-                                        <span class="text-sm lg:text-base font-medium"><%= number_to_currency(price/100) %></span>
-                                    
-                                </td>
-                                <td class="text-right">
-                                    <span class="text-sm lg:text-base font-medium">
-                                        <% subtotal=price/100 * cartlisting.quantity %>
-                                        <%= number_to_currency(subtotal) %>
-                                    </span>
-                                </td>
-                            </tr>
-                        <% end %>
+                                </div>
+                            </td>
+                            <td class="hidden text-right md:table-cell">
+                                <% price = cartlisting.price.unit_amount %>
+                                    <span class="text-sm lg:text-base font-medium"><%= number_to_currency(price/100) %></span>
+                                
+                            </td>
+                            <td class="text-right">
+                                <span class="text-sm lg:text-base font-medium">
+                                    <% subtotal=price/100 * cartlisting.quantity %>
+                                    <%= number_to_currency(subtotal) %>
+                                </span>
+                            </td>
+                        </tr>
                     <% end %>
                 </tbody>
             </table>
