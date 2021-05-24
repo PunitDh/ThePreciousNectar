@@ -30,6 +30,9 @@
 
               <%= link_to "Catalog", listings_path, class: "block lg:inline-block hover:text-white px-4 rounded hover:bg-gray-500" %><span class="dash text-white"> | </span>
 
+              <span class="dash text-white">
+              <%= link_to "Sell A Wine", new_listing_path, class: "block lg:inline-block hover:text-white px-4 rounded hover:bg-gray-500" %> | </span>
+
               <span class="lg:hidden block">
                 <%= link_to "Search", search_page_path, class: "block lg:inline-block hover:text-white px-4 rounded hover:bg-gray-500" %>
               </span>
@@ -38,8 +41,6 @@
                 <%= link_to "My Account", user_profile_show_path, class: "block lg:inline-block hover:text-white px-4 rounded hover:bg-gray-500" %><span class="dash text-white"> | <%= current_user.email %> | </span>
               <% end %>
             <%= link_to "About", about_path, class: "block lg:inline-block hover:text-white px-4 rounded hover:bg-gray-500" %>
-
-
             <span class="dash"> 🍷 </span>
           </div>
           <span class="relative mx-auto text-gray-600 lg:block hidden">

@@ -33,6 +33,14 @@ class User < ApplicationRecord
     user
   end
 
+  def firstname
+    self.profile.firstname
+  end
+
+  def lastname
+    self.profile.lastname
+  end
+
   # def to_s  # Just so that listing.name does not have to be typed in every time
   #   self.profile.name
   # end

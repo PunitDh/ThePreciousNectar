@@ -29,27 +29,18 @@ class TransactionsController < ApplicationController
         # when 'charge.succeeded'
         
         when 'checkout.session.completed'
+
             session = event.data.object # contains a Stripe::PaymentIntent
             customer_stripe_id = event.data.object.customer
             customer = User.find_by(stripe_customer_id: customer_stripe_id)
-            customer_id = customer.id
-            
-            # print "CUSTOMER STRIPE ID: "
-            # print customer_stripe_id
-            # puts ""
-            # print "CUSTOMER: "
-            # print customer
-            # puts ""
-            # print "CUSTOMER ID: "
-            # print customer_id
-
             session_with_expand = Stripe::Checkout::Session.retrieve({id: session.id, expand: ["line_items"]})
             session_with_expand.line_items.data.each do |line_item|
+
                 listing = Listing.find_by(stripe_product_id: line_item.price.product)
                 seller = listing.user
                 transaction = Transaction.new
                 transaction.listing_id = listing.id
-                transaction.buyer_id = customer_id
+                transaction.buyer_id = customer.id
                 transaction.seller_id = seller.id
                 transaction.quantity = line_item.quantity
 

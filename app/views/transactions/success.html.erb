@@ -1,8 +1,101 @@
 
 <h1 class="ml-10 sm:ml-40 pt-16 text-2xl font-bold antialiased">Order Summary</h1>
 <section class="ml-10 sm:ml-40">
-Checkout status: 
-<%= @session_with_expand.payment_status %><br />
-Amount status: 
-<%= number_to_currency(@session_with_expand.amount_total/100) %> <%= @session_with_expand.currency.upcase %>
+<br />
+    Order status: 
+    <%= @session_with_expand.payment_status.capitalize %> ✅<br />
+    Amount: 
+    <%= number_to_currency(@session_with_expand.amount_total/100) %> <%= @session_with_expand.currency.upcase %>
 </section>
+
+<div class="flex justify-center my-6">
+    <div class="flex flex-col w-full p-8 rounded-lg text-gray-800 bg-white bg-opacity-20 shadow-lg pin-r pin-y md:w-4/5 lg:w-4/5">
+        <div class="flex-1">
+            <table class="w-full text-sm lg:text-base" cellspacing="0">
+                <thead>
+                    <tr class="h-12 uppercase">
+                        <th class="hidden md:table-cell"></th>
+                        <th class="text-left">Product</th>
+                        <th class="lg:text-right text-left pl-5 lg:pl-0">
+                            <span class="lg:hidden" title="Quantity">Qty</span>
+                            <span class="hidden lg:inline">Quantity</span>
+                        </th>
+                        <th class="hidden text-right md:table-cell">Unit price</th>
+                        <th class="text-right">Total price</th>
+                    </tr>
+                </thead>
+
+
+                <tbody>
+                    <% if @cartlistings.length == 0 %>
+                    <% else %>
+                        <% @cartlistings.each do |cartlisting| %>
+                            <% listing = Listing.find_by(id: cartlisting.listing_id) %>
+                            <tr>
+                                <td class="hidden pb-4 md:table-cell"> <%= link_to(image_tag(url_for(listing.image), class: "w-20 h-20 rounded ", style: "object-fit: contain; max-width: 5rem; max-height: 5rem;" , alt:
+                                        listing), listing_path(listing.id), target: :_blank) %> </td>
+                                <td>
+                                    <p class="mb-2 md:ml-4"><%= link_to listing, listing_path(listing.id), target: :_blank, class: "hover:text-red-800" %></p>
+                                </td>
+                                <td class="justify-center md:justify-end md:flex mt-6">
+                                    <div class="w-20 h-10">
+                                        <div class="relative flex flex-row w-full h-8">
+                                            <%= cartlisting.quantity %>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="hidden text-right md:table-cell">
+                                    <% price = listing.price %>
+                                        <span class="text-sm lg:text-base font-medium"><%= number_to_currency(price/100) %></span>
+                                    
+                                </td>
+                                <td class="text-right">
+                                    <span class="text-sm lg:text-base font-medium">
+                                        <% subtotal=price/100 * cartlisting.quantity %>
+                                        <%= number_to_currency(subtotal) %>
+                                    </span>
+                                </td>
+                            </tr>
+                        <% end %>
+                    <% end %>
+                </tbody>
+            </table>
+            <hr class="pb-6 mt-6 border-black">
+
+            <div class="my-4 mt-6 -mx-2 lg:flex">
+                <div class="lg:px-2 lg:w-1/2">
+                </div>
+
+                <div class="lg:px-2 lg:w-1/2">
+                    <div class="p-4">
+                        <div class="flex justify-between border-b">
+                            <div class="lg:px-4 lg:py-2 m-2 text-lg lg:text-xl font-bold text-center text-gray-800">
+                                Subtotal </div>
+                            <div class="lg:px-4 lg:py-2 m-2 lg:text-lg font-bold text-center text-gray-900">
+                                <% totalprice = @session_with_expand.amount_total %>
+                                    <%= number_to_currency(totalprice/100*0.90) %>
+                            </div>
+                        </div>
+
+                        <div class="flex justify-between pt-4 border-b">
+                            <div class="lg:px-4 lg:py-2 m-2 text-lg lg:text-xl font-bold text-center text-gray-800">
+                                Tax (inclusive)
+                            </div>
+                            <div class="lg:px-4 lg:py-2 m-2 lg:text-lg font-bold text-center text-gray-900">
+                                <%= number_to_currency(totalprice/100*0.10) %>
+                            </div>
+                        </div>
+                        <div class="flex justify-between pt-4 border-b">
+                            <div class="lg:px-4 lg:py-2 m-2 text-lg lg:text-xl font-bold text-center text-gray-800">
+                                Total
+                            </div>
+                            <div class="lg:px-4 lg:py-2 m-2 lg:text-lg font-bold text-center text-gray-900">
+                                <%= number_to_currency(totalprice/100) %>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

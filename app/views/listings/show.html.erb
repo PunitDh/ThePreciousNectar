@@ -21,7 +21,7 @@
       <small class="text-black"><%= @listing.description %></small>
       <div class="flex gap-0.5 mt-4">
       <%  if (@listing.user != current_user and user_signed_in?) %>
-        <%= link_to(button_tag("add to cart", id: "addToCartButton", class: "bg-red-700 hover:bg-red-900 focus:outline-none transition text-white rounded-lg uppercase px-8 py-3"), cart_add_path(current_user.cart.id, @listing.id), method: "put") %>
+        <%= link_to(button_tag("add to cart", id: "addToCartButton", class: "bg-red-900 hover:bg-red-700 focus:outline-none transition text-white rounded-lg uppercase px-8 py-3"), cart_add_path(current_user.cart.id, @listing.id), method: "put") %>
       <% end %>
       </div>
     </div>
