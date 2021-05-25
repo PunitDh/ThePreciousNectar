@@ -1,5 +1,5 @@
 module ApplicationHelper
     def self.app_name
-        "The Wine Marketplace"
+        "The Precious Nectar"
     end
 end

@@ -12,7 +12,6 @@ class CartsController < ApplicationController
     def index
         @cartlistings = current_user.cart.cart_listings
 
-        # raise params.inspect
         # Check if there is anything in the cart
         if @cartlistings.length > 0
             
@@ -86,6 +85,7 @@ class CartsController < ApplicationController
     end
 
     private
+        # The saverecord method that does flash notifications to save repeating code
         def saverecord(current_record, notice="Item added to cart!", alert="Failed to add to cart!")
             if current_record.save
                 flash[:notice] = notice

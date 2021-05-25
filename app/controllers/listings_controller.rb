@@ -4,6 +4,7 @@ class ListingsController < ApplicationController
 
     def index
         @listings = Listing.all
+ 
     end
 
     def show
@@ -15,6 +16,9 @@ class ListingsController < ApplicationController
             redirect_to user_profile_new_path
         else
             @listing = Listing.new
+            # if params[:q]
+            #     @results = GoogleCustomSearchApi.search(params[:q], page: 1)
+            # end
         end
     end
 
@@ -67,6 +71,17 @@ class ListingsController < ApplicationController
 
     def all
         @listings = Listing.all.where(user_id: current_user.id)
+    end
+
+    def scrape
+        if params[:q]
+          page = params[:page] || 1
+          @results = GoogleCustomSearchApi.search(params[:q],
+                                                  page: page)
+                                                  pp GoogleCustomSearchApi.search(params[:q],
+                                                  page: page)                            
+        end
+        render :new
     end
 
     private
