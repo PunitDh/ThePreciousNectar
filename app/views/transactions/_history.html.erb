@@ -59,7 +59,19 @@
                                             <div class="mr-2">
                                                 <img class="w-6 h-6 rounded-full" src="https://randomuser.me/api/portraits/men/1.jpg"/>
                                             </div>
-                                            <span><%= link_to((params[:action] == "sales") ? transaction.buyer.email : transaction.buyer.email, "#", class: "hover:text-red-800", target: :_blank) %></span>
+                                            
+                                            
+                                            <span>
+                                            <% if (params[:action]=="sales") %>
+                                                <% unless transaction.buyer.profile.blank? %>
+                                                    <%= link_to(transaction.buyer.firstname, user_profile_view_path(transaction.buyer.profile), class: "hover:text-red-800", target: :_blank) %>
+                                                <% else %>
+                                                    <%= transaction.buyer.email %>
+                                                <% end %>
+                                            <% else %>
+                                                <%= link_to(transaction.seller.email, user_profile_view_path(transaction.seller.profile.id), class: "hover:text-red-800", target: :_blank) %>
+                                            <% end %>
+                                            </span>
                                         </div>
                                     </td>
 

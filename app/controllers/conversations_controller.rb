@@ -4,7 +4,9 @@ class ConversationsController < ApplicationController
     def index
         conversations = Conversation.all.where(sender_id: current_user.id)
         conversation = conversations.first
-        redirect_to conversation_messages_path(conversation)
+        unless conversations.length == 0
+            redirect_to conversation_messages_path(conversation.id)
+        end
     end
 
     def create

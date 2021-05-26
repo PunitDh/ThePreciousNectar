@@ -26,7 +26,7 @@
             <%= link_to(button_tag("add to cart", id: "addToCartButton", class: "bg-red-900 hover:bg-red-700 focus:outline-none transition text-white rounded-lg uppercase px-8 py-3"), cart_add_path(current_user.cart.id, @listing.id), method: "put") %>
         </div>
         <div class="py-2 text-center h-16 font-bold tracking-wide text-gray-800">
-            Sold By: <%= link_to @listing.user.profile.firstname, user_profile_view_path(@listing.user.id), class:"text-red-800 hover:text-red-600" %></div>
+            Sold By: <%= link_to @listing.user.profile.firstname, user_profile_view_path(@listing.user.profile.id), class:"text-red-800 hover:text-red-600" %></div>
         <% end %>
     </div>
 
