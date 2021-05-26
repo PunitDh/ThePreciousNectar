@@ -38,13 +38,6 @@
                 <div class="grid grid-cols-1 mt-5 mx-7">
                     <%= form.label :category_id, "Wine Category:", class: "uppercase md:text-sm text-xs text-light font-semibold" %>
                     <%= form.select :category_id, Category.pluck(:name, :id), class: "py-2 px-3 rounded-lg border-2 border-red-200 mt-1 focus:outline-none focus:ring-2 focus:ring-red-800 focus:border-transparent" %>
-
-                    <%# <%= form.text_field :category_id, value: Category.find(listing.category_id).name, class: "py-2 px-3 rounded-lg border-2 border-red-200 mt-1 focus:outline-none focus:ring-2 focus:ring-red-800 focus:border-transparent", list: 'categories', placeholder: "Example: Chardonnay" %>
-                    <!-- datalist id="categories">
-                        <% Category.all.each do |category| %>
-                            <option value="<%= category %>"></option>
-                        <% end %>
-                    </datalist> % -->
                 </div>
 
                 <div class="grid grid-cols-1 mt-5 mx-7">

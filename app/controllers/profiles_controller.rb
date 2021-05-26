@@ -43,6 +43,10 @@ class ProfilesController < ApplicationController
         end
     end
 
+    def view
+        @profile = Profile.find(params[:id])
+    end
+
     def update
         @profile = get_profile
 
@@ -56,12 +60,6 @@ class ProfilesController < ApplicationController
               format.json { render json: @profile.errors, status: :unprocessable_entity }
             end
         end
-        # if @profile.update(permitted_params)
-        #     flash[:notice] = "Your profile was successfully updated."
-        # else
-        #     flash[:alert] = "There was an error in updating your profile."
-        # end
-        # redirect_to user_profile_show_path
     end
 
     private

@@ -21,11 +21,13 @@
       <small class="text-black"><%= @listing.description %></small>
       <p class="pt-4">Vintage: <%= @listing.vintage %></p>
       <small>(Actual vintages may vary)</small>
-      <div class="flex gap-0.5 mt-4">
-        <%  if (@listing.user != current_user and user_signed_in?) %>
-          <%= link_to(button_tag("add to cart", id: "addToCartButton", class: "bg-red-900 hover:bg-red-700 focus:outline-none transition text-white rounded-lg uppercase px-8 py-3"), cart_add_path(current_user.cart.id, @listing.id), method: "put") %>
+      <%  if (@listing.user != current_user and user_signed_in?) %>
+        <div class="flex gap-0.5 mt-4">
+            <%= link_to(button_tag("add to cart", id: "addToCartButton", class: "bg-red-900 hover:bg-red-700 focus:outline-none transition text-white rounded-lg uppercase px-8 py-3"), cart_add_path(current_user.cart.id, @listing.id), method: "put") %>
+        </div>
+        <div class="py-2 text-center h-16 font-bold tracking-wide text-gray-800">
+            Sold By: <%= link_to @listing.user.profile.firstname, user_profile_view_path(@listing.user.id), class:"text-red-800 hover:text-red-600" %></div>
         <% end %>
-      </div>
     </div>
 
     

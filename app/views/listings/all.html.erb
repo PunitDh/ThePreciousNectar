@@ -23,7 +23,12 @@
 
                 <tbody>
                     <% if @listings.length == 0 %>
-                        <tr><td></td><td class="hidden pb-4 md:table-cell">You have no listings at the moment. You can <%= link_to "create a listing", new_listing_path, class: "text-red-800 hover:underline" %> here.</td></tr>
+                        <tr><td></td><td class="hidden pb-4 md:table-cell">
+                        <% if current_user.id == params[:id].to_i %>
+                            You have no listings at the moment. You can <%= link_to "create a listing", new_listing_path, class: "text-red-800 hover:underline" %> here.</td></tr>
+                        <% else %>
+                            This user currently has no listings.
+                        <% end %>
                     <% else %>
                         <% @listings.each do |listing| %>
                             <tr>
@@ -31,8 +36,9 @@
                                         listing), listing_path(listing.id), target: :_blank) %> </td>
                                 <td>
                                     <p class="mb-2 md:ml-4"><%= link_to listing, listing_path(listing.id), target: :_blank, class: "hover:text-red-800" %></p>
-                                    
+                                    <% if current_user.id == params[:id].to_i %>
                                         <%= link_to(button_tag("<small><i class='fas fa-trash-alt w-4 text-red-600  hover:text-red-800'></i> Remove item</small>".html_safe, class:'text-gray-700 md:ml-4 hover:text-red-800'), listing_path(listing), method: "delete", data: { confirm: 'Are you sure you want to remove this item?' }) %>
+                                    <% end %>
                                 </td>
                                 <td class="justify-center md:justify-end md:flex mt-6">
                                     <div class="w-20 h-10">

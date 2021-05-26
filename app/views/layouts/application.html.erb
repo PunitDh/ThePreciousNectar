@@ -38,7 +38,8 @@
               </span>
 
               <% if user_signed_in? %>
-                <%= link_to "My Account", user_profile_show_path, class: "block lg:inline-block hover:text-white px-4 rounded hover:bg-gray-500" %><span class="dash text-white"> | <%= current_user.email %> | </span>
+                <%= link_to "My Account", user_profile_show_path, class: "block lg:inline-block hover:text-white px-4 rounded hover:bg-gray-500" %> <span class="dash text-white"> 
+                 | </span> <%= link_to "Messages ", conversations_path, class: "block lg:inline-block hover:text-white px-4 rounded hover:bg-gray-500" %><span class="dash text-white"> <span class="dash text-white">   | </span>
               <% end %>
             <%= link_to "About", about_path, class: "block lg:inline-block hover:text-white px-4 rounded hover:bg-gray-500" %>
             <span class="dash"> 🍷 </span>

@@ -15,11 +15,17 @@ Rails.application.routes.draw do
   get "/user/profile/new", to: "profiles#new"
   post "/user/profile/new", to: "profiles#create"
   get "/user/profile/show", to: "profiles#show"
+  get "/user/profile/:id/view", to: "profiles#view", as: "user_profile_view"
   put "/user/profile/show", to: "profiles#update"
   
   # Sales and purchases
   get "/user/sales", to: "transactions#sales"
   get "/user/purchases", to: "transactions#purchases"
+
+  # Messaging system
+  resources :conversations do
+    resources :messages
+  end
 
   # Cart
   get "/cart", to: "carts#index"
