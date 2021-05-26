@@ -17,7 +17,7 @@
                                         <% recipient = User.find(conversation.sender_id) %>
                                     <% end %>
 
-                                    <% recipient_attr = (recipient.profile.blank?) ? recipient.email : recipient.profile.firstname %>
+                                    <% recipient_attr = (recipient.profile.blank?) ? recipient.email : "#{recipient.profile.firstname} #{recipient.profile.lastname}" %>
                                     <%= link_to "<div class='w-full pb-2'>
                                         <div class='flex justify-between'>
                                             <span class='block ml-2 font-semibold text-base text-gray-600'> #{recipient_attr}</span>
@@ -36,10 +36,12 @@
                         <% unless recipient.profile.blank? %>
                             
                             <% if recipient.profile.image.attached? %>
+                            <a href="<%= user_profile_view_path(recipient.profile.id) %>", target="_blank" class="contents">
                             <%= image_tag recipient.profile.image, class: "h-10 w-10 rounded-full object-cover"
                             %>
                             <% end %>
-                            <span class="block ml-2 font-bold text-base text-gray-600"><%= recipient.firstname %></span>
+                            <span class="block ml-2 font-bold text-base text-gray-600"><%= recipient.firstname %> <%= recipient.lastname %></span>
+                            </a>
                         <% else %>
                             <span class="block ml-2 font-bold text-base text-gray-600"><%= recipient.email %></span>
                         <% end %>

@@ -6,13 +6,13 @@
                 <div class="bg-white shadow-md rounded my-6">
                     <table class="min-w-max w-full table-auto">
                         <thead>
-                            <tr class="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
-                                <th class="py-3 px-6 text-left">Image</th>
-                                <th class="py-3 px-6 text-left">Item</th>
-                                <th class="py-3 px-6 text-left">Price</th>
-                                <th class="py-3 px-6 text-left">Qty</th>
-                                <th class="py-3 px-6 text-left">Total</th>
-                                <th class="py-3 px-6 text-left"><%= (params[:action] == "sales") ? "Buyer" : "Seller" %></th>
+                            <tr class="bg-gray-200 lg:table-row text-gray-600 uppercase text-sm leading-normal">
+                                <th class="py-3 px-6 hidden lg:table-cell text-left">Image</th>
+                                <th class="py-3 px-1 lg:px-6 table-cell text-left">Item</th>
+                                <th class="py-3 px-6 hidden lg:table-cell text-left">Price</th>
+                                <th class="py-3 px-6 hidden lg:table-cell text-left">Qty</th>
+                                <th class="py-3 px-1 lg:px-6 table-cell text-left">Total</th>
+                                <th class="py-3 px-1 lg:px-6 table-cell text-left"><%= (params[:action] == "sales") ? "Buyer" : "Seller" %></th>
                                 <th class="py-3 px-6 text-left">Order Date</th>
                                 
                             </tr>
@@ -23,8 +23,8 @@
                             
                                 <tr class="border-b border-gray-200 hover:bg-gray-100">
                                     
-                                    <td class="py-3 px-6 text-left whitespace-nowrap">
-                                        <div class="flex items-center">
+                                    <td class="py-3 px-1 lg:px-6 text-left hidden lg:table-cell whitespace-nowrap">
+                                        <div class=" items-center hidden lg:flex">
                                             <div class="mr-2">
                                                 
                                             </div>
@@ -36,25 +36,25 @@
                                         </div>
                                     </td>
 
-                                    <td class="py-3 px-6 text-left">
+                                    <td class="py-3 px-1 lg:px-6 lg:w-auto w-8 text-left">
                                         <%= link_to transaction.listing, listing_path(transaction.listing), target: :_blank, class: "hover:text-red-800" %>
                                     </td> 
 
 
-                                    <td class="py-3 px-6 text-left">
+                                    <td class="py-3 px-6 hidden lg:table-cell text-left">
                                         <%= number_to_currency(transaction.listing.price/100) %>
                                     </td>
 
-                                    <td class="py-3 px-6 text-left">
+                                    <td class="py-3 px-6 hidden lg:table-cell text-left">
                                         <%= transaction.quantity %>
                                     </td>
 
-                                    <td class="py-3 px-6 text-left">
+                                    <td class="py-3 px-1 lg:px-6 text-left">
                                         <%= number_to_currency(transaction.listing.price * transaction.quantity.to_i / 100) %>
                                     </td>
 
 
-                                    <td class="py-3 px-6 text-left">
+                                    <td class="py-3 px-1 lg:px-6 text-left">
                                         <div class="flex items-center">
                                             <div class="mr-2">
                                                 <img class="w-6 h-6 rounded-full" src="https://randomuser.me/api/portraits/men/1.jpg"/>
@@ -75,7 +75,7 @@
                                         </div>
                                     </td>
 
-                                    <td class="py-3 px-6 text-left">
+                                    <td class="py-3 px-1 lg:px-6 lg:w-auto w-8 text-left">
                                         <%= transaction.created_at.strftime("%d-%b-%Y %l:%M %p") %>
                                     </td>
                                 </tr>
