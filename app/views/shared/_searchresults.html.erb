@@ -8,7 +8,7 @@
             
             <div class="w-56 md:w-64 bg-white  shadow-lg rounded-lg overflow-hidden">
                 <div class="py-2 text-center h-16 font-bold uppercase tracking-wide text-gray-800 hover:text-red-800"><%= link_to listing, listing_path(listing.id) %></div>
-                <div class="py-2 text-center h-16 font-bold tracking-wide text-gray-800 hover:text-red-800">Sold By: <%= link_to listing.user.profile.firstname, user_profile_view_path(listing.user.profile.id) %></div>
+                <div class="py-2 text-center h-16 font-bold tracking-wide text-gray-800 hover:text-red-800"><%= link_to "Sold By: #{listing.user.profile.firstname}", user_profile_view_path(listing.user.profile.id) %></div>
                 <div class="flex items-center justify-between py-2 px-3 bg-gray-400">
                     <h1 class="text-gray-800 font-bold "><%= number_to_currency(listing.price / 100) %></h1>
                     <% if (listing.user != current_user and user_signed_in?) %>

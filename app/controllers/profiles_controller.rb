@@ -44,7 +44,11 @@ class ProfilesController < ApplicationController
     end
 
     def view
-        @profile = Profile.find(params[:id])
+        if not current_user.profile.blank? and current_user.profile.id == params[:id].to_i
+            redirect_to user_profile_show_path
+        else
+            @profile = Profile.find(params[:id])
+        end
     end
 
     def update

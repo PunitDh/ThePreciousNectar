@@ -54,6 +54,8 @@ class User < ApplicationRecord
   has_many :purchases, class_name: "Transaction", foreign_key: :buyer_id
   has_many :purchased_wines, through: :purchases, source: :listing, dependent: :destroy
 
+  has_many :conversations, dependent: :destroy
+
   # To see all buyers or see all sellers
   scope :sellers, -> { joins(:sales) }
   scope :buyers, -> { joins(:purchases) }

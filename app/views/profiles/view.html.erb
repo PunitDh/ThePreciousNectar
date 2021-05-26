@@ -26,9 +26,11 @@
           </div>
 
           <div class="flex justify-center pt-12">
+              <% unless @profile.user.id == current_user.id %>
                 <div class="flex flex-wrap md:flex-nowrap gap-1">
                 <%= link_to 'Message me', conversations_path(sender_id: current_user.id, recipient_id: @profile.user.id), method: 'post', class: "grid place-items-center rounded-lg border px-3 py-2 hover:bg-red-800 hover:text-white transition" %>
                 </div>
+              <% end %>
           </div>
     </div>
  

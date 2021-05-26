@@ -28,7 +28,7 @@
 
               <%= link_to "Home", root_path, class: "block lg:inline-block hover:text-white px-4 rounded hover:bg-gray-500" %> <span class="dash text-white"> | </span>
 
-              <%= link_to "Catalog", listings_path, class: "block lg:inline-block hover:text-white px-4 rounded hover:bg-gray-500" %><span class="dash text-white"> | </span>
+              <%= link_to "Catalog <i class='fas fa-book-open'></i>".html_safe, listings_path, class: "block lg:inline-block hover:text-white px-4 rounded hover:bg-gray-500" %><span class="dash text-white"> | </span>
 
               <span class="dash text-white">
               <%= link_to "Sell A Wine", new_listing_path, class: "block lg:inline-block hover:text-white px-4 rounded hover:bg-gray-500" %> | </span>
@@ -38,8 +38,21 @@
               </span>
 
               <% if user_signed_in? %>
-                <%= link_to "My Account", user_profile_show_path, class: "block lg:inline-block hover:text-white px-4 rounded hover:bg-gray-500" %> <span class="dash text-white"> 
-                 | </span> <%= link_to "Messages ", conversations_path, class: "block lg:inline-block hover:text-white px-4 rounded hover:bg-gray-500" %><span class="dash text-white"> <span class="dash text-white">   | </span>
+                <%= link_to "My Account <i class='fas fa-user-circle'></i>".html_safe, user_profile_show_path, class: "block lg:inline-block hover:text-white px-4 rounded hover:bg-gray-500" %> <span class="dash text-white">
+                 | </span>
+                 
+                <% unread_messages = Message.all.where(user_id: current_user.id, read: false) %>
+                <% if unread_messages.count == 0 %>
+                  <%= link_to "Messages <i class='far fa-envelope-open'></i>".html_safe, conversations_path, class: "block lg:inline-block hover:text-white px-4 rounded hover:bg-gray-500", title: "You have no unread messages" %><span class="dash text-white">
+                <% else %>
+                  <%= link_to "Messages <i class='far fa-envelope'></i> #{unread_messages.count}".html_safe, conversations_path, class: "block lg:inline-block hover:text-white px-4 rounded hover:bg-gray-500", title: "You have #{unread_messages.count} unread messages" %><span class="dash text-white">
+                <% end %>
+
+
+                 
+                 
+                 
+                 <span class="dash text-white">   | </span>
               <% end %>
             <%= link_to "About", about_path, class: "block lg:inline-block hover:text-white px-4 rounded hover:bg-gray-500" %>
             <span class="dash"> 🍷 </span>

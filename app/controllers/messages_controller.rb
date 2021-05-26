@@ -4,8 +4,8 @@ class MessagesController < ApplicationController
     end
 
     def index
-        # @users = User.all
-        @conversations = Conversation.all
+        @conversations = Conversation.all.where(sender_id: current_user).or(Conversation.all.where(recipient_id: current_user))
+
         @messages = @conversation.messages
         if @messages.length > 10
             @over_ten = true
@@ -15,12 +15,8 @@ class MessagesController < ApplicationController
             @over_ten = false
             @messages = @conversation.messages
         end
-
-        if @messages.last
-            if @messages.last.user_id != current_user.id
-                @messages.last.update(read: true)
-            end
-        end
+        
+        @messages.each { |message| message.update!(read: true) if message.user_id == current_user.id }
         @message = @conversation.messages.new
     end
 
