@@ -12,14 +12,25 @@
     <%= favicon_link_tag 'favicon.png' %>
   </head>
 
+  
   <body class="<%= params[:action] %>">
+  <!-- I created class names for the body tag so that background images could be added to different pages using CSS -->
+
+    <!-- The navbar is my work of art and it is PURELY CSS BASED - NO JAVASCRIPT. 
+          It is fully responsive and utilises a checkbox system to show and hide the menu on smaller screens -->
     <nav class="navbar flex fixed items-center justify-between flex-wrap lg:px-12 shadow">
       <div class="justify-center w-full pr-2 sm:flex sm:justify-between lg:w-auto sm:w-full lg:border-b-0 sm:pl-6 sm:pr-2 lg:pb-0">
           <div class="flex items-center flex-shrink-0 text-gray-800 mr-16">
-              <span class="font-semibold hidden sm:block sm:text-xl text-white tracking-tight"><%= link_to ApplicationHelper::app_name, root_path %></span>
+              
+              <!-- I stored the app_name in a variable in the ApplicationHelper module so that I didn't have to type it everywhere if I changed it. -->
+              <span class="font-semibold hidden sm:block sm:text-lg text-white tracking-tight"><%= link_to ApplicationHelper::app_name, root_path %></span>
           </div>
+
+          <!-- This label below acts as the crux of the navbar functionality -->
           <label for="navbar-toggle-cbox" id="navbar-toggle-label"><i class="fas fa-bars burger"></i></label>
       </div>
+
+      <!-- The checkbox below controls the navbar on smaller screen sizes -->
       <input type="checkbox" id="navbar-toggle-cbox">
       <div class="menu w-full lg:block flex-grow lg:flex lg:items-center lg:w-auto lg:px-3 px-8">
       
@@ -40,7 +51,8 @@
               <% if user_signed_in? %>
                 <%= link_to "My Account <i class='fas fa-user-circle'></i>".html_safe, user_profile_show_path, class: "block lg:inline-block hover:text-white px-4 rounded hover:bg-gray-500" %> <span class="dash text-white">
                  | </span>
-                 
+                
+                <!-- I wanted to display the number of unread messages on the screen and therefore I wrote this snippet of code to check the database on each page load to see whether the user has received any new messages -->
                 <% unread_messages = Message.all.where(user_id: current_user.id, read: false) %>
                 <% if unread_messages.count == 0 %>
                   <%= link_to "Messages <i class='far fa-envelope-open'></i>".html_safe, conversations_path, class: "block lg:inline-block hover:text-white px-4 rounded hover:bg-gray-500", title: "You have no unread messages" %><span class="dash text-white">
@@ -48,15 +60,13 @@
                   <%= link_to "Messages <i class='far fa-envelope'></i> #{unread_messages.count}".html_safe, conversations_path, class: "block lg:inline-block hover:text-white px-4 rounded hover:bg-gray-500", title: "You have #{unread_messages.count} unread messages" %><span class="dash text-white">
                 <% end %>
 
-
-                 
-                 
-                 
                  <span class="dash text-white">   | </span>
               <% end %>
             <%= link_to "About", about_path, class: "block lg:inline-block hover:text-white px-4 rounded hover:bg-gray-500" %>
             <span class="dash"> 🍷 </span>
           </div>
+
+          <!-- The search bar here is live and utilises a database query functionality to search the database -->
           <span class="relative mx-auto text-gray-600 lg:block hidden">
             <%= form_tag(search_page_path, :method => "get") do %>
               <%= search_field_tag :query, params[:query], placeholder: "Search", class: "border-2 border-gray-300 bg-white h-10 pl-2 pr-8 rounded-lg text-sm focus:outline-none" %>
@@ -68,6 +78,7 @@
             <% end %>
           </span>
 
+          <!-- The links below change depending on whether or not the user is signed in -->
           <div class="block sm:flex">
             <% if user_signed_in? %>
               <%= link_to "View Cart <i class='fas fa-shopping-cart'></i>".html_safe, cart_path, method: "get", class: "block text-md px-4 py-2 rounded text-gray-700 ml-2 font-bold hover:text-white hover:bg-gray-500" %>
@@ -80,6 +91,7 @@
         </div>
     </nav>
     
+    <!-- I created separate section for notices which can be 'closed'. This also utilises a similar checkbox functionality as the navbar. -->
     <div class="notices">
 
       <% if flash[:notice] %>
@@ -102,9 +114,6 @@
     </div>
     
     <%= yield %>
-
-
-
 
   </body>
 </html>

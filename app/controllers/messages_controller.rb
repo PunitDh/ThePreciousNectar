@@ -1,22 +1,25 @@
 class MessagesController < ApplicationController
-    before_action do
-        @conversation = Conversation.find(params[:conversation_id])
-    end
+    before_action :find_conversation
 
     def index
+        max_messages = 7
         @conversations = Conversation.all.where(sender_id: current_user).or(Conversation.all.where(recipient_id: current_user))
 
         @messages = @conversation.messages
-        if @messages.length > 10
-            @over_ten = true
+        if @messages.length > max_messages
+            @over_max = true
+            @messages = @messages[-max_messages..-1]
         end
 
         if params[:m]
-            @over_ten = false
+            @over_max = false
             @messages = @conversation.messages
         end
         
-        @messages.each { |message| message.update!(read: true) if message.user_id == current_user.id }
+        if @messages.last
+            @messages.each { |message| message.update!(read: true) if message.user_id == current_user.id }
+        end
+
         @message = @conversation.messages.new
     end
 
@@ -33,6 +36,10 @@ class MessagesController < ApplicationController
 
     private
         def message_params
-                params.require(:message).permit(:body, :user_id)
+            params.require(:message).permit(:body, :user_id)
+        end
+
+        def find_conversation
+            @conversation = Conversation.find(params[:conversation_id])
         end
 end

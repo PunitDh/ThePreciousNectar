@@ -1,3 +1,5 @@
+<!-- This is a simple CRUD form for the wine listings. Users can create, read, update and delete their wine lisings -->
+
 <div class="flex justify-center my-6">
     <div class="flex flex-col w-full p-8 rounded-lg text-gray-800 bg-white bg-opacity-20 shadow-lg pin-r pin-y md:w-4/5 lg:w-4/5">
 
@@ -77,54 +79,3 @@
     <% end %>
   </div>
 </div>
-
-
-
-<!-- <section class='search-section'>
-  <div class='text-center titles-with-yellow'>
-  </div>
-  <div class='container'>
-    <div class='text-center search-bar'>
-      <%= form_tag new_listing_path, method: :get  do %>
-        <div class="inner-addon right-addon">
-          <i class="glyphicon glyphicon-search"></i>
-          <%= text_field_tag :q, params[:q], class: 'form-control' %>
-          <%= button_to "Find Photos For Me", new_listing_path, type: "button", class: "w-auto bg-gray-500 hover:bg-gray-700 rounded-lg shadow-xl font-medium text-white px-4 py-2"  %>
-        </div>
-      <% end %>
-    </div>
-  </div>
-
-  <% if @results && !@results.items.empty? %>
-    <div class='container'>
-      <% @results.items.each do |item| %>
-        <div class='row'>
-          <h4><%= link_to item.htmlTitle.html_safe, item.link %></h4>
-          <div>
-            <% if item['pagemap'] &&
-                  item['pagemap']['cse_thumbnail'] &&
-                  img = item.pagemap.cse_thumbnail.first %>
-              <div class='col-sm-2'>
-                <%= image_tag(img.src, width: '200px') %>
-              </div>
-              
-            <% end %>
-          </div>
-        </div>
-      <% end %>
-    </div>
-    <div class='container search-prev-next'>
-      <div class='row text-center'>
-        
-        <% @results.pages.times do |i| %>
-          <%= link_to i + 1,
-            new_listing_path(q: params[:q], page: i+1),
-            class: 'btn btn-page' %>
-        <% end %>
-        
-      </div>
-    </div>
-  <% else %>
-    <h4>No results</h4>
-  <% end %>
-</section> -->

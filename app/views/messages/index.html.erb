@@ -1,17 +1,19 @@
-<div class="ml-3 sm:ml-9 w-11/12 h-screen">
-    <div class="grid grid-cols-3 min-w-full border rounded">
+<!-- I wanted to create a "Facebook-style" messaging system where conversations are displayed on the left and messages on the right. Again, I used Tailwind Components to create the messaging system, and pass in @conversations from the controller and the individual @messages. -->
+
+<div class="ml-0 sm:ml-3 fixed sm:ml-9 w-full lg:w-11/12 absolute top-16 lg:relative">
+    <div class="grid min-h-screen sm:min-h-0 grid-cols-3 min-w-full border rounded">
             <div class="col-span-1 bg-white border-r border-gray-300">
                 <div class="my-3 mx-3 ">
-                    <div class="relative text-gray-600 w-full h-full  focus-within:text-gray-400">
+                    <div class="relative text-gray-600 w-full h-auto focus-within:text-gray-400">
                     </div>
                 </div>
-                <ul class="overflow-auto">
+                <ul>
                     <h2 class="ml-2 mb-2 text-gray-600 text-lg my-2">Chats</h2>
                     <li>
                         <% unless @conversations.nil? %>
                           <% @conversations.each do |conversation| %>
-                            <% recipient = (conversation.sender_id == current_user.id) ? User.find(conversation.recipient_id) : User.find(conversation.sender_id) %>
-                            <% recipient_attr = (recipient.profile.blank?) ? recipient.email : "#{recipient.profile.firstname} #{recipient.profile.lastname}" %>
+                            <% recipient = (conversation.sender_id == current_user.id) ? conversation.recipient : conversation.sender %>
+                            <% recipient_attr = (recipient.profile.blank?) ? recipient.email : "#{recipient.profile.firstname} #{recipient.profile.lastname} #{"<i class='far fa-envelope'></i>" if (conversation.messages.exists?(read: false, user_id: current_user) )}" %>
                             <%= link_to "<div class='w-full pb-2'>
                                 <div class='flex justify-between'>
                                     <span class='block ml-2 font-semibold text-base text-gray-600'> #{recipient_attr}</span>
@@ -25,21 +27,22 @@
             <div class="col-span-2 bg-white">
                 <div class="w-full">
                     <div class="flex items-center border-b border-gray-300 pl-3 py-3">
-                        <% recipient = (@conversation.recipient_id == current_user.id) ? User.find(@conversation.sender_id) : User.find(@conversation.recipient_id) %>
+                        <% recipient = (@conversation.recipient_id == current_user.id) ? @conversation.sender : @conversation.recipient %>
                         <% unless recipient.profile.blank? %>
-                            
                             <% if recipient.profile.image.attached? %>
-                            <a href="<%= user_profile_view_path(recipient.profile.id) %>", target="_blank" class="contents">
-                            <%= image_tag recipient.profile.image, class: "h-10 w-10 rounded-full object-cover"
-                            %>
-                            <% end %>
-                            <span class="block ml-2 font-bold text-base text-gray-600"><%= recipient.firstname %> <%= recipient.lastname %></span>
-                            </a>
+                                <a href="<%= user_profile_view_path(recipient.profile.id) %>", target="_blank" class="contents">
+                                    <%= image_tag recipient.profile.image, class: "h-10 w-10 rounded-full object-cover"
+                                %>
+                                  <% end %>
+                                    <span class="block ml-2 font-bold text-base text-gray-600">
+                                        <%= recipient.firstname %> <%= recipient.lastname %>
+                                    </span>
+                                </a>
                         <% else %>
                             <span class="block ml-2 font-bold text-base text-gray-600"><%= recipient.email %></span>
                         <% end %>
                     </div>
-                    <div id="chat" class="w-full overflow-y-auto p-10 relative h-auto" >
+                    <div id="chat" class="w-full overflow-y-auto lg:p-10 relative h-auto" >
                         <ul>
                             <li class="clearfix2">
                                 <% if @over_ten %>
@@ -48,10 +51,10 @@
 
                                 <% @messages.each do |message| %>
                                     <% if message.body %>
-                                    <% user = User.find(message.user_id) %>
-
-                                        <div class="w-full flex <%= (message.user_id == current_user.id) ? 'justify-start' : 'justify-end' %>">
-                                            <div class="bg-gray-100 rounded px-5 py-2 my-2 text-gray-700 relative" style="max-width: 300px;">
+                                        <% user = message.user_id %>
+                                        <% curr_user = (message.user_id == current_user.id) %>
+                                        <div class="w-full flex <%= curr_user ? 'justify-start' : 'justify-end' %>">
+                                            <div class="<%= curr_user ? 'bg-gray-200' : 'bg-green-200' %> rounded-lg px-5 py-2 my-2 text-gray-700 relative" style="max-width: 300px;">
                                                 <span class="block"><%= message.body %></span>
                                                 <span class="block text-xs text-right"><%= message.message_time %></span>
                                             </div>
@@ -65,7 +68,7 @@
                     <%= form_for [@conversation, @message], class: "w-9/12" do |f| %>
                     <div class="w-full py-3 px-3 flex items-center justify-between border-t border-gray-300">
                         <%= f.text_field :body, class: "py-2 mx-3 pl-5 block w-full rounded-full bg-gray-100 outline-none focus:text-gray-700", autocomplete: "off", autofocus: true, required: true, placeholder: "Write a message..." %>
-                        <%= f.text_field :user_id, value: recipient.id, type: "hidden" %>
+                        <%= f.hidden_field :user_id, value: recipient.id %>
                         <%= f.button "<i class='fas fa-paper-plane text-gray-400 h-7 w-7 origin-center'></i>".html_safe, type: "submit", class: "outline-none focus:outline-none" %>
                     </div>
                     <% end %>

@@ -1,5 +1,7 @@
+<!-- A simple display page to display the listing. It changes depends on who is signed in. If the listing's owner is signed in, he/she can edit or delete the listing. If anybody else is signed in, they can add it to cart. If no one is signed in, they can only view the listing. -->
+
 <main class="grid place-items-center h-screen">
-<%= link_to "Back", :back %>
+  <%= link_to "Back", :back %>
   <section class="flex flex-col md:flex-row gap-11 py-10 px-5 bg-white rounded-md shadow-lg w-3/4 md:max-w-2xl">
     <div class="text-red-800 flex flex-col justify-between">
       <% if @listing.image.attached? %>
@@ -29,7 +31,5 @@
             Sold By: <%= link_to @listing.user.profile.firstname, user_profile_view_path(@listing.user.profile.id), class:"text-red-800 hover:text-red-600" %></div>
         <% end %>
     </div>
-
-    
   </section>
 </main>

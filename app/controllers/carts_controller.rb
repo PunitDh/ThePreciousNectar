@@ -1,13 +1,13 @@
 class CartsController < ApplicationController
     before_action :authenticate_user!
     
-    # rescue_from RuntimeError, with: :unauthorised
-    # rescue_from Pundit::NotAuthorizedError, with: :unauthorised
+    rescue_from RuntimeError, with: :unauthorised
+    rescue_from Pundit::NotAuthorizedError, with: :unauthorised
 
-    # def unauthorised
-    #     flash[:alert] = "Unauthorized access blocked."
-    #     redirect_to root_path
-    # end
+    def unauthorised
+        flash[:alert] = "Unauthorized access blocked."
+        redirect_to root_path
+    end
 
     def index
         @cartlistings = current_user.cart.cart_listings
@@ -46,6 +46,7 @@ class CartsController < ApplicationController
     end
 
     def update
+
         # Verify that the user is signed in to modify this cart
         @cartlisting = CartListing.find(params[:cartlisting_id])
         if current_user.cart.id == @cartlisting.cart_id
@@ -61,7 +62,7 @@ class CartsController < ApplicationController
         # Verify whether the cart actually belongs to the user
         if (current_user.cart.id == params[:cart_id].to_i)
             cartlisting.cart_id = params[:cart_id].to_i
-            cartlisting.listing_id = params[:listing_id].to_i # if (Listing.find_by(id: params[:listing_id].to_i))
+            cartlisting.listing_id = params[:listing_id].to_i
 
             existing = CartListing.where(cart_id: current_user.cart.id, listing_id: cartlisting.listing_id)
             if existing.length > 0
