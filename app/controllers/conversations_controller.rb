@@ -3,8 +3,8 @@ class ConversationsController < ApplicationController
 
     def index
         # Create a list of all conversations where the current user is the sender or the receiver
-        conversations_receiver = Conversation.all.where(recipient_id: current_user.id)
-        conversations_sender = Conversation.all.where(sender_id: current_user.id)
+        conversations_receiver = Conversation.where(recipient_id: current_user.id)
+        conversations_sender = Conversation.where(sender_id: current_user.id)
         conversation = conversations_receiver.first || conversations_sender.first
 
         # If conversations exist, redirect to the messages index, or else display "No messages"

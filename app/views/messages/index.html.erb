@@ -1,5 +1,7 @@
 <!-- I wanted to create a "Facebook-style" messaging system where conversations are displayed on the left and messages on the right. Again, I used Tailwind Components to create the messaging system, and pass in @conversations from the controller and the individual @messages. -->
 
+<!-- The left of the page displays all the conversations and the right of the page displays all the messages, Facebook style. -->
+
 <div class="ml-0 sm:ml-3 fixed sm:ml-9 w-full lg:w-11/12 absolute top-16 lg:relative">
     <div class="grid min-h-screen sm:min-h-0 grid-cols-3 min-w-full border rounded">
             <div class="col-span-1 bg-white border-r border-gray-300">
@@ -12,6 +14,8 @@
                     <li>
                         <% unless @conversations.nil? %>
                           <% @conversations.each do |conversation| %>
+
+                            <!-- Check if the recipient is the current user -->
                             <% recipient = (conversation.sender_id == current_user.id) ? conversation.recipient : conversation.sender %>
                             <% recipient_attr = (recipient.profile.blank?) ? recipient.email : "#{recipient.profile.firstname} #{recipient.profile.lastname} #{"<i class='far fa-envelope'></i>" if (conversation.messages.exists?(read: false, user_id: current_user) )}" %>
                             <%= link_to "<div class='w-full pb-2'>
@@ -31,8 +35,7 @@
                         <% unless recipient.profile.blank? %>
                             <% if recipient.profile.image.attached? %>
                                 <a href="<%= user_profile_view_path(recipient.profile.id) %>", target="_blank" class="contents">
-                                    <%= image_tag recipient.profile.image, class: "h-10 w-10 rounded-full object-cover"
-                                %>
+                                    <%= image_tag recipient.profile.image, class: "h-10 w-10 rounded-full object-cover" %>
                                   <% end %>
                                     <span class="block ml-2 font-bold text-base text-gray-600">
                                         <%= recipient.firstname %> <%= recipient.lastname %>
@@ -44,8 +47,8 @@
                     </div>
                     <div id="chat" class="w-full overflow-y-auto lg:p-10 relative h-auto" >
                         <ul>
-                            <li class="clearfix2">
-                                <% if @over_ten %>
+                            <li class="flow-root">
+                                <% if @over_max %>
                                     <%= link_to 'Show Previous', '?m=all' %>
                                 <% end %>
 

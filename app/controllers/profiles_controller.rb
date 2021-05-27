@@ -2,7 +2,10 @@ class ProfilesController < ApplicationController
     before_action :authenticate_user!
     before_action :get_profile, only: %i[ show update new ]
 
+    # Basic CRUD controller for user profiles
+
     def new
+        # If a profile already exists, redirect to the profile. Or else create a new one
         if get_profile.present?
             redirect_to user_profile_show_path
         else
@@ -11,30 +14,24 @@ class ProfilesController < ApplicationController
     end
 
     def create
+        # A method to create a new profile
         @profile = Profile.new(permitted_params)
         @profile.user_id = current_user.id
 
         respond_to do |format|
             if @profile.save
-                format.html { redirect_to user_profile_show_path, notice: "Successfully created profile." }
-                format.json { render :show, status: :created }                
-                # flash[:notice] = "Successfully created profile."
-                # redirect_to user_profile_show_path(@profile.id)
+              format.html { redirect_to user_profile_show_path, notice: "Successfully created profile." }
+              format.json { render :show, status: :created }                
             else
               flash[:alert] = "There was an error in creating your profile."
               format.html { render user_profile_new_path, status: :unprocessable_entity }
               format.json { render json: @profile.errors, status: :unprocessable_entity }
             end
         end
-
-        # if @profile.save
-        #     flash[:notice] = "Your profile was successfully created."
-        # else
-        #     flash[:alert] = "There was an error in creating your profile."
-        # end
     end
 
     def show
+        # If a profile already exists, redirect to the profile. Or else create a new one
         if get_profile.present?
             @profile = get_profile
         else
@@ -44,6 +41,7 @@ class ProfilesController < ApplicationController
     end
 
     def view
+        # Show profile if it exists, or else just redirect to own user profile
         if not current_user.profile.blank? and current_user.profile.id == params[:id].to_i
             redirect_to user_profile_show_path
         else
@@ -52,8 +50,8 @@ class ProfilesController < ApplicationController
     end
 
     def update
+        # A method to update the profile based on allowed params
         @profile = get_profile
-
         respond_to do |format|
             if @profile.update(permitted_params)    
                 format.html { redirect_to user_profile_show_path, notice: "Profile was successfully updated." }

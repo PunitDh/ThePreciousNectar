@@ -58,21 +58,30 @@ class CartsController < ApplicationController
 
     def add
         cartlisting = CartListing.new
-        
-        # Verify whether the cart actually belongs to the user
-        if (current_user.cart.id == params[:cart_id].to_i)
-            cartlisting.cart_id = params[:cart_id].to_i
-            cartlisting.listing_id = params[:listing_id].to_i
+        cart = current_user.cart
+        cartlistings = cart.cart_listings
+        cart_id = params[:cart_id].to_i
+        listing_id = params[:listing_id].to_i
 
-            existing = CartListing.where(cart_id: current_user.cart.id, listing_id: cartlisting.listing_id)
-            if existing.length > 0
-                existing.first.quantity += 1
-                saverecord(existing.first)
+        # Verify whether the cart actually belongs to the user
+        if (cart.id == cart_id)
+            cartlisting.cart_id = cart_id
+            cartlisting.listing_id = listing_id
+
+            # Check if a listing already exists in a cart.
+            existing = cartlistings.find_by(listing_id: listing_id)
+            unless existing.nil?
+                # If exists, add +1.
+                existing.quantity += 1
+                saverecord(existing)
             else
+                # If it doesn't add it to cart
                 cartlisting.quantity = 1
                 saverecord(cartlisting)
             end
         end
+
+        # Redirect back to the same page
         redirect_to request.referrer
     end
 

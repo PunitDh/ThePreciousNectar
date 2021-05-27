@@ -63,6 +63,8 @@
                                             
                                             <span>
                                             <% if (params[:action]=="sales") %>
+
+                                                <!-- If a profile exists, display their first and last name. Else display their e-mail address -->
                                                 <% unless transaction.buyer.profile.blank? %>
                                                     <%= link_to(transaction.buyer.firstname, user_profile_view_path(transaction.buyer.profile), class: "hover:text-red-800", target: :_blank) %>
                                                 <% else %>

@@ -1,17 +1,15 @@
+
+
 <div class="container w-9/12">
-
-
   <div class="border-b-2 block md:flex">
-
-    
     <div class="w-full md:w-2/5 p-4 sm:p-6 lg:p-8 bg-white shadow-md">
-    
       <div class="flex justify-between">
         <span class="text-xl font-semibold block"><%= @profile.firstname.capitalize %>'s Profile</span>
       </div>
     
         <div class="w-full p-8 mx-2 flex justify-center">
                 <div class='flex flex-col cursor-pointer items-center justify-center pt-7'>
+                    <!-- Check if image attached -->
                     <% if @profile.image.attached? %>
                         <%= image_tag url_for(@profile.image), class: "w-32 -mt-14" %>
                     <% end %>
@@ -26,6 +24,8 @@
           </div>
 
           <div class="flex justify-center pt-12">
+
+          <!-- Display different buttons depending on whether the current user is the viewer of this page -->
               <% unless @profile.user.id == current_user.id %>
                 <div class="flex flex-wrap md:flex-nowrap gap-1">
                 <%= link_to 'Message me', conversations_path(sender_id: current_user.id, recipient_id: @profile.user.id), method: 'post', class: "grid place-items-center rounded-lg border px-3 py-2 hover:bg-red-800 hover:text-white transition" %>
@@ -36,6 +36,8 @@
  
     <div class="w-full md:w-3/5 p-8 bg-white lg:ml-4 shadow-md">
       <div class="rounded  shadow p-6">
+
+        <!-- The user needs to be able to see first name, last name and email, but not bank account details -->
         
         <div class="pb-6">
           <div class="font-semibold text-gray-700 block pb-1">First Name:</div>

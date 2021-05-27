@@ -1,3 +1,5 @@
+<!-- This is a simple CRUD form to update and show the user profile. -->
+
 <div class="container w-9/12">
  
   <%= form_with(model: profile, url: url, method: method) do |form| %>
@@ -19,6 +21,7 @@
         <div class="w-full p-8 mx-2 flex justify-center">
           <label class='flex flex-col border-4 border-dashed w-full h-32 hover:bg-pink-100 hover:border-red-900 group'>
                 <div class='flex flex-col cursor-pointer items-center justify-center pt-7'>
+                    <!-- Check if an attached image exists -->
                     <% if profile.image.attached? %>
                         <%= image_tag url_for(profile.image), class: "w-32 -mt-14" %>
                     <% else %>
@@ -30,6 +33,9 @@
           </label>                         
         </div>
 
+
+        <!-- Display different buttons depending on whether the current user is the viewer of this page -->
+        <!-- I wanted the current user to be able to view their own sales, purchases and listings -->
         <% if (profile.user == current_user) %>
             <div class="flex justify-center pt-12">
                 <div class="flex flex-wrap md:flex-nowrap gap-1">

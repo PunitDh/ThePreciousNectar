@@ -3,14 +3,16 @@ class ListingsController < ApplicationController
     before_action :listing_find, only: [:show, :edit, :update, :delete]
 
     def index
+        # Show all listings on website
         @listings = Listing.all
- 
     end
 
     def show
     end
 
     def new
+        # In order to sell an item, the seller must have a profile. This method redirects
+        # the user to the profile creation page where users can create a profile
         unless current_user.profile.present?
             flash[:alert] = "You must create a seller profile before you can list items for sale."
             redirect_to user_profile_new_path
@@ -24,8 +26,12 @@ class ListingsController < ApplicationController
 
     def create      # Create a new listing
         @listing = Listing.new(listing_params)
+
+        # Set price in cents by multiplying by 100
         @listing.price = params[:listing][:price].to_i * 100
         @listing.user_id = current_user.id
+
+        # Save listing
         respond_to do |format|
             if @listing.save
                 format.html { redirect_to listing_path(@listing.id), notice: "Successfully created listing." }
@@ -39,6 +45,7 @@ class ListingsController < ApplicationController
     end
 
     def edit
+        # Divide price by cents to get dollar figure
         @listing.price /= 100
     end
 
@@ -46,7 +53,11 @@ class ListingsController < ApplicationController
         # Authorisation from Pundit
         authorize @listing
         @listing.assign_attributes(listing_params)
+
+        # Convert price to cents
         @listing.price = params[:listing][:price].to_i * 100
+
+        # Update listing
         respond_to do |format|
             if @listing.save
               format.html { redirect_to listing_path(@listing.id), notice: "Successfully updated listing." }
@@ -70,19 +81,21 @@ class ListingsController < ApplicationController
     end
 
     def all
-        @listings = Listing.all.where(user_id: params[:id])
+        # Display all the users' listings
+        @listings = Listing.where(user_id: params[:id])
     end
 
-    def scrape
-        if params[:q]
-          page = params[:page] || 1
-          @results = GoogleCustomSearchApi.search(params[:q],
-                                                  page: page)
-                                                  pp GoogleCustomSearchApi.search(params[:q],
-                                                  page: page)                            
-        end
-        render :new
-    end
+    # No longer used
+    # def scrape
+    #     if params[:q]
+    #       page = params[:page] || 1
+    #       @results = GoogleCustomSearchApi.search(params[:q],
+    #                                               page: page)
+    #                                               pp GoogleCustomSearchApi.search(params[:q],
+    #                                               page: page)                            
+    #     end
+    #     render :new
+    # end
 
     private
         def listing_params

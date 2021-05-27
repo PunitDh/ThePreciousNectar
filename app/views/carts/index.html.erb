@@ -1,3 +1,6 @@
+<!-- This is a fully responsive cart page that displays all items in a cart and offers payment processing.
+The page uses JavaScript event listener located at the bottom of the page. -->
+
 <div class="container grid w-11/12 sm:w-8/12">
     <h1 class="text-red-900 ml-0 text-center sm:text-left pt-16 text-2xl font-bold antialiased">Your Cart</h1>
 </div>
@@ -20,9 +23,14 @@
 
 
                 <tbody>
+                    <!-- Calculate the sum of price of products -->
                     <% sum_arr = [] %>
+
+                    <!-- Check if there are items in the cart -->
                     <% if @cartlistings.length == 0 %>
                         <tr><td></td><td class="hidden pb-4 md:table-cell">You have no items in your cart.</td></tr>
+                    
+                    <!-- If exists, create a table of listings, as below -->
                     <% else %>
                         <% @cartlistings.each do |cartlisting| %>
                             <% listing = Listing.find_by(id: cartlisting.listing_id) %>
@@ -54,7 +62,7 @@
                                 <td class="text-right">
                                     <span class="text-sm lg:text-base font-medium">
                                         <% subtotal=price/100 * cartlisting.quantity %>
-                                            <% sum_arr << subtotal %><%= number_to_currency(subtotal) %>
+                                        <% sum_arr << subtotal %><%= number_to_currency(subtotal) %>
                                     </span>
                                 </td>
                             </tr>
@@ -87,8 +95,9 @@
                             <div class="lg:px-4 lg:py-2 m-2 text-lg lg:text-xl font-bold text-center text-gray-800">
                                 Subtotal </div>
                             <div class="lg:px-4 lg:py-2 m-2 lg:text-lg font-bold text-center text-gray-900">
+                                <!-- Display the subtotal less tax -->
                                 <% totalprice = sum_arr.sum %>
-                                    <%= number_to_currency(totalprice*0.90) %>
+                                <%= number_to_currency(totalprice*0.90) %>
                             </div>
                         </div>
 
@@ -97,6 +106,7 @@
                                 Tax (inclusive)
                             </div>
                             <div class="lg:px-4 lg:py-2 m-2 lg:text-lg font-bold text-center text-gray-900">
+                                <!-- Australian GST is 10% -->
                                 <%= number_to_currency(totalprice*0.10) %>
                             </div>
                         </div>
@@ -105,6 +115,7 @@
                                 Total
                             </div>
                             <div class="lg:px-4 lg:py-2 m-2 lg:text-lg font-bold text-center text-gray-900">
+                                <!-- Total Price -->
                                 <%= number_to_currency(totalprice) %>
                             </div>
                         </div>
@@ -123,6 +134,8 @@
         
         // Create an instance of the Stripe object with your publishable API key
         checkout_button.addEventListener("click", () => {
+
+            // Change the icon inside the button to a "processing" icon using FontAwesome icons
             checkout_button.innerHTML = "<i class='fas fa-sync fa-spin'></i> <span class='ml-2 mt-5px'>Processing ... </span>";
             checkout_button.disabled = true;
             checkout_button.backgroundColor = "#";

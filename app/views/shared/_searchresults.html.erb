@@ -1,3 +1,7 @@
+<!-- A partial that displays search results in a "card" format -->
+<!-- Depending on who is signed in, I want them to be able to do different things. -->
+<!-- For example, a user cannot add an item they've listed to their own cart -->
+
 <div class="z-50 flex flex-wrap justify-center sm:w-full md:w-full lg:w-4/5 xl:w-4/5">
   <% if @listings %>  
     <% @listings.each do |listing| %>
@@ -5,13 +9,14 @@
           <% if listing.image.attached? %>
             <%= link_to image_tag(listing.image, class: "bg-gray-100 rounded-lg shadow-lg", style: "object-fit: contain; max-width: 14rem; max-height: 14rem;"), listing_path(listing.id) %>
           <% end %>
-            
+            <% listing_user = listing.user %>
+            <% listing_user_profile = listing_user.profile %>
             <div class="w-56 md:w-64 bg-white  shadow-lg rounded-lg overflow-hidden">
                 <div class="py-2 text-center h-16 font-bold uppercase tracking-wide text-gray-800 hover:text-red-800"><%= link_to listing, listing_path(listing.id) %></div>
-                <div class="py-2 text-center h-16 font-bold tracking-wide text-gray-800 hover:text-red-800"><%= link_to "Sold By: #{listing.user.profile.firstname}", user_profile_view_path(listing.user.profile.id) %></div>
+                <div class="py-2 text-center h-16 font-bold tracking-wide text-gray-800 hover:text-red-800"><%= link_to "Sold By: #{(listing_user == current_user) ? "You" : listing_user_profile.firstname}", user_profile_view_path(listing_user_profile.id) %></div>
                 <div class="flex items-center justify-between py-2 px-3 bg-gray-400">
                     <h1 class="text-gray-800 font-bold "><%= number_to_currency(listing.price / 100) %></h1>
-                    <% if (listing.user != current_user and user_signed_in?) %>
+                    <% if (listing_user != current_user and user_signed_in?) %>
                       <%= form_tag(cart_add_path(current_user.cart.id, listing.id), :method => "put") do |form| %>
                         <%= button_tag "Add to cart", type: "submit", class: "bg-red-900 text-xs text-white px-2 py-1 font-semibold rounded uppercase disabled:bg-gray-200 hover:bg-red-800" %>
                       <% end %>

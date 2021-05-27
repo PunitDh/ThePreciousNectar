@@ -2,8 +2,11 @@
 <h1 class="ml-10 sm:ml-40 pt-16 text-2xl font-bold antialiased">Order Summary</h1>
 <section class="ml-10 sm:ml-40">
 <br />
-    Order status: 
-    <%= @session_with_expand.payment_status.capitalize %> ✅<br />
+    Order status:
+    
+    <!-- If the order was successfully processed, display the tick mark symbol -->
+    <% payment_status = @session_with_expand.payment_status.capitalize %>
+    <%= "#{payment_status} ✅" if payment_status=="Paid" %><br />
     Amount: 
     <%= number_to_currency(@session_with_expand.amount_total/100) %> <%= @session_with_expand.currency.upcase %>
 </section>
@@ -27,6 +30,10 @@
 
 
                 <tbody>
+                    <!-- Since everything from the cart has already been deleted, the only way to display Order summary information here is by pulling it from Stripe -->
+
+                    <!-- This form uses the same Tailwind CSS Component as the shopping cart -->
+                    
                     <% @session_with_expand.line_items.data.each do |cartlisting| %>
                         <% listing = Listing.find_by(stripe_price_id: cartlisting.price.id) %>
                         <tr>
