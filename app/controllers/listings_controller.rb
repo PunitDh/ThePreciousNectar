@@ -82,7 +82,9 @@ class ListingsController < ApplicationController
 
     def all
         # Display all the users' listings
+        # raise params.inspect
         @listings = Listing.where(user_id: params[:id])
+        pp @listings
     end
 
     # No longer used
