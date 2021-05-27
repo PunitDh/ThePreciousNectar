@@ -36,12 +36,19 @@
 
         <!-- Display different buttons depending on whether the current user is the viewer of this page -->
         <!-- I wanted the current user to be able to view their own sales, purchases and listings -->
-        <% if (profile.user == current_user) %>
+        <% profile_user = profile.user %>
+        <% if (profile_user == current_user) %>
             <div class="flex justify-center pt-12">
                 <div class="flex flex-wrap md:flex-nowrap gap-1">
-                    <%= link_to "Manage Listings", user_listings_path, class: "grid place-items-center rounded-lg border px-3 py-2 hover:bg-red-800 hover:text-white transition" %>      
+                    <%= link_to "Manage Listings", user_listings_path(current_user.id), class: "grid place-items-center rounded-lg border px-3 py-2 hover:bg-red-800 hover:text-white transition" %>      
                     <%= link_to "View All Sales", user_sales_path, class: "grid place-items-center rounded-lg border px-3 py-2 hover:bg-red-800 hover:text-white transition" %>
                     <%= link_to "View All Purchases", user_purchases_path, class: "grid place-items-center rounded-lg border px-3 py-2 hover:bg-red-800 hover:text-white transition" %>
+                </div>
+            </div>
+        <% else %>
+            <div class="flex justify-center pt-12">
+                <div class="flex flex-wrap md:flex-nowrap gap-1">
+                    <%= link_to "View Listings", user_listings_path(profile_user), class: "grid place-items-center rounded-lg border px-3 py-2 hover:bg-red-800 hover:text-white transition" %>
                 </div>
             </div>
         <% end %>

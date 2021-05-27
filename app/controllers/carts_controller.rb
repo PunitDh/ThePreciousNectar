@@ -34,7 +34,8 @@ class CartsController < ApplicationController
                 line_items: line_items,
                 payment_intent_data: {
                     metadata: {
-                        user_id: current_user.stripe_customer_id
+                        user_id: current_user.stripe_customer_id,
+                        user: current_user.id
                     }
                 },
                 mode: 'payment',

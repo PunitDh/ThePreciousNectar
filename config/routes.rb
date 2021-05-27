@@ -9,7 +9,7 @@ Rails.application.routes.draw do
   
   # Listings Controller
   resources :listings
-  get "/user/listings", to: "listings#all"
+  get "/user/:id/listings", to: "listings#all", as: "user_listings"
 
   # Profiles
   get "/user/profile/new", to: "profiles#new"

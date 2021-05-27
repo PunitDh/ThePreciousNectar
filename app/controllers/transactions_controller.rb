@@ -48,20 +48,18 @@ class TransactionsController < ApplicationController
 
                 # Save transaction
                 if transaction.save
-                    flash[:notice] = "Your order was successfully placed."
+                    # Delete all items from cart
+                    CartListing.where(cart_id: customer.cart.id).destroy_all
+
+                    # Send a success message back to Stripe 
+                    render json: {message: 'success'}
                 end
             end
-
-            # raise CartListing.where(cart_id: customer.cart.id).inspect
-            CartListing.where(cart_id: customer.cart.id).destroy_all
-             
         else
             # Display an error message if transaction was unsuccessful
             flash[:alert] = "There was an error in placing your order."
             puts "Unhandled event type: #{event.type}"
         end
-
-        render json: {message: 'success'}
     end
 
     def sales
