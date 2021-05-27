@@ -156,9 +156,9 @@ The following technologies were used in the making of this application.
 - Ruby on Rails
 - [Tailwind CSS framework](https://www.tailwindcss.com)
 - Devise gem (for authentication)
-- Stripe gem and API (for payments)
+- Stripe gem (for payments)
 - Stripe Webhook API
-- Amazon S3 Cloud Storage - for 
+- Amazon S3 Cloud Storage - for image storage
 - Heroku deployment - for app deployment
 - Font Awesome gem - used for icons (cart icon, messages icon, etc.)
 
@@ -222,6 +222,7 @@ The following technologies were used in the making of this application.
 
 ### **R15: Explain the different high-level components (abstractions) in your app**
 
+**High-level abstractions**
 On a high level, the application is a wine marketplace. A typical wine marketplace contains buyers and sellers. Although both buyers and sellers can operate off of the same user account, the seller needs more information in their profile, such as name and bank information. 
 
 The central components of the app are the User and the Listings. When a customer visits the site, they need to set up their user profile, providing personal information (name and photo) and practical information (bank account details). This not only collects needed information and authorises the User as a visitor to the site, but also allows a customer profile to be built. Once a User has signed up, they have the ability to view listings, sales and purchases. Through the User, all activity on the site can take place. They are authorised, they are able to have conversations with other Users, they can create listings, create transactions and receive payment. Conversations and Message aim to allow Users to add a personal element to communication, and one that can be highly personalised. 
@@ -229,6 +230,23 @@ The central components of the app are the User and the Listings. When a customer
 The Listing represents the product and the stock that the website represents as available to buy. Similar to the User, it has additional attributes appended to it, such as vintage and photo. This allows products to be more fully viewed and compared with other products, allowing the customer to make an informed decision about buying it. 
 
 The Transaction is the joining table, what links a customer to a seller. This is representative of the relationships between the two facets of the User, where they can decide if they are a buyer or seller (or both). This is central premise of the app, that a product has value and is exchanged for money.
+
+**Components**
+I wanted the look and feel of the website to be as professional as possible, mimicking some of the professional websites such as Facebook marketplace, [Wine Auction House](https://www.wineauctionhouse.com.au) or several others. I used several components from [Tailwind Components](https://www.tailwindcomponents.com) to design the user interface and the look and feel of the application. I used Tailwind over Bootstrap because I felt that Tailwind provided far more customisation options than Bootstrap. I wanted the pages, forms and navbar to be responsive.
+
+Several examples of usages of Tailwind components are as follows:
+- Cards that display wine listings
+- Forms for creating/editing wine listings
+- Profile page, including the forms
+- Navigation bar
+- Cart
+- Tables
+
+I also used Font Awesome icons to really make the website come alive.
+
+ The form uses several partials to construct the pages displayed. In the "app/views/shared" folder, there are several partials that serve different purposes, such as error handling, forms and search results. Other folders also contain partials in them that are relevant to their respective controllers.
+
+I had an issue with the payment success page in Stripe. When trying to determine when exactly the transaction between the buyer and seller takes place, I put the code for transactions in the success page. However Stripe redirects users to the success page on a GET request. This was an issue because I was modifying the database on a GET request, which is not an idempotent request. This is when I decided to use webhooks. I had to modify my entire database structure to accommodate Stripe payments using webhooks, including adding extra columns to the User and Listing models.
 
 ### **R16: Detail any third party services that your app will use**
 
