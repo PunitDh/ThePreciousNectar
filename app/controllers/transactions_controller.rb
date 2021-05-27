@@ -60,7 +60,8 @@ class TransactionsController < ApplicationController
             flash[:alert] = "There was an error in placing your order."
             puts "Unhandled event type: #{event.type}"
         end
-        status 200
+
+        render json: {message: 'success'}
     end
 
     def sales
