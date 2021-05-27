@@ -59,15 +59,15 @@ gem "google_custom_search_api"
 
 gem 'devise'
 
-gem 'omniauth'
+# gem 'omniauth'
 
-gem 'omniauth-facebook'
+# gem 'omniauth-facebook'
 
-gem 'omniauth-rails_csrf_protection'
+# gem 'omniauth-rails_csrf_protection'
 
-gem 'omniauth-github'
+# gem 'omniauth-github'
 
-gem 'omniauth-google-oauth2'
+# gem 'omniauth-google-oauth2'
 
 gem 'activerecord-session_store'
 
